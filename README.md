@@ -70,6 +70,12 @@ You need a webserver (e.g. MAMP/WAMP/XAMPP) able to run PHP (tested with 7.3) an
 
 3. Visit `http://localhost/public_html/setup` - this may be different if you are using another port or directory structure, e.g. `http://localhost:8888/sr/public_html/setup` and follow the setup process
 
+
+You may need to manually execute:
+```
+SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+```
+
 ![Screenshot](screens/setup.png)
 
 
