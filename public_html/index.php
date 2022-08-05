@@ -31,7 +31,13 @@ define("URL_C", stripslashes('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQU
 
 $pageURL = implode ("/", $pageURL);
 
-$GETQuery = isset($_SERVER['PATH_INFO']) ? urldecode($_SERVER['PATH_INFO']) : 'main/main';
+if (isset($_SERVER['PATH_INFO'])) {
+  $GETQuery = urldecode($_SERVER['PATH_INFO']);
+} else if (isset($_SERVER['QUERY_STRING'])) {
+  $GETQuery = urldecode($_SERVER['QUERY_STRING']);
+} else {
+  $GETQuery = 'main/main';
+}
 
 $GETQuery = array_values(array_filter(explode("/", $GETQuery)));
 $include = 'main';
