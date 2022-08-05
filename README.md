@@ -59,7 +59,6 @@ V4 is newer, more responsive made with mobile-first in mind, but way less featur
 
 https://github.com/nenuadrian/Secret-Republic-Hacker-Game-ORPBG-Alpha
 
-
 # Simple Setup
 
 You need a webserver (e.g. MAMP/WAMP/XAMPP) able to run PHP (tested with 7.3) and an MySQL database (LAMP stack).
@@ -71,7 +70,8 @@ You need a webserver (e.g. MAMP/WAMP/XAMPP) able to run PHP (tested with 7.3) an
 3. Visit `http://localhost/public_html/setup` - this may be different if you are using another port or directory structure, e.g. `http://localhost:8888/sr/public_html/setup` and follow the setup process
 
 
-You may need to manually execute:
+You may need to manually execute the following SQL if you see a GROUP BY related error on the missions page:
+
 ```
 SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 ```
@@ -79,9 +79,11 @@ SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 ![Screenshot](screens/setup.png)
 
 
-# Cron jobs
+# Optional useful cron jobs
 
-Set these up to run periodically as the parameters suggest. The resources one should run maybe every minute
+These ensure processes run as required, that hacking competitions start, that attack reports are generated and that time based resources are given to players.
+
+Set these up to run periodically as the parameters suggest. The resources one should run every minute.
 
 localhost/cron/key1/MDMwN2Q3OGRiYmM4Y2RkOWZjNTBmMzA4MzViZDZiNjQ=/attacks/true
 
