@@ -1,5 +1,3 @@
-SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
-
 CREATE TABLE `abilities` (
   `user_id` int(11) NOT NULL,
   `ability_id` int(11) DEFAULT NULL,
