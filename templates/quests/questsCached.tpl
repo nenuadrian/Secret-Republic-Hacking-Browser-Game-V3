@@ -93,14 +93,8 @@
             </p>
             <p>These extra missions will be a special reward for your devotement.</p>
             <p>Use <a href="{$config.url}referrals">your referral link</a> to gain rewards.</p>
-            <p>The same goes for <a href="https://www.facebook.com/theSecretRepublic" target="_blank">likes on our page</a>. Every 100 likes we get add 3 new outstanding missions.</p>
             <p>Consider <a href="{$config.url}alpha_coins/option/questManager">joining the Intern Mission Engineering team</a> and doing it yourself today.</p>
             <p>We have part of the story writen out and some amazing ideas to surprise you but we need <strong>your support</strong>!</p>
-          </div>
-          <br/>
-          <div class="text-center">
-            <iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FtheSecretRepublic&amp;width&amp;layout=button_count&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=21&amp;appId=820318067994880" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:21px;width: 80px; display:inline" allowtransparency="true">
-            </iframe>
           </div>
           <br/>
           <div class="panel panel-glass nomargin">
