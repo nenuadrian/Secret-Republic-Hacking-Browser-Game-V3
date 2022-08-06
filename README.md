@@ -1,6 +1,5 @@
-# NOT ACTIVELY MAINTAINED - PLEASE SUBMIT PULL REQUESTS IF YOU ARE ABLE TO ADD ANY FIXES/DOCS/FEATURES
-
-# Secret Republic - V3
+# Secret Republic - Browser Based futuristic hacker game - V3
+## NOT ACTIVELY MAINTAINED - PLEASE SUBMIT PULL REQUESTS
 
 <p align="center">
 
@@ -79,7 +78,7 @@ SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 ![Screenshot](screens/setup.png)
 
 
-# Optional useful cron jobs
+# Cron jobs
 
 These ensure processes run as required, that hacking competitions start, that attack reports are generated and that time based resources are given to players.
 
@@ -127,6 +126,20 @@ https://en.wikipedia.org/wiki/Cron
 
 </p>
 
+# Framework details
+
+Sadly it was built from scratch, combining vanilla PHP, the Smarty template engine and a few libraries (composer.json). It makes use of Smarty caching.
+
+
+## Routing
+
+Is done based on the `includes/modules` folder. Adding a new module file say helloworld.php, will allow `http://localhost/helloworld` to work. 
+
+Something such as `http://localhost/helloworld/hacker/test` will pass the value test in `$GET["hacker"]`.
+
+Any variables `http://localhost/helloworld/hi?attach=2` would be passed in `$GET["attack"]`.
+
+This all happens in `public_html/index.php`.
 
 # License
 
