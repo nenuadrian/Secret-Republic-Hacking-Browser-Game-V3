@@ -17,7 +17,7 @@
 		"trainEvery" => 10*60*60,
 		'timeBetweenJobs' => 12 * 60 * 60,
 
-		'recaptcha_site_key' => '',
+		'recaptcha_site_key' => '', // get key if you would like to activate! https://www.google.com/recaptcha/admin/create
 		
 		"smtp_host" => "",
 		"smtp_username" => "",
@@ -28,7 +28,7 @@
 		"smtp_port" =>587,
 
 
-	  "gridNodeSize" => 10,
+	  	"gridNodeSize" => 10,
 		"worldBirth" => 1395530364,
 
 
