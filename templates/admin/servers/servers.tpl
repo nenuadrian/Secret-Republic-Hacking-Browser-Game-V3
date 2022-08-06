@@ -4,7 +4,6 @@
        <ul>
           <li><a href="{$config.url}admin/view/software">Software</a></li>
           <li><a href="{$config.url}admin/view/hardware">Hardware</a></li>
-          <li><a href="{$config.url}admin/view/shop">Shop</a></li>
         </ul>
         
       </div>
