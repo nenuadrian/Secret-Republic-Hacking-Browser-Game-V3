@@ -34,7 +34,7 @@ class Alpha {
   }
   function verify_captcha_response() {
     if (isset($_POST['g-recaptcha-response'])) {
-      $secret  = '6LdDPAYTAAAAAE2mDjj7oH-SpCgiCM1QcH-VsJyd';
+      $secret  = $this->config['recaptcha_secret_key'];
       $captcha = json_decode($this->curlURL("https://www.google.com/recaptcha/api/siteverify?secret=" . $secret . "&response=" . $_POST['g-recaptcha-response']));
 
       if ($captcha->success)
