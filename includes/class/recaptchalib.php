@@ -1,7 +1,7 @@
 <?php
 
-$publickey = "6LeCgfASAAAAAKzI2HWaFI-qGYD1ZxICSe60qW-8";
-$privatekey = "6LeCgfASAAAAAKhPaTdzf0orRhUqEQVG0p_XNQEX";
+$publickey = $config['recaptcha_site_key'];
+$privatekey = $config['recaptcha_secret_key'];
 
 /*
  * This is a PHP library that handles calling reCAPTCHA.
