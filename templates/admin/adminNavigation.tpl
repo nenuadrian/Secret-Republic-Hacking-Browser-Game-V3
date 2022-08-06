@@ -34,7 +34,6 @@
 					<li>  <a href="{$config.url}admin/view/emailTemplates">Email templates</a></li>
 				  {/if}
 				  {if $user.dataManager}
-					<li>  <a href="{$config.url}admin/view/tests">Tests</a></li>
 					<li>  <a href="{$config.url}admin/view/data">Data</a></li>
 				  {/if}
 
