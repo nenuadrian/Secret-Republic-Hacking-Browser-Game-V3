@@ -220,7 +220,7 @@ require_once('../includes/class//class.admin.php');
     $pages->paginate();
 
 
-    $debug_errors = $db->join("users", "users.id = debug_errors.user_id", "LEFT OUTER")
+    $debug_errors = $db->join("users", "users.id = debug_404_errors.user_id", "LEFT OUTER")
                        ->orderBy("created", "desc")
                        ->get("debug_404_errors", $pages->limit, "debug_404_errors.*, users.username");
     foreach ($debug_errors as &$debug_error)
