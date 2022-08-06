@@ -20,6 +20,7 @@
 		'timeBetweenJobs' => 12 * 60 * 60,
 
 		'recaptcha_site_key' => '', // get key if you would like to activate! https://www.google.com/recaptcha/admin/create
+		'recaptcha_secret_key' => '', // get key if you would like to activate! https://www.google.com/recaptcha/admin/create
 		
 		"smtp_host" => "",
 		"smtp_username" => "",
