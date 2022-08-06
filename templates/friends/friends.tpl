@@ -10,7 +10,6 @@
 <p>
   "Friends may come and go, but enemies accumulate." ~ Thomas Jones - You have {$nrf|number_format} friends. How many of them are your enemies?
   </p>
-  <em><a href="{$config.url}social">Find your friends from Facebook and other networks</a></em>
 </div>	
 
 {include file="error_success.tpl"}
