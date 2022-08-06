@@ -114,5 +114,5 @@
 </div>
 {else}
 <div class="alert alert-danger">
-	Replying not allowed.
+	Replying to his user has been disabled by the Cardinal mainframe.
 </div>{/if}
