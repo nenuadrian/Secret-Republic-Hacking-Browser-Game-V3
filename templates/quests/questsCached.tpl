@@ -92,7 +92,7 @@
             <p>For every 100 hackers who reach level 5 we will add missions on top of those created on an irregular schedule. 
             </p>
             <p>These extra missions will be a special reward for your devotement.</p>
-            <p>Use <a href="{$config.url}referrals">your referral link</a> to gain rewards and invite your <a href="{$config.url}social">Facebook friends (and find out who has joined)</a>.</p>
+            <p>Use <a href="{$config.url}referrals">your referral link</a> to gain rewards.</p>
             <p>The same goes for <a href="https://www.facebook.com/theSecretRepublic" target="_blank">likes on our page</a>. Every 100 likes we get add 3 new outstanding missions.</p>
             <p>Consider <a href="{$config.url}alpha_coins/option/questManager">joining the Intern Mission Engineering team</a> and doing it yourself today.</p>
             <p>We have part of the story writen out and some amazing ideas to surprise you but we need <strong>your support</strong>!</p>
