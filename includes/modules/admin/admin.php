@@ -212,7 +212,7 @@ require_once('../includes/class//class.admin.php');
 	}elseif($user["cardinal"] && $GET["view"]=="errors" ){
 
 
-    $debug_errors          = $db->getOne("debug_errors", "count(*) as nrl");
+    $debug_errors          = $db->getOne("debug_404_errors", "count(*) as nrl");
     $pages                 = new Paginator;
     $pages->items_total    = $debug_errors["nrl"];
     $pages->items_per_page = 40;
@@ -222,7 +222,7 @@ require_once('../includes/class//class.admin.php');
 
     $debug_errors = $db->join("users", "users.id = debug_errors.user_id", "LEFT OUTER")
                        ->orderBy("created", "desc")
-                       ->get("debug_errors", $pages->limit, "debug_errors.*, users.username");
+                       ->get("debug_404_errors", $pages->limit, "debug_404_errors.*, users.username");
     foreach ($debug_errors as &$debug_error)
       $debug_error["created"] = date("d/F/Y H:i:s", $debug_error["created"]);
 
