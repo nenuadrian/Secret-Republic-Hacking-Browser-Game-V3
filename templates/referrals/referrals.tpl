@@ -24,9 +24,6 @@
 			<p>
 					As long as the link is accessed, the guests can navigate freely and they will be counted as referral even if they sign up at a slightly later time.
 					</p>
-					<p>
-					If your Facebook Friends join, you can find their hacker accounts easily using <A href="{$config.url}social">the Social Interface</a>.
-					</p>
 					<a href="{$config.url}quests#program">
 					The more participants are in this hacking competition the more missions will become available (check it out)</a>.
 			</div>
