@@ -35,7 +35,7 @@
         if ($db->insert("user_support", $insertData))
 		{
 			
-			$email['recipients'] = array($_POST['email'], "support@secretrepublic.net");
+			$email['recipients'] = array($_POST['email'], {$config.contact_email});
 	       $email['subject'] = "Support: ".$_POST['title'];
 			$email['message'] = $_POST['content'];
 			
