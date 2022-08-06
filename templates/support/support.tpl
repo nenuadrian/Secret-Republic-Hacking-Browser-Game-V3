@@ -20,8 +20,8 @@
         {/if}
       </div>
       <div class="col-md-4 text-right">
-        <h3>contact ()</h3>
-        <p>return <strong>support@secretrepublic.net</strong>;</p>
+        <h3>contact()</h3>
+        <p>return <strong>{$config.contact_email}</strong>;</p>
         <h3>feedback && bugs</h3>
         <p>we are really keen on finding out what <strong>YOU</strong> think about the republic of hackers</p>
         <p>echo "so let us know!";</p>
