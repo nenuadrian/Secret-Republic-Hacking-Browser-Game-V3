@@ -32,7 +32,6 @@ $tutorialSteps = array(
 	"title" => "Friends with beneftis",
 	"content" => '<p>"Friends may come and go, but enemies accumulate." ~ Thomas Jones.</p>
 	<p>However, the usefulness of friendships cannot be denied.</p>
-	<p>Our system <a href="'.URL.'social">integrates with popular networks</a> so you can find your amigos easily invite others to join in.</p>
 	<p>If you <a href="'.URL.'dna">connect your accounts</a> you can authenticate with one click and there\'s an achievement for connecting all social accounts.</p>
 	<p>Considerable rewards are at stake <a href="'.URL.'referrals">if you refer others and these rewards will keep on coming</a>.</p>
 	<p>Now go and check your Friends interface. You might have a request or two pending.</p>
