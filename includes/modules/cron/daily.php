@@ -31,10 +31,6 @@ $report .= sprintf("\nDeleted %s user sessions", $count);
 $count = $db->where("created", array("<=" => $cronsOlderThan))->delete("debug_cron_logs");
 $report .= sprintf("\nDeleted %s cron logs", $count);
 
-// delete page stats logs
-$count = $db->where("created", array("<=" => $pageStatLogsOlderThan))->delete("debug_page_stats");
-$report .= sprintf("\nDeleted %s page stat logs", $count);
-
 // delete daily quest logs
 
 // check bans past expiration date and remove those
