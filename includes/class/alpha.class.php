@@ -27,11 +27,16 @@ class Alpha {
   }
 
   function generate_captcha_box() {
-    return '
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-              <div class="g-recaptcha text-center" data-sitekey="' . $this->config['recaptcha_site_key'] . '"></div>
-       ';
+    if (!$this->config['recaptcha_site_key'] || !$this->config['recaptcha_secret_key']) {
+      return '<p>Cannot load captcha! Undefined Public or Private key in constants.php!!</p>';
+    } else {
+      return '
+      <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                <div class="g-recaptcha text-center" data-sitekey="' . $this->config['recaptcha_site_key'] . '"></div>
+         ';
+    }
   }
+  
   function verify_captcha_response() {
     if (isset($_POST['g-recaptcha-response'])) {
       $secret  = $this->config['recaptcha_secret_key'];
