@@ -119,10 +119,6 @@
 			</div></div>
        {/if}
        
-       {if !$detectDevice.mobile && $user.view_debug}
-       
-        {include file="footer_debug.tpl"}
-       {/if}
 	 	</div>
 
     
