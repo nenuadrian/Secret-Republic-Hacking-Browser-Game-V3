@@ -53,7 +53,7 @@ require_once('../includes/class/tclass.php');
 			}
 			 
           }  
-		  $cardinal->redirect($url);
+		  $cardinal->redirect(URL_C);
       }
 	  $tVars["captcha"] = $cardinal->generate_captcha_box();
     }
@@ -104,7 +104,7 @@ require_once('../includes/class/tclass.php');
 			
 			$dataUpdate = array("data" => $task);
 			$taskclass->updateTask($trainTask['id'], $dataUpdate);
-			$cardinal->redirect($url);
+			$cardinal->redirect(URL_C);
 		}
 	}
 	}
@@ -193,7 +193,7 @@ if(!$tclass->trainTask){
 		$task['difficulty'] = $difficulty;
 		$taskclass->add_task_session($user["id"], 9, $takes, $task, $game_type);
         $_SESSION['voice'] = 'training_initiated';
-        $cardinal->redirect($url);
+        $cardinal->redirect(URL_C);
       
       }
     
