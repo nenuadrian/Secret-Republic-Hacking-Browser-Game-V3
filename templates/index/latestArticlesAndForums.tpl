@@ -135,6 +135,9 @@ letter-spacing: 2px;
                 </a>
               </p>
               <div class="articles-list">
+	      	  {if empty($articles)}
+                      No articles yet!
+                  {/if}
                   {foreach from=$articles item=article}
                       <a href="{$config.url}blogs/article/{$article.article_id}" title="{$article.nrc|number_format} comments / {$article.votes|number_format} votes">
                         {$article.title} ({$article.nrc|number_format}/{$article.votes|number_format})
@@ -185,7 +188,9 @@ letter-spacing: 2px;
                 </a>
               </p>
               <div class="articles-list">
-
+		    {if empty($articles)}
+                      No posts yet!
+                    {/if}
                     {foreach from=$forums item=post}   
                       <a href="{$config.url}forum/tid/{$post.id}" title="{$post.replies|number_format} replies">
                         ({$post.replies|number_format}) {$post.title}
