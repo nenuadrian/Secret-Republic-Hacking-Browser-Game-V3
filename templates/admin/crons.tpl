@@ -1,5 +1,6 @@
 {include file="header_home.tpl"}
 
+{include file="admin/debug/debug_header.tpl"}
 
 	
     {foreach from=$crons item=p}
