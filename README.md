@@ -34,11 +34,11 @@ However, the project on stand-by so I've decided to make the source available of
 
 1. Audio AI (woman, same as trailer) voice speaks when interacting with the game
 
-2. Futuristic bootstrap based UI, mostly mobile ready
+2. Futuristic bootstrap based UI, mostly mobile responsive
 
 3. UNIX like terminal/command line based missions
 
-4. In-game Mission designer with BBCode like syntax features (see attached Guides and screens)
+4. In-game Mission designer with BBCode like syntax features (see attached GUIDES and screens)
 
 5. Community features: forums, organizations (guilds), organization forums, blogs, friends, messaging system, automatic mission based tournamens (hackdown), organization specific mission, the grid
 
@@ -51,6 +51,8 @@ However, the project on stand-by so I've decided to make the source available of
 9. Tutorial system
 
 10. Rewards system
+
+11. Advanced Admin panel
 
 # SecretAlpha V4 
 
