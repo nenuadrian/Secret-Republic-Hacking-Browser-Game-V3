@@ -12,7 +12,8 @@
         }
     ],
     "require": {
-      "danielstjules/php-pretty-datetime": "dev-master",
+        "google/recaptcha": "^1.2",
+        "danielstjules/php-pretty-datetime": "dev-master",
         "smarty/smarty": "^3.1",
         "mobiledetect/mobiledetectlib": "^2.8",
         "joshcam/mysqli-database-class": "dev-master",
