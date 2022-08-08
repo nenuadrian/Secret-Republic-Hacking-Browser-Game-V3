@@ -40,10 +40,14 @@ class Alpha {
   function verify_captcha_response() {
     if (isset($_POST['g-recaptcha-response'])) {
       $secret  = $this->config['recaptcha_secret_key'];
-      $captcha = json_decode($this->curlURL("https://www.google.com/recaptcha/api/siteverify?secret=" . $secret . "&response=" . $_POST['g-recaptcha-response']));
-
-      if ($captcha->success)
-        return true;
+      $recaptcha = new \ReCaptcha\ReCaptcha($secret);
+      
+      $resp = $recaptcha->verify($_POST['g-recaptcha-response']);
+        if ($resp->isSuccess()) {
+          return true;
+        } else {
+           $errors = $resp->getErrorCodes();
+        }
     }
     return false;
   }
