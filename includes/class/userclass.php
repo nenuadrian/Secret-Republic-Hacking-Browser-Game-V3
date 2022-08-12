@@ -752,7 +752,7 @@ class UserClass extends Alpha
                 ->where('id', $user_id)->getOne('users', 'id, server');
             $main = $user['server'];
         }
-        require ('includes/constants/skills.php');
+        require ('../includes/constants/skills.php');
 
         if (!$user_id) return array();
 
