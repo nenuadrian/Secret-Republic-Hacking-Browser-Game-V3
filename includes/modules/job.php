@@ -81,7 +81,7 @@
                         ->where("qg.type", 2)
                         ->where("isLive", 1)
                         ->where("qgroup_order", $myJob["qgroup_order"])
-                        ->where("q.level", array("<=" => $job["level"]))
+                        ->where("q.level <=" . $job["level"])
                         ->orderBy("RAND()")
                         ->getOne("quests q", "id");
             if ($quest["id"])
