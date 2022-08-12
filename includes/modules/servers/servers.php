@@ -43,7 +43,7 @@ if (isset($GET['build']))
 
 				if (!count($errors))
 				{
-					include ("class/class.server.php");
+					include ("../includes/class/class.server.php");
 					$server = new Server();
 
 					$dataInsert = array(
