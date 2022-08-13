@@ -20,15 +20,15 @@ $report .= sprintf("\nDeleted %s non-usernamed accounts", $count);
 
 
 // delete user sessions
-$count = $db->where("time", array("<=" => $userSessionOlderThan))->delete("user_session");
+$count = $db->where("time <= " . $userSessionOlderThan)->delete("user_session");
 $report .= sprintf("\nDeleted %s user sessions", $count);
 
 // delete user train logs
-$count = $db->where("created", array("<=" => $userTrainLogOlderThan))->delete("user_train_logs");
+$count = $db->where("created <= " . $userTrainLogOlderThan)->delete("user_train_logs");
 $report .= sprintf("\nDeleted %s user sessions", $count);
 
 // delete cron logs
-$count = $db->where("created", array("<=" => $cronsOlderThan))->delete("debug_cron_logs");
+$count = $db->where("created <= " . $cronsOlderThan)->delete("debug_cron_logs");
 $report .= sprintf("\nDeleted %s cron logs", $count);
 
 // delete daily quest logs
@@ -36,7 +36,7 @@ $report .= sprintf("\nDeleted %s cron logs", $count);
 // check bans past expiration date and remove those
 $users = $db
       ->join("user_bans", "ban_id = banned", "LEFT OUTER")
-      ->where("expires", array("<=" => $runTime))
+      ->where("expires <= " . $runTime)
       ->get("user_credentials", null, "uid");
       
 foreach ($users as $u)
@@ -46,11 +46,11 @@ $report .= sprintf("\n%s bans removed", count($users));
 unset($users);
 
 // delete 404 logs
-$count = $db->where("created", array("<=" => $errors404OlderThan))->delete("debug_404_errors");
+$count = $db->where("created <= " . $errors404OlderThan)->delete("debug_404_errors");
 $report .= sprintf("\nDeleted %s 404 error logs", $count);
 
 // delete 404 logs
-$count = $db->where("created", array("<=" => 30 * 24 * 60 * 60))->delete("friend_requests");
+$count = $db->where("created <= " . (30 * 24 * 60 * 60))->delete("friend_requests");
 $report .= sprintf("\nDeleted %s friendship requests", $count);
 
 
@@ -67,7 +67,7 @@ $usersToKick = $db->rawQuery('select id, organization,username from users
 
 
 
-require("../includes/class/oclass.php');
+require('../includes/class/oclass.php');
 
 
 foreach($usersToKick as $kick)

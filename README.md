@@ -8,20 +8,15 @@
 
 </p>
 
-
-# Live Demo
-
 Live demo: https://secretrepublic-v3.nenuadrian.com
 
 Hosted on [DreamHost](https://mbsy.co/dreamhost/92571715)
 
-# Read about the journey
+Audio trailer: https://www.youtube.com/watch?v=6thfiGb-b7c
 
-[Read article on Medium](https://medium.com/@adrian.n/secret-republic-open-sourced-hacker-simulation-futuristic-rpg-browser-based-game-php-843d393cb9d7)
+[Read about the journey on Medium](https://medium.com/@adrian.n/secret-republic-open-sourced-hacker-simulation-futuristic-rpg-browser-based-game-php-843d393cb9d7)
 
 # Overview
-
-Audio trailer: https://www.youtube.com/watch?v=6thfiGb-b7c
 
 A lot of work has gone into this but it (and more in its previous version) is not a documented (as of yet) project.
 
@@ -131,7 +126,6 @@ https://en.wikipedia.org/wiki/Cron
 
 Sadly it was built from scratch, combining vanilla PHP, the Smarty template engine and a few libraries (composer.json). It makes use of Smarty caching.
 
-
 ## Routing
 
 Is done based on the `includes/modules` folder. Adding a new module file say helloworld.php, will allow `http://localhost/helloworld` to work. 
@@ -141,6 +135,11 @@ Something such as `http://localhost/helloworld/hacker/test` will pass the value 
 Any variables `http://localhost/helloworld/hi?attach=2` would be passed in `$GET["attack"]`.
 
 This all happens in `public_html/index.php`.
+
+## Creating new missions
+
+Please refer to the the GUIDES folder in this repository. In contains instructions of what can be used within the Mission descriptions to benefit from dynamic IP generation between missions and other useful instructions, tips and tricks.
+
 
 # License
 
