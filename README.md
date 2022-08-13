@@ -1,5 +1,4 @@
 # Secret Republic - Browser Based futuristic hacker game - V3
-## NOT ACTIVELY MAINTAINED - PLEASE SUBMIT PULL REQUESTS
 
 <p align="center">
 
