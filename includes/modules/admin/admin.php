@@ -20,15 +20,15 @@ if ($_SESSION['premium']['questManager'] && !$user["globalQuestManager"] && !$us
     $user['questManager'] = true;
 }
 
-require_once ('../includes/class//class.admin.php');
+require_once ('../includes/class/class.admin.php');
 
 if ($GET['view'] == 'tests' && $user['cardinal'])
 {
-    include ("testsManagement.php");
+    require("testsManagement.php");
 }
 elseif ($GET["view"] == "groups" && $user["cardinal"])
 {
-    include ("groupManagement.php");
+    require("groupManagement.php");
 }
 // abilities
 elseif ($GET["view"] == "data" && $user["dataManager"])
@@ -194,7 +194,7 @@ else
 
 if ($GET["view"] == "manageQuest" && $user["questManager"])
 {
-    include ("questManagement.php");
+    require("questManagement.php");
 
 }
 elseif ($user["cardinal"] && $GET["view"] == "crons")
@@ -260,23 +260,23 @@ elseif ($user["cardinal"] && $GET["view"] == "errors404")
 elseif ($GET["view"] == "levelRewards" && $user["levelManager"])
 {
 
-    include ("manageLevelRewards.php");
+    require("manageLevelRewards.php");
 
 }
 elseif ($GET["view"] == "hacker" && $user["manageUsers"] && ctype_digit($hacker = $GET["hid"]))
 {
 
-    include ("manageUsers.php");
+    require("manageUsers.php");
 
 }
 elseif ($GET['view'] == 'tasks' && $user["manageUsers"])
 {
-    include ("tasksManagement.php");
+    require("tasksManagement.php");
 }
 elseif ($GET["view"] == "achievements" && $user["manageAchievements"])
 {
 
-    include ("achievementManagement.php");
+    require("achievementManagement.php");
 
 }
 elseif ($user["auth_admin"] && $GET["view"] == "mesall")

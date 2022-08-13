@@ -2,7 +2,7 @@
 if ($GET["latestArticles"])
   require("latestArticles.php");
 else {
-  require_once('../includes/class//blogclass.php');
+  require_once('../includes/class/blogclass.php');
 
   $page_title = "Blog";
 

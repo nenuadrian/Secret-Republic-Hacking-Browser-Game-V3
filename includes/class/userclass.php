@@ -771,7 +771,7 @@ class UserClass extends Alpha
 
         if ($main)
         {
-            require_once ('../includes/class//class.server.php');
+            require_once ('../includes/class/class.server.php');
 
             $servers = array();
             if ($allServers)

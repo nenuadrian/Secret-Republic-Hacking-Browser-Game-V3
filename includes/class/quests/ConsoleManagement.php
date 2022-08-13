@@ -549,7 +549,7 @@ trait ConsoleManagement
   function damageSoftwareThroughUsage($softwareWhichInfluences, $damage)
   {
 	  global $theskills;
-	  include ('includes/constants/skills.php');
+	  require('includes/constants/skills.php');
 	  $skills = array();
 	  foreach ($theskills as $skill => $s)
 		  foreach ($s['commands'] as $c=>$inf)

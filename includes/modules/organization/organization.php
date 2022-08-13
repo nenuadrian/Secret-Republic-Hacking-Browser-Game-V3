@@ -2,7 +2,7 @@
 
 
 
-require_once('../includes/class//oclass.php');
+require_once('../includes/class/oclass.php');
 
 $page_title = 'Organization';
 
@@ -26,7 +26,7 @@ if ($oclass->organization['id']) {
     //If user visits foreign organization page
     
     if ($GET['apply'] && $oclass->organization['allow_app'] && !$user['organization'] && $logged) {
-      include ('org_apply.php');
+      require('org_apply.php');
       
     } //$GET['view'] == 'apply' && $oclass->organization['allow_app'] && !$user['organization'] && $logged
     
@@ -109,7 +109,7 @@ if ($oclass->organization['id']) {
 else
 if ($logged) {
   
-  include ("org_no_org.php");
+  require("org_no_org.php");
   
 } //!$oclass->organization['id'] && $logged
 else  $cardinal->redirect(URL);

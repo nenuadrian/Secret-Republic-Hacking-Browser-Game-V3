@@ -1,7 +1,7 @@
 <?php
 	
 
-require_once('../includes/class//class.forum.php');
+require_once('../includes/class/class.forum.php');
 
 
 	$page_title="Hacker Forums";

@@ -144,7 +144,7 @@
     } //$GET['view'] == 'leave' && $oclass->perms['quit']
     elseif($GET['view'] == 'hackingPoints')
     {
-    include ("org_hacking_points.php");
+    require("org_hacking_points.php");
 
     }
 

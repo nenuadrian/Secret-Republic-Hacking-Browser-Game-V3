@@ -17,7 +17,7 @@ if ($GET["feedback"]) {
 else {
 
 
-  require_once('../includes/class//qclass.php');
+  require_once('../includes/class/qclass.php');
 
   function canRedoDailyWhenLastIs($last)
   {

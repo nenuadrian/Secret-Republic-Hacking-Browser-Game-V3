@@ -43,7 +43,7 @@ if (isset($GET['build']))
 
 				if (!count($errors))
 				{
-					include ("../includes/class/class.server.php");
+					require("../includes/class/class.server.php");
 					$server = new Server();
 
 					$dataInsert = array(
@@ -91,7 +91,7 @@ if (isset($GET['build']))
 }
 elseif (isset($GET['server']))
 {
-	require_once('../includes/class//class.server.php');
+	require_once('../includes/class/class.server.php');
 
 	if (!$user['cardinal'])
 		$db->where('user_id', $user['id']);

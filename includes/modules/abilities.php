@@ -7,7 +7,7 @@
 $cardinal->mustLogin();
 
 
-require_once('../includes/class//abclass.php');
+require_once('../includes/class/abclass.php');
 
 	$page_title="Abilities";
 
