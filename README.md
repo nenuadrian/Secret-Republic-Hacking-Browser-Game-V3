@@ -194,7 +194,11 @@ Check the `includes/constants` folder.
 
 ## New pages with minimal functionality
 
-TBC
+This is as simple as create a `.tpl` file in `templates/pages`.
+
+The easiest starting point is creating a copy of the `template.tpl` file which is within the same directory.
+
+As soon as it is created, the page will be available at `/pages/NAME` e.g. `http://localhost/pages/template`.
 
 # Sponsors and contributors
 
