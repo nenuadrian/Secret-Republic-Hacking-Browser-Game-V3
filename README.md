@@ -192,6 +192,12 @@ Please refer to the the GUIDES folder in this repository. In contains instructio
 
 Check the `includes/constants` folder.
 
+### Tutorial steps
+
+Modify `includes/constants/tutorial.php`.
+
+When adding or modifying a step also check if you need to add or modify a `tutorial_step_N_check` function in the same file, where N is the number of the step you have added or modified within `tutorial.php`.
+
 ## New pages with minimal functionality
 
 This is as simple as create a `.tpl` file in `templates/pages`.
