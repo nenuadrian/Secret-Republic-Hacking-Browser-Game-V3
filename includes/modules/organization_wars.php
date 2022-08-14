@@ -46,7 +46,7 @@ if ($war['status'] == 2 && $user['organization'])
      
       $taskclass->delete_task_session($user["id"], $fightTask["type"]);
        unset($fightTask);
-       $_SESSION['error'] = 'Mission Failed - "Sometimes by losing a battle you find a new way to win the war." - Donald Trump';
+       $_SESSION['error'] = 'Mission Failed - Sometimes by losing a battle you find a new way to win the war. - Donald Trump';
 		
     }
     

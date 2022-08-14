@@ -19,7 +19,7 @@ if ($GET["myReward"])
   	  if ($uclass->claimReward($reward['reward_id'], $reward))
   	  {
         	$_SESSION["messenger"] = array("message" => "Reward confirmed and received", "type" => "success");
-       	 $cardinal->redirect($url);
+       	 $cardinal->redirect(URL_C);
   	  } else $errors[] = "An error took place";
     }
 
@@ -65,7 +65,7 @@ else
 	  foreach ($rewards as $reward)
 		  $uclass->claimReward($reward['reward_id'], $reward);
 	  $success[] = "Rewards claimed";
-	  $cardinal->redirect($url);
+	  $cardinal->redirect(URL_C);
   }
   $rewards = $db->where('user_id', $user['id'])->getOne('user_rewards', 'count(*) nrr');
 

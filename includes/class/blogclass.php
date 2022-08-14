@@ -107,7 +107,7 @@ class Blog extends Alpha {
             $this->send_notice_subscribers($url, $title, $this->blog["blog_id"]);
 
 
-            $this->redirect($url);
+            $this->redirect(URL_C);
           } else {
             $dataUpdate = array(
               "title" => htmlentities($title),
@@ -177,7 +177,7 @@ class Blog extends Alpha {
         ));
 
         $_SESSION["success"] = "Comment added";
-        $this->redirect($url);
+        $this->redirect(URL_C);
 
       } else
         $errors[] = "Content must have between 3 and 500 characters";

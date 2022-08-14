@@ -87,7 +87,7 @@ else
             $voice = 'transaction_done';
             unset($_SESSION['lastPremiumCheck']);
         }
-        $cardinal->redirect($url);
+        $cardinal->redirect(URL_C);
     }
 
     if ($_POST["coupon"])

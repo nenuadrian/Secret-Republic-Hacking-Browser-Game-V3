@@ -40,7 +40,7 @@ else
          	$bclass->voteUp($article);
           else
           	$bclass->voteDown($article);
-		  $cardinal->redirect($url);
+		  $cardinal->redirect(URL_C);
 	    }
         
         

@@ -11,7 +11,7 @@ if (isset($_GET["app"]))
 	if ($_POST)
 	{
 		$db->where("app_id", $_GET['app'])->update("applications", $_POST, 1);
-		$cardinal->redirect($url);
+		$cardinal->redirect(URL_C);
 	}
 	$app = $db->Where("app_id", $_GET["app"])->getOne("applications");
 	

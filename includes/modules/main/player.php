@@ -184,7 +184,7 @@ if ($user['tasks']) {
     $uclass->updatePlayer(array(
       "tasks" => 0
     ));
-    $cardinal->redirect($url);
+    $cardinal->redirect(URL_C);
   }
 } //$user['tasks']
 else

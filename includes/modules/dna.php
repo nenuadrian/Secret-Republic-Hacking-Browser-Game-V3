@@ -14,7 +14,7 @@ if ($GET['sessions'])
 	{
 		$db->where('id', $_POST['cancel'])->where('user_id', $user['id'])->delete('user_session');
 		$success[] = "Session has been canceled";
-		$cardinal->redirect($url);
+		$cardinal->redirect(URL_C);
 
 	}
 	$sessions = $db->where('user_id', $user['id'])->orderBy('time', 'desc')
@@ -45,7 +45,7 @@ else
 			$uclass->spendAlphaCoins(50, "Username change to ".$_POST['username']);
 
 			$success [] = "Username has been changed. Hi there, ".$_POST['username']."!";
-			$cardinal->redirect($url);
+			$cardinal->redirect(URL_C);
 		}
 	}
     elseif ($_POST['email'] && strtolower($_POST['email']) != $credentials['email'])
@@ -73,7 +73,7 @@ else
 				add_alert("Email has been changed and a confirmation link has been sent","success");
 		}
 
-		$cardinal->redirect($url);
+		$cardinal->redirect(URL_C);
 	}
 	elseif ($youtube = $_POST['youtube'])
 	{
@@ -87,13 +87,13 @@ else
 			$db->where("uid", $user['id'])->update("user_credentials", $updateData, 1);
 			$success[] = "Updated. You can check your profile now.";
 		}
-		$cardinal->redirect($url);
+		$cardinal->redirect(URL_C);
 	}
 	elseif ($_POST['aiVoice'])
 	{
 		$success = "Updated";
 	  $uclass->updatePlayer(array('aiVoice' => $user['aiVoice'] ? 0 : 1));
-		$cardinal->redirect($url);
+		$cardinal->redirect(URL_C);
 	}
 	elseif ($_POST["change"])
 	{
@@ -126,7 +126,7 @@ else
       } else $errors[] = "You entered same password twice";
 
 	  } else $errors[] = "ACCESS DENIED";
-	  $cardinal->redirect($url);
+	  $cardinal->redirect(URL_C);
 	}
 
 

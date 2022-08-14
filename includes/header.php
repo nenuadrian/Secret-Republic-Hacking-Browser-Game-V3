@@ -51,9 +51,14 @@ else {
         $myModal['show'] = true;
       } //!$tutorial['status']
 
-      if ($tutorial['status'] != 1 && !$_POST['skipStep'])
-        eval("tutorial_step_" . $tutorial['step'] . "_check();");
-      elseif ($_POST['nextTutorialStep'] || $_POST['skipStep']) {
+      $functionName = "tutorial_step_" . $tutorial['step'] . "_check";
+      if ($tutorial['status'] != 1 && !$_POST['skipStep']) {
+        if (!function_exists($functionName)) {
+          echo "Undefined required function in tutorial.php: " . $functionName;
+          die();
+        }
+        eval($functionName . "();");
+      } elseif ($_POST['nextTutorialStep'] || $_POST['skipStep']) {
         $tutorial['step']++;
         $uclass->updatePlayer(array(
           'tutorial' => $tutorial['step'] * 10

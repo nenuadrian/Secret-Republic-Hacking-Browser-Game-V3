@@ -24,7 +24,7 @@ else
 		elseif ($GET['page'] == "media")
 		{
 			require("../includes/constants/abilities.php");
-			$tVars['abilities']=$abilities;
+			$tVars['abilities'] = abilities(null, null);
 		}
       $tVars["display"] = "pages/".$GET["page"].".tpl";
 		

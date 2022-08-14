@@ -51,7 +51,7 @@ require_once('../includes/class/abclass.php');
 			  $uclass->spendAlphaCoins(1, "Reduce ability waiting");
 			  $db->where('id', $abtask['id'])->update('tasks', array('totalSeconds' => $abtask['totalSeconds'] - 60*60));
 			  $success = "Time reduction applied";
-			  $cardinal->redirect($url);
+			  $cardinal->redirect(URL_C);
 		  }
 	  }
 

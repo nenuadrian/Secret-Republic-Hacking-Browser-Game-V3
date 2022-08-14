@@ -5,6 +5,7 @@ require_once('../includes/class/abclass.php');
 
 
 require("../includes/constants/abilities.php");
+$abilities = abilities(null, null);
 $abclass= new Abilities($abilities);
 
 $GET["toLevel"] = $GET["toLevel"]  >= 1 && $GET["toLevel"]  <= 200 ? intval($GET["toLevel"]) : 10;
@@ -17,8 +18,7 @@ for ($level = 1; $level <= $GET["toLevel"]; $level ++)
 
   $userData["level"] = $userLevel;
 
-  require("../includes/constants/abilities.php");
-
+  $ablities = abilities($userAbilities, $userData);
   foreach($abilities as $ability => $data){
    foreach($data["rates"]["skills"] as $skill => $amount)
    {

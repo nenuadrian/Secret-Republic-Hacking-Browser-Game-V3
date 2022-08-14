@@ -38,5 +38,5 @@ else
     }
     $db->insert('coupon_logs', $couponLog);
   }
-  $cardinal->redirect($url);
+  $cardinal->redirect(URL_C);
 }

@@ -130,7 +130,7 @@ $rows = $db->rawQuery('SELECT * from hackdown_rankings_organizations
 $atWhatRankToAdaptRewards = array(10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300, 400, 500);
 $withHowMuchToReduce =      array(10, 10, 20, 10, 10, 10, 10, 10, 10, 10 , 10 , 15 , 20 , 30);
 $rewards['hackingPoints'] = 50;
-require("../includes/class/oclass.php');
+require('../includes/class/oclass.php');
 $oclass = new Organization();
 $title = "Organization Hackdown Reward";
 $string = "";

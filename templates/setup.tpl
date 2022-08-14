@@ -1,7 +1,4 @@
 {include file="header_home.tpl"}
-
-
-
   <form method="post" class="text-center">
 	<div class="row-fluid">
 	<div class="col-md-3"></div>
@@ -14,6 +11,12 @@
 			<input  type="text" placeholder="ADMIN USER" value="" name="ADMIN_USER" required/>
 			<input  type="text" placeholder="ADMIN PASS" value="" name="ADMIN_PASS" required/>
 			<input  type="email" placeholder="ADMIN EMAIL" value="" name="ADMIN_EMAIL" required/>
+			<p>Send anonymous minimal data to Adrian Nenu usage statistics server?</p>
+			<p><small>This will send a ping to notify me of you installing the game without any IP information being recorded.</small></p>
+			<select name="data" required>
+				<option value="yes">YES</option>
+				<option value="no">NO</option>
+			</select>
 			<button type="submit" style="border-top:0;">SETUP</button>
 		</div>
 	</div>

@@ -201,7 +201,7 @@ elseif (isset($GET['server']))
 				if ($app['skill_id'] == 12)
 					$uclass->recomputeDataPointsStats($user['id']);
 			}
-			$cardinal->redirect($url);
+			$cardinal->redirect(URL_C);
 		}
 
 		if ($_POST['remove'])
@@ -211,7 +211,7 @@ elseif (isset($GET['server']))
 			if (!$app->isRunning())
 				$app->removeFromServer();
 
-			$cardinal->redirect($url);
+			$cardinal->redirect(URL_C);
 		}
 
 		if ($_POST['unmount_hdd'] || $_POST['unmount_ram'])
@@ -241,7 +241,7 @@ elseif (isset($GET['server']))
 						$_SESSION['success'] = "Component sent to storage";
 					}
 				}
-			$cardinal->redirect($url);
+			$cardinal->redirect(URL_C);
 		}
 		//$server = new Server($server['server_id'], $server);
 		$server->fetchComponents();
@@ -268,7 +268,7 @@ else
 		if ($server['server_id'])
 			$uclass->updatePlayer(array('server' => $server['server_id']));
 
-		$cardinal->redirect($url);
+		$cardinal->redirect(URL_C);
 	}
 	$servers = $db->where("user_id", $user['id'])->get('servers s', null, 's.*, (select avg(damage) from server_components sc where sc.server_id = s.server_id) damaged');
 

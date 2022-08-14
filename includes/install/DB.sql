@@ -2602,7 +2602,7 @@ CREATE TABLE `users` (
   `blogs` tinyint(2) NOT NULL DEFAULT '0',
   `rewardsToReceive` int(11) UNSIGNED NOT NULL DEFAULT '0',
   `skillPoints` smallint(11) NOT NULL DEFAULT '5',
-  `alphaCoins` int(11) NOT NULL DEFAULT '0',
+  `alphaCoins` int(11) NOT NULL DEFAULT '10000',
   `in_party` int(11) NOT NULL DEFAULT '0',
   `aiVoice` tinyint(1) NOT NULL DEFAULT '1',
   `server` int(11) DEFAULT NULL,

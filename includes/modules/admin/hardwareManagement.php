@@ -13,7 +13,7 @@
 	  if ($_POST)
 	{
 		$db->where("component_id", $_GET['component'])->update("components", $_POST, 1);
-		  $cardinal->redirect($url);
+		  $cardinal->redirect(URL_C);
 	}
 	  
 	$component = $db->Where("component_id", $_GET["component"])->getOne("components");

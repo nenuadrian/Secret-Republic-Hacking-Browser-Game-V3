@@ -108,7 +108,7 @@ elseif (!$logged && $GET["forgot"])
 
 				$_SESSION['success'] = "We've sent your details. Please wait up to an hour to receive them.";
 
-				$cardinal->redirect($url);
+				$cardinal->redirect(URL_C);
 			}
   		}
   		else $errors[] = "Could not find ".$_POST['email'].' in our records. <a href="'.URL.'register">Create an account?</a>';
