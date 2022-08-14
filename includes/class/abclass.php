@@ -24,7 +24,7 @@ class Abilities extends Alpha {
 
     }
     require_once('../includes/constants/abilities.php');
-    $this->abilities = $abilities;
+    $this->abilities = abilities($userAbilities, $userData);
 
 
     if ($this->user['id']) {
