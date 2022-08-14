@@ -31,14 +31,16 @@ Audio Trailer: https://www.youtube.com/watch?v=6thfiGb-b7c
 
 5. Screenshots
 
-6. Framework details
+6. Learning the platform
+
+7. Framework details
    * ~MVC Architecture
    * Routing
    * Creating new missions
    * Adding skills, ablitites or tutorial steps
    * New pages with minimal functionality
 
-7. License
+8. License
 
 # Overview
 
@@ -167,12 +169,17 @@ e.g.
 
 </p>
 
+# Learning the platform
+
+TBC
+
 # Framework details
 
 Sadly it was built from scratch, combining vanilla PHP, the Smarty template engine and a few libraries (composer.json). It makes use of Smarty caching.
 
 ## ~MVC Architecture
 
+TBC
 
 ## Routing
 
@@ -212,11 +219,12 @@ As soon as it is created, the page will be available at `/pages/NAME` e.g. `http
 
 If your pull request is merged, I will add your name here. Thank you for your contribution!
 
-   * nenuadrian
+   * [nenuadrian](https://github.com/nenuadrian) - main developer
+   * [SKSaki](https://github.com/SKSaki) - initial user and bug-finder
 
 ## Sponsors
 
-Thank you all who bought credits when the game was active. Your name will appear here if you contribute to the open-source project. Get in touch to do so.
+Thank you all who bought credits when the game was active. Your name will appear here if you financially contribute to the open-source project. Get in touch to do so.
 
 # License
 
