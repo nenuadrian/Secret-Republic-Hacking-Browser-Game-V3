@@ -36,12 +36,12 @@ if ($_POST['update'])
 		
 	$db->where('id', $_POST['id'])->update('tasks', $updateData, 1);
 	$success[] = "Task has been updated.";
-	$cardinal->redirect($url);
+	$cardinal->redirect(URL_C);
 }elseif ($_POST['delete'])
 {
 	$db->where('id', $_POST['id'])->delete('tasks', 1);
 	$success[] = "Task has been deleted.";
-	$cardinal->redirect($url);
+	$cardinal->redirect(URL_C);
 }
 
 if ($GET['hacker'])

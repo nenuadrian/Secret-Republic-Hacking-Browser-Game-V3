@@ -51,7 +51,7 @@ if ($amount = intval($_POST['amount']))
 		}
 		
 	}
-	$cardinal->redirect($url);
+	$cardinal->redirect(URL_C);
 }
 
 $tVars['bankLimit'] = $bankLimit;

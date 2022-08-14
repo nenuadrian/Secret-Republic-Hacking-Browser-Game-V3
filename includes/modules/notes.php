@@ -52,7 +52,7 @@ if ($_POST['new'] && count($notes) < $nrNotes)
 {
 	$db->insert("notes", array("title" => "New note", "user_id" => $user['id'], 'created' => time()));
 	$voice = 'note_saved';
-	$cardinal->redirect($url);
+	$cardinal->redirect(URL_C);
 }
 
 $tVars['nrNotes'] = $nrNotes;

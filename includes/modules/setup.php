@@ -10,6 +10,8 @@ if (!file_exists($dbFile)) {
     die('DB.sql is missing - expected in: ' . $dbFile);
 }
 
+require("../includes/class/registrationSystem.php");
+
 if ($_POST['DB_HOST']) {
     // create database_info.php
     $configs = file_get_contents(ABSPATH . '/includes/database_info.php.template');
@@ -27,11 +29,10 @@ if ($_POST['DB_HOST']) {
     $db = new Mysqlidb($db['server_name'], $db['username'], $db['password'], $db['name'], $db['port'], true);
 
     foreach($sqls as $sql) {
-            $db->rawQuery($sql);
+        $db->rawQuery($sql);
     }
     
     // create admin account
-    require("../includes/class/registrationSystem.php");
     $cardinal = new Cardinal();
     $registrationSystem = new RegistrationSystem;
     $uid = $registrationSystem->addUser($_POST['ADMIN_USER'], $_POST['ADMIN_PASS'], $_POST['ADMIN_EMAIL'], 1, 1, false);

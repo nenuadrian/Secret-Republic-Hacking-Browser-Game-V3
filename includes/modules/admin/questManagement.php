@@ -43,7 +43,7 @@ if ($quest["id"]) {
   if ($_POST['creatorsNotepad'])
   {
 	  $db->where('id', $quest['id'])->update('quests', array('creatorsNotepad' => $_POST['creatorsNotepad']));
-	  $cardinal->redirect($url);
+	  $cardinal->redirect(URL_C);
   }
 
   switch ($GET["load"]) {
@@ -89,7 +89,7 @@ if ($quest["id"]) {
         $db->where("id", $quest["id"])->update("quests", $data);
 
 
-        $cardinal->redirect($url);
+        $cardinal->redirect(URL_C);
       } //$_POST["updateQuest"]
       $tVars["achievements"] = $db->get("achievements");
 
@@ -202,7 +202,7 @@ elseif ($group_id = $GET['group'])
 			  {
 			  	$db->where("qgroup_id", $group_id)->update("quest_groups", $updateData);
 			  	$success = "Group has been updated";
-			  	$cardinal->redirect($url);
+			  	$cardinal->redirect(URL_C);
 			  }
 
 	  }
@@ -245,7 +245,7 @@ else
       if ($_POST["del"] && ($user["globalQuestManager"] || ($user["id"] == $quest["creatorid"] && !$quest["isLocked"]))) {
         $db->where("id", $quest["id"])->delete("quests");
         $_SESSION["success"] = "Deleted";
-        $cardinal->redirect($url);
+        $cardinal->redirect(URL_C);
       } //$_POST["del"] && ($user["globalQuestManager"] || ($user["id"] == $quest["creatorid"] && !$quest["isLocked"]))
       elseif ($user["globalQuestManager"]) {
         $success = "Done";

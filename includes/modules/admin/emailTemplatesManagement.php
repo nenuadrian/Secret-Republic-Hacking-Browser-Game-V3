@@ -8,7 +8,7 @@ if ($_POST['addTemplate'])
 	);
 	$db->insert('email_templates', $dataInsert);
 	$_SESSION['success'] = "Template added";
-	$cardinal->redirect($url);
+	$cardinal->redirect(URL_C);
 }
 if ($_POST['updateTemplate'])
 {
@@ -21,7 +21,7 @@ if ($_POST['updateTemplate'])
 	);
 	$db->where("template_id", $template_id)->update("email_templates", $dataUpdate, 1);
 	$_SESSION['success'] = "Template updated";
-	$cardinal->redirect($url);
+	$cardinal->redirect(URL_C);
 	
 }
 $templates = $db->get('email_templates');

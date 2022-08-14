@@ -110,7 +110,7 @@ elseif ($message_id = $GET['message'])
 
 					  $uclass->updatePlayer(array("dataPoints" => $user['dataPoints'] - $config['newMessageReplyDataPoints']));
 
-				  	$cardinal->redirect($url);
+				  	$cardinal->redirect(URL_C);
 				  } else $errors[] = "Could not add";
 			  }
 		}
@@ -153,7 +153,7 @@ else
                          array($user['id'], $user['id'],$user['id']));
 	 	$success[] = "All messages marked as read.";
 	  unset($_SESSION['lastMsgCheck']);
-		$cardinal->redirect($url);
+		$cardinal->redirect(URL_C);
   }
 
   $filter = "";

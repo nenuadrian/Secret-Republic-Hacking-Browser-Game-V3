@@ -32,7 +32,7 @@ if ($hackdownTask["id"]) {
 		
 		  $errors [] = "Mission failed";
 		  
-		  $cardinal->redirect($url);
+		  $cardinal->redirect(URL_C);
 	}
 
 	  

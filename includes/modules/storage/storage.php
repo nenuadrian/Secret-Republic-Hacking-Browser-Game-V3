@@ -10,14 +10,14 @@ if ($_POST['sell'])
 	if ($component = sellComponentFromStorage($user['id'], $_POST['sell']))
 		$success[] = "Sold for " . $component["default_sell_price"] . "$.";
 
-	$cardinal->redirect($url);
+	$cardinal->redirect(URL_C);
 
 }
 elseif (isset($_POST['mount']))
 {
 	$component = fetchComponentFromStorage($user['id'], $_POST['mount']);
 
-	if (!$component) $cardinal->redirect($url);
+	if (!$component) $cardinal->redirect(URL_C);
 
 	if (isset($_POST['server']))
 	{

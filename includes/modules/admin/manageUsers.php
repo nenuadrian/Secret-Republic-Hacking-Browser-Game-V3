@@ -17,7 +17,7 @@ if ($hacker['id']) {
 
         $_SESSION['success'] = 'Hacker credentials updated';
 
-        $cardinal->redirect($url);
+        $cardinal->redirect(URL_C);
 
       } //$_POST
       $groups = $db->get('groups', null, 'group_id, name');
@@ -166,7 +166,7 @@ if ($hacker['id']) {
 
       $_SESSION['success'] = 'Hacker updated';
 
-      $cardinal->redirect($url);
+      $cardinal->redirect(URL_C);
 
     } //$_POST
 

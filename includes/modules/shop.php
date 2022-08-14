@@ -36,7 +36,7 @@ $cardinal->mustLogin();
 
 							$server->installApp($item);
 
-							$cardinal->redirect($url);
+							$cardinal->redirect(URL_C);
 						}
 					}
 				}
@@ -85,7 +85,7 @@ $cardinal->mustLogin();
 
 					$_SESSION['success'] = "Item has been bought and delivered to <a href='".URL."storage'>storage</a>.";
 
-					$cardinal->redirect($url);
+					$cardinal->redirect(URL_C);
 				}
 			}
 		}

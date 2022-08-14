@@ -44,7 +44,7 @@
 
         if ($_POST['do']) {
           $oclass->kickMember($member);
-          $cardinal->redirect($url);
+          $cardinal->redirect(URL_C);
         } //$_POST['do']
 
         $tVars['load']   = 'kick_member';
@@ -106,7 +106,7 @@
           $uclass->updatePlayer(array('org_group' => $user['org_group']), $member['id']);
           $uclass->updatePlayer(array('org_group' => $defaultRank['rank_id']));
           $oclass->sendMessageToEveryone($message, $title);
-          $cardinal->redirect($url);
+          $cardinal->redirect(URL_C);
 
         }
       }
@@ -139,7 +139,7 @@
       if ($_POST['quit']) {
 
         $oclass->kickMember($user, true);
-        $cardinal->redirect($url);
+        $cardinal->redirect(URL_C);
       } //$_POST['quit']
     } //$GET['view'] == 'leave' && $oclass->perms['quit']
     elseif($GET['view'] == 'hackingPoints')

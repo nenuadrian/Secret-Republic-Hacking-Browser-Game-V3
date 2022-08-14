@@ -12,7 +12,7 @@ if ($hackTask["id"]) {
     
       $errors [] = "Mission failed";
       
-      $cardinal->redirect($url);
+      $cardinal->redirect(URL_C);
   }
 
     
