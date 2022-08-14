@@ -18,7 +18,7 @@ Audio Trailer: https://www.youtube.com/watch?v=6thfiGb-b7c
 
 # Table of contents
 
-1. Overview
+1. (Overview)[#Overview]
 
 2. Main features
 
@@ -42,7 +42,7 @@ Audio Trailer: https://www.youtube.com/watch?v=6thfiGb-b7c
 
 8. License
 
-# Overview
+# (Overview)
 
 Built from the ground up by a fairely inexperienced software developer at the time.
 
