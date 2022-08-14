@@ -18,7 +18,7 @@ Audio Trailer: https://www.youtube.com/watch?v=6thfiGb-b7c
 
 # Table of contents
 
-1. (Overview)[#Overview]
+1. [Overview](#Overview)
 
 2. Main features
 
