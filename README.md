@@ -1,4 +1,4 @@
-# Secret Republic - Browser Based futuristic hacker game - V3
+# Secret Republic - Browser Based futuristic PHP hacker game - V3
 
 <p align="center">
 
@@ -10,7 +10,7 @@
 
 Live Demo: https://secretrepublic-v3.nenuadrian.com
 
-Hosted on recommended host [DreamHost](https://mbsy.co/dreamhost/92571715)
+Hosted on recommended provider [DreamHost](https://mbsy.co/dreamhost/92571715).
 
 Audio Trailer: https://www.youtube.com/watch?v=6thfiGb-b7c
 
@@ -25,6 +25,9 @@ Audio Trailer: https://www.youtube.com/watch?v=6thfiGb-b7c
 3. SecretAlpha v4
 
 4. Simple Setup
+   * Semi-manual setup
+   * Manual setup
+   * Useful tips
 
 5. Screenshots
 
@@ -39,13 +42,13 @@ Audio Trailer: https://www.youtube.com/watch?v=6thfiGb-b7c
 
 # Overview
 
-A lot of work has gone into this, but it is built from the ground up by a fairely inexperienced software developer at the time.
+Built from the ground up by a fairely inexperienced software developer at the time.
 
 It's been through years of development with this being its 3rd full do-over.
 
-This is a PHP & MySQL based browser based, mobile compatible, role playing game. The theme is post-apocalyptic hacking.
+A PHP & MySQL based browser based, mobile compatible, role playing game. The theme is post-apocalyptic futuristic hacking.
 
-There are many features, enough for this to be a stand-alone game, ranging from guilds/organizations, to party system, single and multi-player missions, servers players can build and hack, wars between zones players can join and even be the president of. And that is not even all of it.
+There are many features, enough for this to be a stand-alone game, ranging from guilds/organizations, to party system, single and multi-player missions, servers players can build and hack, wars between zones players can join and even be the president of, forums and blogs. And that is not even all.
 
 Documentation is minimal and is being built as we go.
 
@@ -53,44 +56,59 @@ I am trying to actively contribute and solve raised issues, so please feel free 
 
 # Main Features
 
-1. Audio AI (woman, same as trailer) voice speaks when interacting with the game
+1. Futuristic bootstrap based UI, mostly mobile responsive
 
-2. Futuristic bootstrap based UI, mostly mobile responsive
+2. UNIX like terminal/command line based missions
 
-3. UNIX like terminal/command line based missions
+3. In-game Mission designer with BBCode like syntax features (see attached GUIDES and screens)
 
-4. In-game Mission designer with BBCode like syntax features (see attached GUIDES and screens)
+4. Multiplayer and community features: forums, organizations (guilds), organization forums, blogs, friends, messaging system, automatic mission based tournamens (hackdown), organization specific mission, the grid
 
-5. Multiplayer and community features: forums, organizations (guilds), organization forums, blogs, friends, messaging system, automatic mission based tournamens (hackdown), organization specific mission, the grid
+5. The grid: every players gets a starting `node` and can initialize/conquer other empty nodes or from other players. The world is split in multiple zones, which are divided into clusters with multiple nodes in each cluster. Damage and spy attacks can be triggered between nodes. There's an attempt at a simulator for attacks
 
-6. The grid: every players gets a node to start with and can initialize or conquer other nodes from other players. The world is split in multiple zones, which are split into clusters with a final node granularity. Damage and spy attacks can be triggered between nodes. There's an attempt at a simulator for attacks
+6. Abilities & skills which semi-influence command execution time in missions
 
-7. Abilities & skills which semi-influence command execution time in missions
+7. Servers with upgradable hardware (motherboard, ram, hdd, power source, software)
 
-8. Servers with upgradable hardware (motherboard, ram, hdd, power source, software)
+8. Tutorial system
 
-9. Tutorial system
+9. Rewards system
 
-10. Rewards system
+10. Advanced Admin panel
 
-11. Advanced Admin panel
+11. Audio AI (woman, same as trailer) voice speaks when interacting with the game
 
 # SecretAlpha V4 
 
-V4 is newer, more responsive made with mobile-first in mind, but way less features.
+V4 is newer, more responsive made with mobile-first in mind, but with way less features.
 
 https://github.com/nenuadrian/Secret-Republic-Hacker-Game-ORPBG-Alpha
 
 # Simple Setup
 
+## Require steps
+
 You need a webserver (e.g. MAMP/WAMP/XAMPP) able to run PHP (tested with 7.3) and an MySQL database (LAMP stack).
 
-1. Install `composer` (the PHP dependency management system - `brew install composer` for MacOS) and run `composer install`
+1. Install `composer` (the PHP dependency management system - `brew install composer` for MacOS if you have brew) and run `composer install`
 
-2. You will need to create an empty Database in MySQL - it's name is not relevant but you will need it in the next step. For MAMP, you would go to `http://localhost:8888/phpMyAdmin5`
+2. Create an empty Database in MySQL. For MAMP, you would go to `http://localhost:8888/phpMyAdmin5`
 
-3. Visit `http://localhost/public_html/setup` - this may be different if you are using another port or directory structure, e.g. `http://localhost:8888/sr/public_html/setup` and follow the setup process
+## Semi-manual setup
 
+Visit `http://localhost/public_html/setup` - this may be different if you are using another port or directory structure, e.g. `http://localhost:8888/sr/public_html/setup` and follow the setup process
+
+## Manual setup
+
+1. Import `includes/install/DB.sql` to the database you have created.
+
+2. Rename `includes/database_info.php.template` to `includes/database_info.php` and update the details within accordingly.
+
+3. The game should be up and running. Go and create and account manually.
+
+4. Go to the `user_credentials` table and update the entry for your user, setting the column `group_id` to be `1`. This will make your account a full administrator. Log out and log back in.
+
+## Useful tips
 
 You may need to manually execute the following SQL if you see a GROUP BY related error on the missions page:
 
@@ -102,6 +120,8 @@ SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 
 
 # Cron jobs
+
+https://en.wikipedia.org/wiki/Cron
 
 These ensure processes run as required, that hacking competitions start, that attack reports are generated and that time based resources are given to players.
 
@@ -118,8 +138,6 @@ e.g.
 ```
 */2 * * * * wget -O - http://localhost/cron/key1/MDMwN2Q3OGRiYmM4Y2RkOWZjNTBmMzA4MzViZDZiNjQ=/attacks/true >/dev/null 2>&1
 ```
-
-https://en.wikipedia.org/wiki/Cron
 
 # Screenshots
 
@@ -177,6 +195,18 @@ Check the `includes/constants` folder.
 ## New pages with minimal functionality
 
 TBC
+
+# Sponsors and contributors
+
+## Contributors
+
+If your pull request is merged, I will add your name here. Thank you for your contribution!
+
+   * nenuadrian
+
+## Sponsors
+
+Thank you all who bought credits when the game was active. Your name will appear here if you contribute to the open-source project. Get in touch to do so.
 
 # License
 
