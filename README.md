@@ -8,21 +8,48 @@
 
 </p>
 
-Live demo: https://secretrepublic-v3.nenuadrian.com
+Live Demo: https://secretrepublic-v3.nenuadrian.com
 
-Hosted on [DreamHost](https://mbsy.co/dreamhost/92571715)
+Hosted on recommended host [DreamHost](https://mbsy.co/dreamhost/92571715)
 
-Audio trailer: https://www.youtube.com/watch?v=6thfiGb-b7c
+Audio Trailer: https://www.youtube.com/watch?v=6thfiGb-b7c
 
-[Read about the journey on Medium](https://medium.com/@adrian.n/secret-republic-open-sourced-hacker-simulation-futuristic-rpg-browser-based-game-php-843d393cb9d7)
+[Read about the journey of this project in this Medium article.](https://medium.com/@adrian.n/secret-republic-open-sourced-hacker-simulation-futuristic-rpg-browser-based-game-php-843d393cb9d7)
+
+# Table of contents
+
+1. Overview
+
+2. Main features
+
+3. SecretAlpha v4
+
+4. Simple Setup
+
+5. Screenshots
+
+6. Framework details
+   * ~MVC Architecture
+   * Routing
+   * Creating new missions
+   * Adding skills, ablitites or tutorial steps
+   * New pages with minimal functionality
+
+7. License
 
 # Overview
 
-A lot of work has gone into this but it (and more in its previous version) is not a documented (as of yet) project.
+A lot of work has gone into this, but it is built from the ground up by a fairely inexperienced software developer at the time.
 
 It's been through years of development with this being its 3rd full do-over.
 
-However, the project on stand-by so I've decided to make the source available of nothing else
+This is a PHP & MySQL based browser based, mobile compatible, role playing game. The theme is post-apocalyptic hacking.
+
+There are many features, enough for this to be a stand-alone game, ranging from guilds/organizations, to party system, single and multi-player missions, servers players can build and hack, wars between zones players can join and even be the president of. And that is not even all of it.
+
+Documentation is minimal and is being built as we go.
+
+I am trying to actively contribute and solve raised issues, so please feel free to raise one, and more so please contribute with whatever you can!
 
 # Main Features
 
@@ -34,7 +61,7 @@ However, the project on stand-by so I've decided to make the source available of
 
 4. In-game Mission designer with BBCode like syntax features (see attached GUIDES and screens)
 
-5. Community features: forums, organizations (guilds), organization forums, blogs, friends, messaging system, automatic mission based tournamens (hackdown), organization specific mission, the grid
+5. Multiplayer and community features: forums, organizations (guilds), organization forums, blogs, friends, messaging system, automatic mission based tournamens (hackdown), organization specific mission, the grid
 
 6. The grid: every players gets a node to start with and can initialize or conquer other nodes from other players. The world is split in multiple zones, which are split into clusters with a final node granularity. Damage and spy attacks can be triggered between nodes. There's an attempt at a simulator for attacks
 
@@ -50,7 +77,7 @@ However, the project on stand-by so I've decided to make the source available of
 
 # SecretAlpha V4 
 
-V4 is newer, more responsive made with mobile-first in mind, but way less featured.
+V4 is newer, more responsive made with mobile-first in mind, but way less features.
 
 https://github.com/nenuadrian/Secret-Republic-Hacker-Game-ORPBG-Alpha
 
@@ -94,7 +121,7 @@ e.g.
 
 https://en.wikipedia.org/wiki/Cron
 
-# screens
+# Screenshots
 
 <p align="center">
 
@@ -126,6 +153,9 @@ https://en.wikipedia.org/wiki/Cron
 
 Sadly it was built from scratch, combining vanilla PHP, the Smarty template engine and a few libraries (composer.json). It makes use of Smarty caching.
 
+## ~MVC Architecture
+
+
 ## Routing
 
 Is done based on the `includes/modules` folder. Adding a new module file say helloworld.php, will allow `http://localhost/helloworld` to work. 
@@ -140,6 +170,13 @@ This all happens in `public_html/index.php`.
 
 Please refer to the the GUIDES folder in this repository. In contains instructions of what can be used within the Mission descriptions to benefit from dynamic IP generation between missions and other useful instructions, tips and tricks.
 
+## Adding skills, ablitites or tutorial steps
+
+Check the `includes/constants` folder.
+
+## New pages with minimal functionality
+
+TBC
 
 # License
 
