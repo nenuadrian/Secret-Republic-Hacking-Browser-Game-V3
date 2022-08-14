@@ -13,6 +13,13 @@ if (!file_exists($dbFile)) {
 require("../includes/class/registrationSystem.php");
 
 if ($_POST['DB_HOST']) {
+    if ($_POST['data'] == 'yes') {
+        try {
+            file_get_contents('http://api.nenuadrian.com/?sr3install=true')
+        } catch (Exception $ex) {
+
+        }
+    }
     // create database_info.php
     $configs = file_get_contents(ABSPATH . '/includes/database_info.php.template');
     echo $configs;
