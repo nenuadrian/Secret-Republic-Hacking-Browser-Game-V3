@@ -30,7 +30,6 @@ class Paginator{
 	function paginate()
 	{
 		global $config, $pageURL, $GET;
-		
 		$this->url = isset($this->url) ? $this->url : $pageURL;
 		if($this->url[strlen($this->url)-1] == "/")
 		  $this->url = substr($this->url,0,-1);
@@ -43,7 +42,6 @@ class Paginator{
 		$next_page = $this->current_page + 1;
 
 		$this->return = "<ul class='pagination'>";
-
 
 		if($this->num_pages > 10)
 		{

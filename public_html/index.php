@@ -24,12 +24,14 @@ $smarty->setCompileDir(implode('/', $path) . '/' . 'includes/templates_c');
 $smarty->setCacheDir(implode('/', $path) . '/' . 'includes/cache');
 $smarty->setConfigDir(implode('/', $path) . '/' . 'includes/vendor/smarty/smarty/configs');
 
-
 $pageURL = array_filter(explode('/', stripslashes($_SERVER['REQUEST_URI'])));
-
+$containsPage = array_search('page', $pageURL);
+if ($containsPage) {
+	unset($pageURL[$containsPage], $pageURL[$containsPage + 1]);
+}
 define("URL_C", stripslashes($_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']) . '/');
 
-$pageURL = implode ("/", $pageURL);
+$pageURL =  stripslashes($_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST']) . '/' . implode ("/", $pageURL);
 
 if (isset($_SERVER['PATH_INFO'])) {
   $GETQuery = urldecode($_SERVER['PATH_INFO']);
