@@ -40,7 +40,11 @@ Audio Trailer: https://www.youtube.com/watch?v=6thfiGb-b7c
    * Adding skills, ablitites or tutorial steps
    * New pages with minimal functionality
 
-8. License
+8. Tests
+
+9. Sponsors and contributors
+
+10. License
 
 # Overview
 
@@ -220,6 +224,12 @@ This is as simple as create a `.tpl` file in `templates/pages`.
 The easiest starting point is creating a copy of the `template.tpl` file which is within the same directory.
 
 As soon as it is created, the page will be available at `/pages/NAME` e.g. `http://localhost/pages/template`.
+
+# Tests
+
+```
+./includes/vendor/phpunit/phpunit/phpunit tests
+```
 
 # Sponsors and contributors
 

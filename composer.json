@@ -23,6 +23,7 @@
         "vendor-dir": "includes/vendor"
     },
     "require-dev": {
-        "overtrue/phplint": "^5.3"
+        "overtrue/phplint": "^5.3",
+        "phpunit/phpunit": "^9.5"
     }
 }
