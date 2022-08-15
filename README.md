@@ -141,35 +141,36 @@ e.g.
 
 # Screenshots
 
-<p align="center">
-
+## main page
 ![Screenshot](screens/1.jpg)
 
+## player dashboard
 ![Screenshot](screens/2.jpg)
 
+## mission
 ![Screenshot](screens/3.jpg)
 
+## organization
 ![Screenshot](screens/4.jpg)
 
+## skills
 ![Screenshot](screens/5.jpg)
 
+## the grid
 ![Screenshot](screens/6.jpg)
 
+## mission designer
 ![Screenshot](screens/7.jpg)
 
 ![Screenshot](screens/8.jpg)
 
 ![Screenshot](screens/9.jpg)
 
+## forum
 ![Screenshot](screens/10.jpg)
 
 ![Screenshot](screens/11.jpg)
 
-</p>
-
-# Learning the platform
-
-TBC
 
 # Framework details
 
