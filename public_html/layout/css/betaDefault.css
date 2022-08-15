@@ -1,23 +1,18 @@
-body
-{
-  
+.hero-unit {
+    border: 1px solid #2E2D2D;
 }
 
-.hero-unit 
-{
-  border: 1px solid #2E2D2D;
-}
 .navbar-inner {
-  background-color: black;
-  border: 1px solid #2E2D2D;
+    background-color: black;
+    border: 1px solid #2E2D2D;
 }
 
 .navbar-inner:hover {
-  border-color: #3C3B3B;
+    border-color: #3C3B3B;
 }
 
-.alert-danger, .alert-error {
-background-color: #420203;
-color: rgb(255, 144, 144);
-
+.alert-danger,
+.alert-error {
+    background-color: #420203;
+    color: rgb(255, 144, 144);
 }

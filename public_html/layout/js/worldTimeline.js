@@ -1,30 +1,30 @@
-window.open    = function(){};
-    window.print   = function(){};
-    // Support hover state for mobile.
-    if (false) {
-      window.ontouchstart = function(){};
-    }
+window.open = function() {};
+window.print = function() {};
+// Support hover state for mobile.
+if (false) {
+    window.ontouchstart = function() {};
+}
 
-    function __linkClick(e) {
-      parent.window.postMessage(this.href, '*');
-    };
+function __linkClick(e) {
+    parent.window.postMessage(this.href, '*');
+};
 
-    function __bindToLinks() {
-      var __links = document.querySelectorAll('a');
-      for (var i = 0, l = __links.length; i < l; i++) {
-        if ( __links[i].getAttribute('data-t') == '_blank' ) {
-          __links[i].addEventListener('click', __linkClick, false);
+function __bindToLinks() {
+    var __links = document.querySelectorAll('a');
+    for (var i = 0, l = __links.length; i < l; i++) {
+        if (__links[i].getAttribute('data-t') == '_blank') {
+            __links[i].addEventListener('click', __linkClick, false);
         }
-      }
     }
-    
-    
-    if (document.location.search.match(/type=embed/gi)) {
-      window.parent.postMessage('resize', "*");
-    }
-    __bindToLinks();
- 
-    function Timeline(cvs) {
+}
+
+
+if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage('resize', "*");
+}
+__bindToLinks();
+
+function Timeline(cvs) {
 
     var self = this,
         paused = true,
@@ -42,7 +42,7 @@ window.open    = function(){};
         radius: 1200,
     };
     self.targets = [
-        [29, 32, 48, 68, 72, 80, 91, 17,125],
+        [29, 32, 48, 68, 72, 80, 91, 17, 125],
         [29, 33, 84, 45, 102, 58, 63, 80, 125]
     ];
     self.dotColors = [
@@ -50,7 +50,7 @@ window.open    = function(){};
         ['#7dd317', 'rgba(113, 222, 15, 0.3)', 'rgba(91, 164, 22, 0.12)'],
     ];
 
-    self.isPaused = function () {
+    self.isPaused = function() {
         return paused;
     };
 
@@ -60,7 +60,7 @@ window.open    = function(){};
 
         self.lines[0].dots = [];
         var y = top;
-        tl.find('article:first figure').each(function () {
+        tl.find('article:first figure').each(function() {
 
             self.lines[0].dots.push([$(this).outerWidth() + 20, y + 20]);
 
@@ -69,7 +69,7 @@ window.open    = function(){};
 
         self.lines[1].dots = [];
         var y = top;
-        tl.find('article:last figure').each(function () {
+        tl.find('article:last figure').each(function() {
 
             self.lines[1].dots.push([canvas.width - $(this).outerWidth() - 20, y + 20]);
 
@@ -104,17 +104,15 @@ window.open    = function(){};
             return false;
         }
 
-        $(canvas).mousemove(function (e) {
+        $(canvas).mousemove(function(e) {
 
             if (e.offsetX) {
                 mouse.x = e.offsetX;
                 mouse.y = e.offsetY;
-            }
-            else if (e.layerX) {
+            } else if (e.layerX) {
                 mouse.x = e.layerX;
                 mouse.y = e.layerY;
-            }
-            else {
+            } else {
                 mouse.x = e.pageX - $(canvas).offset().left;
                 mouse.y = e.pageY - $(canvas).offset().top;
             }
@@ -139,13 +137,13 @@ window.open    = function(){};
 
         self.points = [];
 
-        self.reset = function (x, f) {
+        self.reset = function(x, f) {
             self.points = [];
             for (var y = self.y; y < self.height; y += self.options.density)
                 self.points.push(new Point(x, y, self.color));
         }
 
-        self.update = function () {
+        self.update = function() {
             for (var i = 0; i < self.points.length; i++)
                 self.points[i].update(self.mouse, self.options);
         }
@@ -155,7 +153,7 @@ window.open    = function(){};
             this.x = x;
             this.base = { x: x, y: y };
 
-            this.update = function (mouse, options) {
+            this.update = function(mouse, options) {
                 var dx = this.x - mouse.x,
                     dy = this.y - mouse.y,
                     alpha = Math.atan2(dx, dy),
@@ -212,10 +210,10 @@ window.open    = function(){};
             for (var j = 0; j < self.lines[i].dots.length; j++) {
                 var dot = self.lines[i].dots[j],
                     id = self.targets[i][j];
-                    dot2 = [
-                        (self.lines[i].points[id].x + self.lines[i].points[id + 1].x) / 2,
-                        (self.lines[i].points[id].y + self.lines[i].points[id + 1].y) / 2,
-                    ];
+                dot2 = [
+                    (self.lines[i].points[id].x + self.lines[i].points[id + 1].x) / 2,
+                    (self.lines[i].points[id].y + self.lines[i].points[id + 1].y) / 2,
+                ];
 
                 var p1 = { x: dot[0], y: dot[1] };
                 var p2 = { x: dot2[0], y: dot2[1] };
@@ -238,7 +236,7 @@ window.open    = function(){};
         redraw();
     }
 
-    self.toggle = function (run) {
+    self.toggle = function(run) {
         if (!self.isOK) return false;
 
         if (run === undefined)
@@ -247,8 +245,7 @@ window.open    = function(){};
         else if (!!run && paused) {
             paused = false;
             animate();
-        }
-        else if (!!!run) {
+        } else if (!!!run) {
             paused = true;
             cancelAnimationFrame(rafid);
         }
