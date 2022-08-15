@@ -29,6 +29,7 @@ class Cardinal extends Alpha {
 
     $db = require(ABSPATH . 'includes/database_info.php');
     $this->db = new Mysqlidb($db['server_name'], $db['username'], $db['password'], $db['name'], $db['port'], true);
+    $this->db->setTrace (true);
 
     // get current page | not very secure method
     $page = basename($_SERVER['PHP_SELF']);

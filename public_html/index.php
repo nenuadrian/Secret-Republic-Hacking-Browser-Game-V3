@@ -114,6 +114,7 @@ if (!$tVars["json"])
 	unset($_SESSION['myModal'], $_SESSION["success"], $_SESSION["error"], $_SESSION["warning"], $_SESSION["voice"], $_SESSION['info'], $_SESSION["messenger"]);
     /** //HANDLE NOTICES DISPLAYED AFTER REDIRECTS **/
 
+	$tVars['queries'] = $db->trace;
 	errors_success();
     $smarty->assign($tVars);
     $smarty->display($tVars["display"]);

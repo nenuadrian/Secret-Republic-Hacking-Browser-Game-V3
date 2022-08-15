@@ -173,7 +173,7 @@ class UserClass extends Alpha
         $this->updatePlayer($updateData);
     }
 
-    function levelExperience($lvl)
+    static function levelExperience($lvl)
     {
         $exp = 0;
         for ($j = 1;$j <= $lvl - 1;$j++)
@@ -186,7 +186,7 @@ class UserClass extends Alpha
 
     }
 
-    function levelEnergy($lvl)
+    static function levelEnergy($lvl)
     {
         return ($lvl - 1) * 10 + 100;
     }

@@ -187,7 +187,8 @@ class Alpha {
     ));
     return curl_exec($ch);
   }
-  function redirect(URL_C, $keepPostData = false) {
+
+  function redirect($url, $keepPostData = false) {
 
     global $myModals;
     /*echo <<<META
