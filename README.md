@@ -40,11 +40,11 @@ Audio Trailer: https://www.youtube.com/watch?v=6thfiGb-b7c
    * Adding skills, ablitites or tutorial steps
    * New pages with minimal functionality
 
-8. Tests
+8. [Tests](#Tests)
 
 9. Sponsors and contributors
 
-10. License
+10. [License](#License)
 
 # Overview
 
