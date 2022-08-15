@@ -44,6 +44,9 @@
 		<hr/>
 		<div class="text-center">
 			{$pages}
+
+		{if $availableOrgs}
+			{else}No organizations created.{/if}
 		</div>
 		{foreach $availableOrgs as $org}
 		

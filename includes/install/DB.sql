@@ -555,7 +555,7 @@ INSERT INTO `hacker_quotes` (`quote_id`, `user_id`, `quote`, `author`, `created`
 (97, 1559, 'I went to school to learn how to program software applications, which inevitably have bug defects. There was no course at my university on testing, debugging, profiling, or optimization. These things you have to learn on your own, usually in a tight deadline.', 'Juixe TechKnow', 1395571738, 1, 'hackersays.com'),
 (98, 1559, 'Hardware is the part of a system you can kick. Software is the one you can only curse at.', 'Anonymous', 1395571738, 1, 'hackersays.com'),
 (99, 1559, 'FORTRAN is not a flower but a weed &mdash; it is hardy, occasionally blooms, and grows in every computer.', 'Alan J. Perlis', 1395571738, 1, 'hackersays.com'),
-(100, 1559, 'Memory is like an orgasm. It\'s a lot better if you don\'t have to fake it.', 'Seymour Cray on virtual memory', 1395571738, 1, 'hackersays.com'),
+(100, 1559, 'Memory is like an orgasm. It\'s a lot better if you don\'t have to fake it.', 'Seymour Cray on virtual memory', 1395571738, 1, 'hackersays.com');
 
 CREATE TABLE `level_rewards` (
   `level_id` int(11) NOT NULL,

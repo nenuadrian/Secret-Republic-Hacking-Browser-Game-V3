@@ -19,7 +19,7 @@
  
   <div class="progress {$progressBarClass}" style="margin-bottom: 0px;">
         <div class="progress-bar" id="hackdownProgressBar{$id}" role="progressbar" 
-          aria-valuenow="{($user.exp/($user.exp_next/100))}" aria-valuemin="0" aria-valuemax="100">
+          aria-valuenow="" aria-valuemin="0" aria-valuemax="100">
         </div>
   </div>       
   {/if}

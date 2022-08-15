@@ -169,7 +169,7 @@
 
 
           </div>
-          <a href="{$config.url}hackdown"><img src="{$config.url}layout/img/events/hackdown_main.jpg" class="  imageOpacity" title="Hackdown"/></a>
+          <a href="{$config.url}hackdown"><img src="{$config.url}layout/img/events/hackdown_main.jpg" class="  imageOpacity" style="width:100%" title="Hackdown"/></a>
 
         </div></a>
 

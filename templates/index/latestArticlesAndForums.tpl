@@ -1,10 +1,10 @@
 <div class="articles-list">
   <div class="row">
      <div class="col-xs-6 cut-text">
-        latest news | <strong><a href="{$config.url}forum/tid/{$latestNews.id}">{$latestNews.title}</a> </strong>
+        latest news | <strong>{if !$latestNews.title}none{else}<a href="{$config.url}forum/tid/{$latestNews.id}">{$latestNews.title}</a>{/if} </strong>
      </div>
      <div class="col-xs-6 text-right cut-text">
-       <strong><a href="{$config.url}forum/tid/{$latestEvent.id}">{$latestEvent.title}</a> </strong> | latest event
+       <strong>{if !$latestEvent.title}none{else}<a href="{$config.url}forum/tid/{$latestEvent.id}">{$latestEvent.title}</a>{/if} </strong> | latest event
      </div>
    </div>
 </div>
