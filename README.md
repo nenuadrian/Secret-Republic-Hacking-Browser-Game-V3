@@ -20,7 +20,7 @@ Audio Trailer: https://www.youtube.com/watch?v=6thfiGb-b7c
 
 1. [Overview](#Overview)
 
-2. Main features
+2. [Main features](#Main-Features)
 
 3. SecretAlpha v4
 
@@ -56,7 +56,7 @@ Documentation is minimal and is being built as we go.
 
 I am trying to actively contribute and solve raised issues, so please feel free to raise one, and more so please contribute with whatever you can!
 
-# Main Features
+# Main-Features
 
 | Feature       | Description           |
 | ------------- | --------------------- |
