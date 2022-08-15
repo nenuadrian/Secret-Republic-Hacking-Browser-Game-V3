@@ -29,8 +29,10 @@
 	  $pages = new Paginator;
 		$pages->items_total = $availableOrgs["nro"];
 		$pages->paginate();
-	  
-	$availableOrgs = $db->where("allow_app", 1)->where('nrm < max_nrm')->orderBy('nrm', 'asc')->get('organizations', $pages->limit, 'name, id, nrm, max_nrm, level');
+	  $db->pageLimit = $pages->items_per_page;
+
+	$availableOrgs = $db->where("allow_app", 1)->where('nrm < max_nrm')->orderBy('nrm', 'asc')
+    ->paginate('organizations', $pages->current_page, 'name, id, nrm, max_nrm, level');
 	
 	  
     $tVars['organizationMission'] = sprintf('[%s - %s (level %s)]%s', $mission['name'], $mission['title'], $mission['level'], $mission['done']?' (done)':''); 

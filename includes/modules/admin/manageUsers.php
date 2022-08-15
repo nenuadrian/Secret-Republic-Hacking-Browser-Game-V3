@@ -99,13 +99,14 @@ if ($hacker['id']) {
       $pages->items_per_page = 40;
       $pages->mid_range      = 5;
       $pages->paginate();
+      $db->pageLimit = $pages->items_per_page;
 
       $missions = $db->join('quests', 'quests.id = quests_user.quest', 'LEFT OUTER')
                      ->join('quest_groups', 'quest_groups.qgroup_id = quests.qgroup_id', 'LEFT OUTER')
                      ->where('user_id', $hacker['id'])
                      ->groupBy('quest')
                      ->orderBy('created', 'desc')
-                     ->get('quests_user', $pages->limit, 'quests_user.created, quests.title, quests.type, quest, quest_groups.name groupName');
+                     ->paginate('quests_user', $pages->current_page, 'quests_user.created, quests.title, quests.type, quest, quest_groups.name groupName');
       foreach ($missions as &$mission)
         $mission['created'] = date('d/F/Y H:i:s', $mission['created']);
 

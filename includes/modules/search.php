@@ -25,10 +25,10 @@ $cardinal->mustLogin();
                 $pages->mid_range = 5;
                 $pages->paginate();
 
-
+                $db->pageLimit = $pages->items_per_page;
               $results=$db->where("username", array("like" => sprintf("%%%s%%",$search)))
                           ->orderBy("username", "asc")
-                          ->get("users", $pages->limit, "username, id, zone, zrank, rank");
+                          ->paginate("users", $pages->current_page, "username, id, zone, zrank, rank");
           } else $errors[] = "Invalid username provided. You don't need the exact username, but you need to write a valid one.";
 
 
@@ -48,9 +48,11 @@ $cardinal->mustLogin();
                   $pages->items_total = $results["nrOrgs"];
                   $pages->mid_range = 5;
                   $pages->paginate();
+                  $db->pageLimit = $pages->items_per_page;
+
                 $results=$db->where("name", array("like" => sprintf("%%%s%%",$search)))
                             ->orderBy("name" ,"asc")
-                            ->get("organizations", $pages->limit, "id, name, nrm, orank");
+                            ->get("organizations", $pages->current_page, "id, name, nrm, orank");
               } else $errors[] = $nameError;
 
 
@@ -69,11 +71,12 @@ $cardinal->mustLogin();
               $pages->items_total = $results["nrBlogs"];
               $pages->mid_range = 5;
               $pages->paginate();
+              $db->pageLimit = $pages->items_per_page;
 
             $results=$db->where("name", array("like" => sprintf("%%%s%%",$search)))
                         ->orderBy("nrs", "desc")
                         ->orderBy("name", "asc")
-                        ->get("blogs", $pages->limit, "blog_id, name, nrs, nra");
+                        ->paginate("blogs", $pages->current_page, "blog_id, name, nrs, nra");
           }
 
         }
@@ -91,11 +94,12 @@ $cardinal->mustLogin();
               $pages->items_total = $results["nrArticles"];
               $pages->mid_range = 5;
               $pages->paginate();
+              $db->pageLimit = $pages->items_per_page;
 
             $results=$db->where("title", array("like" => sprintf("%%%s%%",$search)))
                         ->orderBy("votes", "desc")
                         ->orderBy("title", "asc")
-                        ->get("blog_articles", $pages->limit, "article_id, title, votes, nrc");
+                        ->paginate("blog_articles", $pages->current_page, "article_id, title, votes, nrc");
           }
 
         }

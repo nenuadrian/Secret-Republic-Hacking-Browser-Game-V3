@@ -120,10 +120,11 @@ else
 	$pages = new Paginator;
     $pages->items_total = $simulations["nrs"];
     $pages->paginate();
+	$db->pageLimit = $pages->items_per_page;
 
 	$simulations = $db->where('user_id', $user['id'])
 		              ->orderBy('created', 'desc')
-		              ->get('user_simulations', $pages->limit);
+		              ->paginate('user_simulations', $pages->current_page);
 
 	foreach ($simulations as &$simulation)
 			$simulation['created'] = date("d/F H:i", $simulation['created']);

@@ -119,11 +119,12 @@ elseif ($GET["view"] == "servers" && $user["cardinal"])
     $pages->items_per_page = 20;
     $pages->mid_range = 5;
     $pages->paginate();
+    $db->pageLimit = $pages->items_per_page;
 
     $db->join('users u', 'u.id = s.user_id');
     if ($GET['hacker']) $db->where('s.user_id', $GET['hacker']);
 
-    $servers = $db->get('servers s', $pages->limit, 's.*, u.username');
+    $servers = $db->paginate('servers s', $pages->current_page, 's.*, u.username');
 
     $tVars['servers'] = $servers;
     $tVars['display'] = "admin/servers/servers.tpl";
@@ -155,10 +156,10 @@ else if ($GET["view"] == "conversations" && $user["cardinal"])
             $GET['convo'],
             $GET['convo']
         ));
-
+        $db->pageLimit = $pages->items_per_page;
         $db->join('users u', 'u.id = sender_user_id', 'left outer');
         $messages = $db->orderBy('created', 'asc')
-            ->get('conversations c', $pages->limit, 'c.*, u.username sender_username');
+            ->paginate('conversations c', $pages->current_page, 'c.*, u.username sender_username');
         $tVars['messages'] = $messages;
     }
     else
@@ -173,7 +174,7 @@ else if ($GET["view"] == "conversations" && $user["cardinal"])
         $pages = new Paginator;
         $pages->items_total = $convos['nrc'];
         $pages->paginate();
-
+        $db->pageLimit = $pages->items_per_page;
         if ($GET['hacker']) $db->where('sender_user_id = ? or receiver_user_id = ?', array(
             $GET['hacker'],
             $GET['hacker']
@@ -183,7 +184,7 @@ else if ($GET["view"] == "conversations" && $user["cardinal"])
         $db->join('users uu', 'uu.id = receiver_user_id', 'left outer');
         $convos = $db->where('parent_message_id is null')
             ->orderBy('created', 'desc')
-            ->get('conversations c', $pages->limit, 'message_id, c.title, created, u.username sender_username, uu.username receiver_username');
+            ->paginate('conversations c', $pages->current_page, 'message_id, c.title, created, u.username sender_username, uu.username receiver_username');
 
         $tVars['convos'] = $convos;
     }
@@ -206,9 +207,10 @@ elseif ($user["cardinal"] && $GET["view"] == "crons")
     $pages->items_per_page = 40;
     $pages->mid_range = 5;
     $pages->paginate();
+    $db->pageLimit = $pages->items_per_page;
 
     $crons = $db->orderBy("created", "desc")
-        ->get("debug_cron_logs", $pages->limit);
+        ->paginate("debug_cron_logs", $pages->current_page);
     foreach ($crons as & $cron) $cron["created"] = date("d/F/Y H:i:s", $cron["created"]);
 
     $tVars["crons"] = $crons;
@@ -225,10 +227,11 @@ elseif ($user["cardinal"] && $GET["view"] == "errors")
     $pages->items_per_page = 40;
     $pages->mid_range = 5;
     $pages->paginate();
+    $db->pageLimit = $pages->items_per_page;
 
     $debug_errors = $db->join("users", "users.id = debug_404_errors.user_id", "LEFT OUTER")
         ->orderBy("created", "desc")
-        ->get("debug_404_errors", $pages->limit, "debug_404_errors.*, users.username");
+        ->paginate("debug_404_errors", $pages->current_page, "debug_404_errors.*, users.username");
     foreach ($debug_errors as & $debug_error) $debug_error["created"] = date("d/F/Y H:i:s", $debug_error["created"]);
 
     $tVars["debug_errors"] = $debug_errors;
@@ -245,10 +248,11 @@ elseif ($user["cardinal"] && $GET["view"] == "errors404")
     $pages->items_per_page = 40;
     $pages->mid_range = 5;
     $pages->paginate();
+    $db->pageLimit = $pages->items_per_page;
 
     $debug_errors = $db->join("users", "users.id = debug_404_errors.user_id", "LEFT OUTER")
         ->orderBy("created", "desc")
-        ->get("debug_404_errors", $pages->limit, "debug_404_errors.*, users.username");
+        ->paginate("debug_404_errors", $pages->current_page, "debug_404_errors.*, users.username");
 
     foreach ($debug_errors as & $debug_error) $debug_error["created"] = date("d/F/Y H:i:s", $debug_error["created"]);
 

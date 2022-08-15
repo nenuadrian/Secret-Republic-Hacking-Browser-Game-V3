@@ -20,7 +20,7 @@
       $pages->paginate();
 
       $tVars['load']    = 'members';
-      $members                      = $oclass->get_members($pages->limit);
+      $members                      = $oclass->get_members($pages->current_page);
       $tVars['members'] = $members;
 
     } //$GET['view'] == 'members' && $oclass->perms['viewMembers']
@@ -31,7 +31,7 @@
 
       $ranks = $db->where('org_id', $oclass->organization['id'])->get('org_ranks', null, 'name, rank_id');
 
-      $members = $oclass->get_members($oclass->organization);
+      $members = $oclass->get_members();
 
       $tVars['ranks']   = $ranks;
       $tVars['members'] = $members;
@@ -67,7 +67,7 @@
         $pages->items_per_page = 15;
         $pages->paginate();
 
-        $members = $oclass->get_members($pages->limit);
+        $members = $oclass->get_members($pages->current_page);
 
         $ranks = $db->where('org_id', $oclass->organization['id'])->where('owner_rank', 0)->get('org_ranks', null, 'name, rank_id');
 
@@ -110,7 +110,7 @@
 
         }
       }
-      $members = $oclass->get_members("", true);
+      $members = $oclass->get_members(null, true);
 
       $tVars['members'] = $members;
     } //$GET['view'] == 'core' && $oclass->perms['manageOrganization']

@@ -57,12 +57,13 @@ else
       $pages->items_total = $users["nru"];
 		  $pages->items_per_page = 20; 
       $pages->paginate();
-    
+      $db->pageLimit = $pages->items_per_page;
+
       $db->orderBy("rank", "asc");
       if ($zone)
         $db->where("zone", $zone);
         
-      $users = $db->where("rank > 0")->get("users", $pages->limit, "id, username, level, zone, points, gavatar".$rankSelect);
+      $users = $db->where("rank > 0")->paginate("users", $pages->current_page, "id, username, level, zone, points, gavatar".$rankSelect);
     
       $rankings["zone"] = $zone;
       $rankings["users"] = $users;

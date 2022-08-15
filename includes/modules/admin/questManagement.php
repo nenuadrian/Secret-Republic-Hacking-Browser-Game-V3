@@ -56,10 +56,11 @@ if ($quest["id"]) {
 	  $pages                 = new Paginator;
       $pages->items_total    = $feedback['nrf'];
       $pages->paginate();
+      $db->pageLimit = $pages->items_per_page;
 
 	  $feedback = $db->join('users u', 'u.id = qf.user_id', 'left outer')
 		             ->where('quest_id', $quest['id'])
-		             ->get('quests_feedback qf', $pages->limit, 'qf.*, u.username');
+		             ->paginate('quests_feedback qf', $pages->current_page, 'qf.*, u.username');
 
 	  $tVars['feedback'] = $feedback;
       $tVars['stats'] = $stats;

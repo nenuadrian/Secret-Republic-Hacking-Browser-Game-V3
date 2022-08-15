@@ -91,11 +91,12 @@ else
 			$pages = new Paginator;
 			$pages->items_total = $organizations["nro"];
 			$pages->paginate();
-			
+			$db->pageLimit = $pages->items_per_page;
+
 			$organizations = $db->join('organizations o', 'o.id = hro.org_id', 'left outer')
 			                    ->where('hackdown_id', $hackDownId)
 			                    ->orderBy('points', 'desc')
-			                    ->get('hackdown_rankings_organizations hro', $pages->limit, 'hro.*, o.name');
+			                    ->paginate('hackdown_rankings_organizations hro', $pages->current_page, 'hro.*, o.name');
 			
 			$tVars['organizations'] = $organizations;
 		}
@@ -115,11 +116,11 @@ else
 			$pages = new Paginator;
 			$pages->items_total = $users["nru"];
 			$pages->paginate();
-			
+			$db->pageLimit = $pages->items_per_page;
 			$users = $db->join('users u', 'u.id = hru.user_id', 'left outer')
 			            ->where('hackdown_id', $hackDownId)
 			            ->orderBy('points', 'desc')
-				        ->get('hackdown_rankings_users hru', $pages->limit, 'hru.*, username');
+				        ->paginate('hackdown_rankings_users hru', $pages->current_page, 'hru.*, username');
 			
 			$tVars['users'] = $users;
 		}

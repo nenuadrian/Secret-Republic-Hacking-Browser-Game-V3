@@ -129,9 +129,8 @@ class Organization extends Alpha
 
   }
 
-  function get_members($limit = null, $notMyself = false)
+  function get_members($page = null, $notMyself = false)
   {
-    if (!$limit) $limit = $this->organization['nrm'];
     $this->db->join('org_ranks', 'org_ranks.rank_id = u.org_group', 'left outer')
              ->where('u.organization', $this->organization['id'])
 		     ->orderBy('org_ranks.owner_rank', 'desc')
@@ -140,7 +139,14 @@ class Organization extends Alpha
     if ($notMyself)
       $this->db->where('u.id', $this->user['id'], '!=');
 
-    $members = $this->db->get('users u', $limit, 'id,username, gavatar, lastActive, org_group,zone,level,rank, zrank, org_ranks.name, org_ranks.owner_rank owner');
+    if ($page) {
+      $db->pageLimit = 15;
+      $members = $this->db->paginate('users u', $page, 
+        'id,username, gavatar, lastActive, org_group,zone,level,rank, zrank, org_ranks.name, org_ranks.owner_rank owner');
+    } else {
+      $members = $this->db->get('users u', null, 
+        'id,username, gavatar, lastActive, org_group,zone,level,rank, zrank, org_ranks.name, org_ranks.owner_rank owner');
+    }
     return $members;
   }
 

@@ -13,13 +13,13 @@ $pages = new Paginator;
 $pages->items_total = $tasks['nrt'];
 
 $pages->paginate();
-
+$db->pageLimit = $pages->items_per_page;
 if ($GET['hacker'])
 	$db->where('uid', $GET['hacker']);
 
 $db->join('users u', 'u.id = task_logs.uid', 'left outer');
 $db->orderBy('start', 'desc');
-$tasks = $db->get('task_logs', $pages->limit, 'task_logs.*, u.username');
+$tasks = $db->paginate('task_logs', $pages->current_page, 'task_logs.*, u.username');
 
 }
 else
@@ -59,10 +59,10 @@ $pages->paginate();
 
 if ($GET['hacker'])
 	$db->where('uid', $GET['hacker']);
-
+	$db->pageLimit = $pages->items_per_page;
 $db->join('users u', 'u.id = tasks.uid', 'left outer');
 $db->orderBy('start', 'desc');
-$tasks = $db->get('tasks', $pages->limit, 'tasks.*, u.username');
+$tasks = $db->paginate('tasks', $pages->current_page, 'tasks.*, u.username');
 }
 
 

@@ -25,8 +25,9 @@ if ($GET['history'])
         else $db->where('qch.task_id', $qtask['id']);
 
         $db->orderBy('created', 'desc');
+        $db->pageLimit = $pages->items_per_page;
 
-        $history = $db->get('quest_console_history qch', $pages->limit, 'qch.*');
+        $history = $db->paginate('quest_console_history qch', $pages->current_page, 'qch.*');
 
         $tVars['currentParticipant'] = $currentParticipant;
         $tVars['history'] = $history;

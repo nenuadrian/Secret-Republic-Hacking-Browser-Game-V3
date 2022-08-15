@@ -20,12 +20,13 @@ if ($GET['history'])
     $pages->items_total = $nrItems;
     $pages->items_per_page = 10;
     $pages->paginate();
+	$db->pageLimit = $pages->items_per_page;
 
     $shop_logs = $db->join("alpha_coins_shop acs", "acs.item_id = acsl.item_id", "left outer")
         ->where('user_id', $user_id)->orderBy("acsl.created", 'desc')
-        ->get("alpha_coins_logs acsl", $pages->limit, "acs.name, acsl.*");
+        ->paginate("alpha_coins_logs acsl", $pages->current_page, "acs.name, acsl.*");
     $transactions_logs = $db->where('user_id', $user_id)->orderBy("act.created", 'desc')
-        ->get("alpha_coin_transactions act", $pages->limit, " fortumo, created, paypal, alphaCoins, kongregate, alphaCoinsGiven, kongregate_user_id");
+        ->paginate("alpha_coin_transactions act", $pages->current_page, " fortumo, created, paypal, alphaCoins, kongregate, alphaCoinsGiven, kongregate_user_id");
 
     $tVars['shop_logs'] = $shop_logs;
     $tVars['transactions_logs'] = $transactions_logs;

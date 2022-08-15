@@ -100,10 +100,11 @@ else
       $pages = new Paginator;
           $pages->items_total = $history["nrh"];
           $pages->paginate();
+          $db->pageLimit = $pages->items_per_page;
 
       $history = $db->where('org_id', $oclass->organization['id'])->orderBy('created', 'desc')
             ->join('users u', 'u.id = user_id', 'left outer')
-            ->get('org_hacking_points_logs ohpl', $pages->limit, 'username, created, hackingPoints, source_type');
+            ->paginate('org_hacking_points_logs ohpl', $pages->current_page, 'username, created, hackingPoints, source_type');
       $tVars['history'] = $history;
     }
     elseif ($GET['rankings'])
