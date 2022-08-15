@@ -22,14 +22,14 @@ Audio Trailer: https://www.youtube.com/watch?v=6thfiGb-b7c
 
 2. [Main features](#Main-Features)
 
-3. SecretAlpha v4
+3. [SecretAlpha v4](#SecretAlpha-V4)
 
-4. Simple Setup
+4. [Simple Setup](#Simple-Setup)
    * Semi-manual setup
    * Manual setup
    * Useful tips
 
-5. Screenshots
+5. [Screenshots](#Screenshots)
 
 6. Learning the platform
 
@@ -79,13 +79,13 @@ I am trying to actively contribute and solve raised issues, so please feel free 
 | The Grid |  Every players gets a starting `node` and can initialize/conquer other empty nodes or from other players. The world is split in multiple zones, which are divided into clusters with multiple nodes in each cluster. Damage and spy attacks can be triggered between nodes. There's an attempt at a simulator for attacks |
 | Attacks | Players can launch attacks using their nodes on other players. |
 
-# SecretAlpha V4 
+# SecretAlpha-V4
 
 V4 is newer, more responsive made with mobile-first in mind, but with way less features.
 
 https://github.com/nenuadrian/Secret-Republic-Hacker-Game-ORPBG-Alpha
 
-# Simple Setup
+# Simple-Setup
 
 ## Require steps
 
