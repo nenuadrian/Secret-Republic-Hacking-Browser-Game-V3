@@ -1,88 +1,7 @@
 <?php
-//Rankings
-
-
 $smarty->caching        = 1; // lifetime is per cache
 
-/*$smarty->cache_lifetime = 2500;
-
-
-if (!$_SESSION['detectDevice']['mobile']) {
-  if (!$smarty->isCached('index/rankings.tpl')) {
-    
-    
-    $rankings['topUsers'] = $db->where('rank', array(
-      '>' => 0
-    ))->orderBy('rank', 'asc')->get('users', 3, 'username, id,rank');
-    $rankings['topOrgs']  = $db->where('orank', array(
-      '>' => 0
-    ))->orderBy('orank', 'asc')->get('organizations', 3, 'name, id, orank');
-    $rankings['topBlogs'] = $db->where('rank', array(
-      '>' => 0
-    ))->orderBy('rank', 'asc')->get('blogs', 3, 'name, blog_id, rank');
-    $rankings["config"]   = $config;
-    $smarty->assign($rankings);
-    
-  }
-  $tVars["rankings"] = $smarty->fetch("index/rankings.tpl");
-}
-
-*/
 $smarty->cache_lifetime = 300;
-/*
-if (!$smarty->isCached('index/missionsSummary.tpl', $user['id'])) {
-  
-  $db->join('quests_user qu', 'qu.user_id = ' . $user['id'], 'left outer')->where('live_quests > 0 and hqg.type = 1')->where('hqg.level', $user['level'], '<=')->where('(hqg.qparent = 0 or (select id from quests_user qu where qu.user_id = ? and qu.quest = hqg.qparent limit 1) is not null)', array(
-    $user['id']
-  ))->groupBy('hqg.qgroup_id')->orderBy('gorder', 'asc');
-  
-  $groups   = $db->get('quest_groups hqg', 4, 'hqg.qgroup_id, hqg.name, live_quests nrQuests, (select count(distinct(quest)) from quests_user qu left outer join quests q on q.id = qu.quest where qu.user_id = ' . $user['id'] . ' and q.qgroup_id = hqg.qgroup_id and q.isLive = 1) questsDone');
-  $groupIds = array();
-  foreach ($groups as $key => $group) {
-    $groupIds[] = $group['qgroup_id'];
-    if ($group['nrQuests'] <= $group['questsDone']) {
-      unset($groups[$key]);
-      continue;
-    }
-    
-  }
-  
-  if (count($groupIds)) {
-    
-    $db->join('quests_user qu', 'qu.user_id = ' . $user['id'] . ' and qu.quest = q.id', 'left outer')->join('quests_user qur', 'q.required_quest_id != 0 and qur.user_id = ' . $user['id'] . ' and qur.quest = q.required_quest_id', 'left outer')->where('qgroup_id in (' . implode(",", $groupIds) . ')')->where('isLive', 1)->where('(q.required_quest_id = 0 or qur.id is not null)')->where('q.type', 1)->where('? >= q.level ', array(
-      $user['level']
-    ));
-    
-    $db->groupBy('q.id');
-    $db->orderBy('rand()');
-    $dailies = $db->get('quests q', null, 'q.id, q.title, q.time, q.id, q.level, qu.last_done done, q.type ,qur.quest as qdone, party, q.qgroup_id');
-    
-    foreach ($dailies as $key => $daily)
-      if (date('Ymd', $daily['done']) > date('Ymd', strtotime('yesterday')))
-        unset($dailies[$key]);
-    
-    
-  }
-  
-  $trainLog = $db->where("user_id", $user["id"])->where("created", array(
-    ">" => (time() - $config['trainEvery'])
-  ))->orderBy("created", "desc")->getOne("user_train_logs", "log_id, created");
-  
-  
-  if (!$trainLog["log_id"])
-    $templateVars2['can_train'] = true;
-  
-	$job = $uclass->getJob($user["id"], $config['timeBetweenJobs']);
-             
-    if (!$job["last_work"]) $templateVars2['can_work'] = true;
-		
-  $templateVars2['dailies'] = $dailies;
-  $templateVars2['groups']  = $groups;
-  $smarty->assign($templateVars2);
-  
-}
-$tVars["missionsSummary"] = $smarty->fetch("index/missionsSummary.tpl", $user['id']);
-*/
 
 
 $smarty->cache_lifetime = 1;
@@ -120,25 +39,6 @@ if (!$smarty->isCached('index/latestArticlesAndForums.tpl', $user['id'])) {
 }
 $tVars["latestArticlesAndForums"] = $smarty->fetch("index/latestArticlesAndForums.tpl", $user['id']);
 
-/*
-$smarty->cache_lifetime = 300;
-
-if (!$smarty->isCached('index/wars.tpl')) {
-  
-  $org_wars = $db->rawQuery('select ow.war_id, o1.name org1_name, o2.name org2_name 
-	                           from org_wars ow
-	                           left outer join organizations o1 on o1.id = org1_id
-							   left outer join organizations o2 on o2.id = org2_id
-							   order by rand()
-							   limit 5;');
-  
-  $templateVars["org_wars"] = $org_wars;
-  $templateVars["config"]   = $config;
-  $smarty->assign($templateVars);
-}
-$tVars["wars"] = $smarty->fetch("index/wars.tpl");
-
-*/
 $smarty->caching = 0;
 
 //$smarty->clearAllCache();

@@ -17,7 +17,7 @@ if (!$war['war_id']) $cardinal->redirect($config['url'].'organization/view/wars'
 
 $page_title = $war['org1_name'] . ' vs ' . $war['org2_name'];
 
-require("../includes/class/organizationWars.php');
+require('../includes/class/organizationWars.php');
 $owars = new organizationWars;
 
 $owars->processWar($war);
