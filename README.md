@@ -180,6 +180,11 @@ Or use the control panel your host may provide.
 
 Sadly it was built from scratch, combining vanilla PHP, the Smarty template engine and a few libraries (composer.json). It makes use of Smarty caching.
 
+Lint:
+```
+./includes/vendor/bin/phplint --exclude=vendor  --no-cache -v
+```
+
 ## ~MVC Architecture
 
 TBC
