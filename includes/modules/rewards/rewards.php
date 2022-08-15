@@ -37,12 +37,11 @@ if ($GET["myReward"])
         foreach($reward["achievements"] as &$achievement)
           $achievement = $db->where("achievement_id", $achievement)->getOne("achievements", "name, image");
 
-    $reward['components'] = unserialize($reward['components']);
-    $reward['applications'] = unserialize($reward['applications']);
+    $reward['components']   = $reward['components'] ? array_values(unserialize($reward['components'])) : [];
+    $reward['applications'] = $reward['applications'] ? array_filter(unserialize($reward['applications']), function($app) { return $app['app_id']; }) : [];
 
     foreach($reward['components'] as &$component)
       $component = array_merge($component, $db->where('component_id', $component['component_id'])->getOne('components'));
-
     foreach($reward['applications'] as &$app)
       $app = array_merge($app, $db->where('app_id', $app['app_id'])->getOne('applications'));
 

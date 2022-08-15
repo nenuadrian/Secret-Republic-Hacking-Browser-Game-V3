@@ -246,10 +246,11 @@ CREATE TABLE `coupon_logs` (
 
 CREATE TABLE `data_points_spin` (
   `id` int(11) NOT NULL,
-  `spin_identifier` int(11) NOT NULL DEFAULT '1',
   `app_id` int(11) DEFAULT NULL,
   `component_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `data_points_spin` VALUES (1,1,NULL),(2,9,NULL),(3,10,NULL),(4,11,NULL),(5,NULL,19),(6,NULL,20);
 
 CREATE TABLE `data_points_spin_logs` (
   `log_id` int(11) NOT NULL,

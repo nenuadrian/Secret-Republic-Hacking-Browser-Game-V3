@@ -6,6 +6,7 @@ if (logged_in())
                                array(time() - 24*60*60*7))[0];
 
   $spin1Costs = ($spin1Costs['avgDataPoints'] / 100) * 6;
+  $spin1Costs = $spin1Costs ? $spin1Costs : 1;
   $spin1SuccessRate = 35;
 
   $spin1comps = $db->rawQuery('select c.name, c.component_id 
@@ -17,7 +18,11 @@ if (logged_in())
                               from data_points_spin s
                               left outer join applications a on a.app_id = s.app_id
                               where s.app_id is not null');
-
+  
+  if (!$spin1comps || !$spin1apps) {
+    echo 'Please define at least one app and one component in the data_points_spin table';
+    die();
+  }
   if (submitted_form('spin1') && $user['dataPoints'] >= $spin1Costs)
   {
      $uclass->substractResources(array('dataPoints' => $spin1Costs), $user['id']);

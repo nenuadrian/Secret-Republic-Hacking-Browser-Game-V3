@@ -110,7 +110,7 @@
             {/if}
 
               
-              {if $reward.skills|count}
+              {if $reward.skills and $reward.skills|count}
                 <h2 class="white-holder">skills</h2>
 
                     {foreach from=$reward.skills key=skill item=amount}
@@ -134,7 +134,7 @@
                 
               {/if}
 
-              {if $reward.applications|is_Array}
+              {if $reward.applications and $reward.applications|is_Array}
                 <h2 class="white-holder">Applications</h2>
 
                 {foreach $reward.applications as $app}
@@ -155,7 +155,7 @@
                    {/if}
               {/if}
 
-              {if $reward.components|is_Array}
+              {if $reward.components and $reward.components|is_Array}
                 <h2 class="white-holder">components</h2>
 
                 {foreach $reward.components as $comp}
