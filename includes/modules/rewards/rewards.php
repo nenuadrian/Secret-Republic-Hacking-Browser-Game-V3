@@ -72,9 +72,10 @@ else
   $pages                 = new Paginator;
   $pages->items_total    = $rewards['nrr'];
   $pages->paginate();
+  $db->pageLimit = $pages->items_per_page;
 
   $rewards = $db->where("user_id", $user["id"])->orderBy("created", "desc")
-	              ->get("user_rewards", $pages->limit, "title,reward_id,received, created");
+	              ->paginate("user_rewards", $pages->current_page, "title,reward_id,received, created");
   $tVars["rewards"] = $rewards;
   $tVars["display"] = "rewards/rewards.tpl";
 }

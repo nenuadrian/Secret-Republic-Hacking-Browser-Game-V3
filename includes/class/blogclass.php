@@ -199,12 +199,14 @@ class Blog extends Alpha {
       $this->pages->mid_range      = 5;
       $this->pages->items_per_page = $this->config["nrc_page"];
       $this->pages->paginate();
+      $this->db->pageLimit = $this->pages->items_per_page;
 
-      $comments = $this->db->join('users u', 'u.id=bc.user_id', 'left outer')->where('article_id', $article['article_id'])->get('blog_comments bc', $this->pages->limit, 'bc.comment_id,content,created,u.username as user');
+      $comments = $this->db->join('users u', 'u.id=bc.user_id', 'left outer')
+        ->where('article_id', $article['article_id'])
+        ->paginate('blog_comments bc', $this->pages->current_page, 'bc.comment_id,content,created,u.username as user');
 
       foreach ($comments as &$x) {
         $x["created"] = date_fashion($x["created"]);
-
       }
 
       $this->templateVariables["comments"] = $comments;

@@ -118,11 +118,16 @@
 			</div>
 			</div></div>
        {/if}
-       
+       	{if $user.cardinal}
+		<h3>debug queries</h3>
+		<p style="white-space:break-spaces;">
+			{$queries|var_export}
+			</p>
+		{/if}
+
 	 	</div>
 
-    
-
+	
 	</div>
 	
 

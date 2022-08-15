@@ -65,11 +65,12 @@ $page_title="Friendships";
     $pages->items_total = $user["friend_requests"];
 
   $pages->paginate();
-    
+  $db->pageLimit = $pages->items_per_page;
+
     $requests = $db->where('receiverid', $user['id'])
                    ->join('users hu', 'hfr.senderid=hu.id', 'left outer')
                    ->orderBy('created', 'desc')
-                   ->get('friend_requests hfr', $pages->limit, 'hfr.request_id,senderid,created,hu.username as sender');
+                   ->paginate('friend_requests hfr', $pages->current_page, 'hfr.request_id,senderid,created,hu.username as sender');
 
 
   
