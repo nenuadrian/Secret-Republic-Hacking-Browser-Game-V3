@@ -58,27 +58,26 @@ I am trying to actively contribute and solve raised issues, so please feel free 
 
 # Main Features
 
-1. Futuristic bootstrap based UI, mostly mobile responsive
-
-2. UNIX like terminal/command line based missions
-
-3. In-game Mission designer with BBCode like syntax features (see attached GUIDES and screens)
-
-4. Multiplayer and community features: forums, organizations (guilds), organization forums, blogs, friends, messaging system, automatic mission based tournamens (hackdown), organization specific mission, the grid
-
-5. The grid: every players gets a starting `node` and can initialize/conquer other empty nodes or from other players. The world is split in multiple zones, which are divided into clusters with multiple nodes in each cluster. Damage and spy attacks can be triggered between nodes. There's an attempt at a simulator for attacks
-
-6. Abilities & skills which semi-influence command execution time in missions
-
-7. Servers with upgradable hardware (motherboard, ram, hdd, power source, software)
-
-8. Tutorial system
-
-9. Rewards system
-
-10. Advanced Admin panel
-
-11. Audio AI (woman, same as trailer) voice speaks when interacting with the game
+| Feature       | Description           |
+| ------------- | --------------------- |
+| Futuristic UI | Bootstrap made. Custom build. Generally responsive. |
+| Abilities     | Upgradeable, enhance player stats, take time to level up. Controlled by `constants/abilities.php`.     |
+| Skills        | Point based, where points can be earned by levelling up. Enhance player stats. Controlled by `constants/skills.php`.  |
+| Tutorial      | Multiple guiding steps, with rewards at each step. Players can skip steps. Quite advanced and flexible, easy to extend. Controlled by `constants/tutorial.php`. |
+| Rewards       | The reward system allows the game to give players multiple rewards (stat points, money, etc.) in a packaged way (as a reward with multiple items). The players can then accept the reward at which point it will be applied, and they can review history of rewards. |
+| Audio AI      | Audio cues have been pre-recorded for use in the game. They can be muted and play when specific actions take place. |
+| Admin Panel   | Advanced administration interface, with user management, mission design screens, and more. |
+| Mission Designer | Part of the admin panel, allows for advanced design of missions, with multiple objective and sub-objectives, and custom BBCodes. |
+| Missions      | Enhanced UNIX terminal-like missions, which can be leveraged across the game, including for guild daily missions, the hackdown competition, training, or story-drive missions. Easy to extend and re-use. |
+| Servers | Can build multiple, each with their own upgradable hardware (motherboard, ram, hdd, power source). And software which can be run and uses resources. |
+| Forums | Feature-rich integrated forum system. With the ability to create internal forums specific to guilds in-game. |
+| Organizations | Guild-like system. Owned by players. Can create multiple membership groups, there are missions specific for organizations and wars can be declared between them. They can have their own internal forums. |
+| Messaging | Ability for players to chat, in a thread based system. |
+| Blogs | Feature-rich player blog system. |
+| Hackdown | Mission based scheduled competition. |
+| Friends | Friend system for players. |
+| The Grid |  Every players gets a starting `node` and can initialize/conquer other empty nodes or from other players. The world is split in multiple zones, which are divided into clusters with multiple nodes in each cluster. Damage and spy attacks can be triggered between nodes. There's an attempt at a simulator for attacks |
+| Attacks | Players can launch attacks using their nodes on other players. |
 
 # SecretAlpha V4 
 
