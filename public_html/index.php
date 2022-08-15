@@ -27,7 +27,7 @@ $smarty->setConfigDir(implode('/', $path) . '/' . 'includes/vendor/smarty/smarty
 
 $pageURL = array_filter(explode('/', stripslashes($_SERVER['REQUEST_URI'])));
 
-define("URL_C", stripslashes('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']) . '/');
+define("URL_C", stripslashes($_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']) . '/');
 
 $pageURL = implode ("/", $pageURL);
 

@@ -19,7 +19,7 @@
 {/if}
 
 
-<form method="post" action="#">
+<form method="post" >
   <input type="text" maxlength="45" data-maxlength-position="top" class="mb10 glass-input" name="title"  value="{if $smarty.post.title}{$smarty.post.title|htmlentities}{else}{$article.title}{/if}" placeholder="Title"/>
   <textarea name="content" style="min-height:500px;" maxlength="{$config.blog_article_size}" class="glass-input" placeholder="Article content">{if $smarty.post.content}{$smarty.post.content|htmlentities}{else}{$article.content_unparsed}{/if}</textarea>
   <br/><br/>

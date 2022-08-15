@@ -379,7 +379,7 @@ class LoginSystem extends Alpha
 
     session_destroy();
     session_unset();
-    session_start('_sr');
+    session_start();
     add_alert('You have been logged out.');
 
 

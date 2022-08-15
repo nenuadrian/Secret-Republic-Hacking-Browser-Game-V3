@@ -5,7 +5,7 @@ class Blog extends Alpha {
     parent::__construct();
   }
 
-  function validateBlogTitle(&$title) {
+  function validateBlogTitle($title) {
     global $errors;
 
 
@@ -52,8 +52,9 @@ class Blog extends Alpha {
   function verify_create_blog() {
     global $uclass, $errors;
 
-    if ($_POST)
-      if ($this->validateBlogTitle($title = $_POST["title"])) {
+    if ($_POST) {
+      $title = $_POST["title"];
+      if ($this->validateBlogTitle($title)) {
 
         $dataInsert = array(
           "name" => htmlentities($title),
@@ -70,6 +71,7 @@ class Blog extends Alpha {
         } else
           $errors[] = "Something went wrong";
       }
+    }
   }
 
   function verify_create_article($article = null) {
@@ -77,7 +79,7 @@ class Blog extends Alpha {
 
     if ($_POST) {
       // check last time an article has been posted by user
-      $lastArticle = $this->db->where('blog_id', $this->blog['blog_id'])->where('created', time() - 60, '>=')->getOne('blog_articles', 'article_id');
+      $lastArticle = $this->db->where('blog_id', $this->blog['blog_id'])->where('created >= ' .  (time() - 60))->getOne('blog_articles', 'article_id');
       if ($latestArticle['article_id'])
         $errors[] = 'You can only publish one article every 60 seconds.';
       else if ($this->validateBlogTitle($title = $_POST["title"]) && $this->validateArticleContent($content = $_POST["content"])) {
@@ -100,14 +102,16 @@ class Blog extends Alpha {
               "blog_id" => $this->blog["blog_id"]
             );
             $artid      = $this->db->insert("blog_articles", $dataInsert);
-
+            $this->db->rawQuery("update blogs set nra = nra+1 where blog_id=?  ",
+              array($this->blog["blog_id"]));
+            
             $url = $this->config["url"] . 'blogs/article/' . $artid;
 
             //SEND TO ALL SUBSCRIBERS
             $this->send_notice_subscribers($url, $title, $this->blog["blog_id"]);
 
-
-            $this->redirect(URL_C);
+           
+            $this->redirect($url);
           } else {
             $dataUpdate = array(
               "title" => htmlentities($title),
@@ -117,6 +121,9 @@ class Blog extends Alpha {
             );
 
             $this->db->where("article_id", $article["article_id"])->update("blog_articles", $dataUpdate);
+
+           
+
             $this->redirect($this->config["url"] . 'blogs/article/' . $article["article_id"]);
 
           }
@@ -199,6 +206,7 @@ class Blog extends Alpha {
         $x["created"] = date_fashion($x["created"]);
 
       }
+
       $this->templateVariables["comments"] = $comments;
     }
 

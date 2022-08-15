@@ -2841,7 +2841,7 @@ CREATE TABLE `zones` (
   `points` varchar(45) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-INSERT INTO `zones` (`id`, `nrm`, `president`, `data`, `status`, `rank`, `next_elections`, `market_tax`, `defense`, `hack`, `vault`, `fmarket_tax`, `min_defence`, `min_finance`) VALUES (1,480,559,NULL,NULL,0,0,1,0,0,436,2,588,836),(2,60,38,NULL,NULL,0,0,1,0,0,23.05,2,0,0),(3,67,38,NULL,NULL,0,0,1,0,0,21666.12,2,0,0),(4,55,38,NULL,NULL,0,0,1,0,0,22.53,2,0,0),(5,55,1510,NULL,NULL,0,0,1,0,0,31.8,2,0,0),(6,152,52,NULL,NULL,0,0,1,0,0,41.8,2,0,0);
+INSERT INTO `zones` (`id`, `nrm`, `president`, `data`, `status`, `rank`, `next_elections`, `market_tax`, `defense`, `hack`, `vault`, `fmarket_tax`, `min_defence`, `min_finance`) VALUES (1,0,NULL,NULL,NULL,0,0,1,0,0,436,2,588,836),(2,0,NULL,NULL,NULL,0,0,1,0,0,23.05,2,0,0),(3,0,NULL,NULL,NULL,0,0,1,0,0,21666.12,2,0,0),(4,0,NULL,NULL,NULL,0,0,1,0,0,22.53,2,0,0),(5,0,NULL,NULL,NULL,0,0,1,0,0,31.8,2,0,0),(6,0,NULL,NULL,NULL,0,0,1,0,0,41.8,2,0,0);
 
 CREATE TABLE `zones_wars` (
   `id` int(11) UNSIGNED NOT NULL,

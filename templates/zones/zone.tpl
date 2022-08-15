@@ -23,9 +23,15 @@
       <div class="well black">President</div>
     </div>
     <div class="col-md-8">
+    {if !$zone.president} 
+<button disabled class="button text-center mb10">
+       No president
+      </button>
+    {else}
       <a href="{$config.url}profile/hacker/{$zone.president_name}" class="button text-center mb10">
         {$zone.president_name}
       </a>
+      {/if}
     </div>
   </div>   
   <div class="row">
@@ -33,9 +39,15 @@
       <div class="well black">Minister of Defence</div>
     </div>
     <div class="col-md-5">
+    {if !$zone.mdefence} 
+<button disabled class="button text-center mb10">
+       No minister
+      </button>
+    {else}
       <a href="{$config.url}profile/hacker/{$zone.mdefence_name}" class="button text-center mb10">
         {$zone.mdefence_name}
       </a>
+      {/if}
     </div>
   </div>     
   
