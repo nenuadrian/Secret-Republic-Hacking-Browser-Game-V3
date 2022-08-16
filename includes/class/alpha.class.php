@@ -88,21 +88,12 @@ class Alpha {
     $f = "font-family: 'Abel', proxima_nova,'Open Sans','Lucida Grande','Segoe UI',Arial,Verdana,'Lucida Sans Unicode',Tahoma,'Sans Serif';";
 
     $content = '
-      <table cellpadding="8" cellspacing="0" style="text-shadow: 0px 0px 10px rgba(0, 149, 255, 0.75);background:#000000;background-color:#000000;background-image: url(http://secretrepublic.net/layout/img/background/padded.png);background-repeat: repeat;' . $f . 'color:rgb(199, 199, 199);padding:0;width:100%!important;margin:0;" border="0"><tbody><tr><td valign="top">
+      <table cellpadding="8" cellspacing="0" style="text-shadow: 0px 0px 10px rgba(0, 149, 255, 0.75);background:#000000;background-color:#000000;' . $f . 'color:rgb(199, 199, 199);padding:0;width:100%!important;margin:0;" border="0"><tbody><tr><td valign="top">
         <center>
-          <a href="http://secretrepublic.net"><img src="http://secretrepublic.net/layout/img/logo-art.png" style="width:230px"></a><br/><br/>
           <table cellpadding="0" cellspacing="0" style="border-radius:4px;border:2px #81ADCF solid; border-bottom:0; border-top:0;background-color:rgba(0, 0, 0, 1); background:rgba(56, 57, 62, 0.47);background-color:rgba(56, 57, 62, 0.47);   box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.06), 0 3px 5px rgba(0,0,0,0.3);" border="0" align="center"><tbody>
             <tr><td width="500" style="text-shadow: 0px 0px 10px rgba(0, 149, 255, 0.75);color:rgb(199, 199, 199);padding:35px;white-space: normal;word-wrap: break-word;word-break: break-word;line-height:25px">' . $msg . '</td></tr>
             </tbody>
           </table>
-
-          <br/><br/>
-          <a href="http://secretrepublic.net"><img src="http://secretrepublic.net/layout/img/logo-art2.png" style="width:230px"></a>
-          <br/><Br/><br/>
-          <a href="http://secretrepublic.com" style="color:#3D98E5; text-decoration:none;">connect to the Grid</a> -
-          <a href="http://secretrepublic.net/forum" style="color:#3D98E5; text-decoration:none;">forums</a> -
-    
-
           <br/><br/>
           <small style="color:#676767;">the secret republic of hackers</small>
           <br/><br/>

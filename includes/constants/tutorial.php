@@ -280,15 +280,6 @@ $tutorialSteps = array(
 	</p>
 	<p>And we apologise beforehand for the bugs you might encounter ^^.
 	</p>
-	<div class="text-center">
-	<h3>
-	<a href="https://www.facebook.com/theSecretRepublic" target="_blank"><i class="fa fa-facebook"></i></a>
-	<a href="https://twitter.com/iSecretRepublic" target="_blank"><i class="fa fa-twitter"></i></a>
-	<a href="https://www.youtube.com/user/TheSecretRepublicCom/" target="_blank"><i class="fa fa-youtube"></i></a>
-
-	</h3>
-
-	</div>
 
 	',
 		//"complete" => "That's how it's done!",
