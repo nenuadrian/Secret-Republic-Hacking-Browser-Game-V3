@@ -78,10 +78,13 @@ I am trying to actively contribute and solve raised issues, so please feel free 
 | Organizations | Guild-like system. Owned by players. Can create multiple membership groups, there are missions specific for organizations and wars can be declared between them. They can have their own internal forums. |
 | Messaging | Ability for players to chat, in a thread based system. |
 | Blogs | Feature-rich player blog system. |
-| Hackdown | Mission based scheduled competition. |
+| Hackdown | Mission based `cron.php` scheduled competition. |
 | Friends | Friend system for players. |
 | The Grid |  Every players gets a starting `node` and can initialize/conquer other empty nodes or from other players. The world is split in multiple zones, which are divided into clusters with multiple nodes in each cluster. Damage and spy attacks can be triggered between nodes. There's an attempt at a simulator for attacks |
 | Attacks | Players can launch attacks using their nodes on other players. |
+| Data Points | Players can launch attacks using their nodes on other players. |
+| Alpha Coins | Players can launch attacks using their nodes on other players. |
+| Rankings | Generated via `cron.php`, they are at player and organization granularity. |
 
 # SecretAlpha-V4
 
