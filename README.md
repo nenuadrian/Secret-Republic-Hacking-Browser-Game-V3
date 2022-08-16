@@ -85,6 +85,9 @@ I am trying to actively contribute and solve raised issues, so please feel free 
 | Data Points | Mined via `cron.php` and use resources and software. |
 | Alpha Coins | Premium currency, with custom in-game shop, coupons and more. |
 | Rankings | Generated via `cron.php`, they are at player and organization granularity. |
+| Job | Give players a mission designed in the mission designer to complete depending on level, for rewards. |
+| Zones | Splits the world, 6 zones, each with many clusters, each with a couple of nodes. Players can take over nodes, and they start with a random node. | 
+| Train | Captcha and some other mini-games designed for players to complete daily for rewards. | 
 
 # SecretAlpha-V4
 
