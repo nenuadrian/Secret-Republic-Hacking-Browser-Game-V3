@@ -325,13 +325,9 @@ class LoginSystem extends Alpha
   {
 	$session1 = $_COOKIE['sessionhashone'];
 	$session2 = $_COOKIE['sessionhashtwo'];
-	//$session2 = session('session2'];
-	//  die();
 
     if ($session1 != session('session1')) return false;
 
-
-	//if (!$session1 || !$session2) return false;
 
     $userSession = $this->db->where('session', $session2)->getOne('user_session', 'id, user_id');
     if (!$userSession['id']) return false;

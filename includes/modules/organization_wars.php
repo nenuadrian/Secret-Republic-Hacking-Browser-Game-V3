@@ -87,7 +87,6 @@ if ($war['status'] == 2 && $user['organization'])
 					  ->where("? >= q.level", array($user["level"]))
 					  ->orderBy("RAND()")
 					  ->getOne("quests q", "id");
-		//print_R($quest);die();
 		$qclass = new QClass();
 		  $qclass->forceStartQuest($quest['id'], 30);
 
