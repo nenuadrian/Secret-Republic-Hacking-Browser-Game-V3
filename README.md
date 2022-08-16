@@ -82,8 +82,8 @@ I am trying to actively contribute and solve raised issues, so please feel free 
 | Friends | Friend system for players. |
 | The Grid |  Every players gets a starting `node` and can initialize/conquer other empty nodes or from other players. The world is split in multiple zones, which are divided into clusters with multiple nodes in each cluster. Damage and spy attacks can be triggered between nodes. There's an attempt at a simulator for attacks |
 | Attacks | Players can launch attacks using their nodes on other players. |
-| Data Points | Players can launch attacks using their nodes on other players. |
-| Alpha Coins | Players can launch attacks using their nodes on other players. |
+| Data Points | Mined via `cron.php` and use resources and software. |
+| Alpha Coins | Premium currency, with custom in-game shop, coupons and more. |
 | Rankings | Generated via `cron.php`, they are at player and organization granularity. |
 
 # SecretAlpha-V4
