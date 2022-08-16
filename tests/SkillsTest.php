@@ -6,6 +6,6 @@ final class SkillsTest extends TestCase
     public function testConstants(): void
     {
         require './includes/constants/skills.php';
-        $this->assertSame(14, count($theskills));
+        $this->assertSame(16, count($theskills));
     }
 }
