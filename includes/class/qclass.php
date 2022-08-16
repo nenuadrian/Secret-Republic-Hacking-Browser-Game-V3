@@ -550,7 +550,7 @@ class QClass extends Alpha
         $data['main'] = $data['hosts'][0]['ip'];
 
 		// prepare and add user servers
-        foreach ($servers as &$server) { //die();
+        foreach ($servers as &$server) { 
 
           $blackListIPs[]              = $server['ip'];
           $server['discovered']        = true;
