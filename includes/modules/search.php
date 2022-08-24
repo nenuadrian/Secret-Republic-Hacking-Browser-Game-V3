@@ -28,7 +28,7 @@ $cardinal->mustLogin();
                 $db->pageLimit = $pages->items_per_page;
               $results=$db->where("username", array("like" => sprintf("%%%s%%",$search)))
                           ->orderBy("username", "asc")
-                          ->paginate("users", $pages->current_page, "username, id, zone, zrank, rank");
+                          ->paginate("users", $pages->current_page, "username, id, zone, zrank, `rank`");
           } else $errors[] = "Invalid username provided. You don't need the exact username, but you need to write a valid one.";
 
 
