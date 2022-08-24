@@ -39,31 +39,31 @@ else
   
     }else{
 
-      $rankSelect = ",rank";
+      $rankSelect = ",`rank`";
       if(ctype_digit($GET["zone"]) && $GET["zone"] >0 && $GET["zone"]<7)
       {
         $zone = intval($GET["zone"]);
         $db->where("zone", $zone);
-        $rankSelect = ",zrank rank";
+        $rankSelect = ",zrank as `rank`";
       }
     
-      $rankings["topUsers"] = $db->where("rank > 0")
-                                 ->orderBy("rank", "asc")->get("users", 3, "username,gavatar, id ".$rankSelect);
+      $rankings["topUsers"] = $db->where("`rank` > 0")
+                                 ->orderBy("`rank`", "asc")->get("users", 3, "username,gavatar, id ".$rankSelect);
     
       if ($zone) $db->where("zone", $zone);
     
-      $users = $db->where("rank > 0")->getOne("users", "count(*) nru");
+      $users = $db->where("`rank` > 0")->getOne("users", "count(*) nru");
       $pages = new Paginator;
       $pages->items_total = $users["nru"];
 		  $pages->items_per_page = 20; 
       $pages->paginate();
       $db->pageLimit = $pages->items_per_page;
 
-      $db->orderBy("rank", "asc");
+      $db->orderBy("`rank`", "asc");
       if ($zone)
         $db->where("zone", $zone);
         
-      $users = $db->where("rank > 0")->paginate("users", $pages->current_page, "id, username, level, zone, points, gavatar".$rankSelect);
+      $users = $db->where("`rank` > 0")->paginate("users", $pages->current_page, "id, username, level, zone, points, gavatar".$rankSelect);
     
       $rankings["zone"] = $zone;
       $rankings["users"] = $users;
