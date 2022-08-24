@@ -3,7 +3,7 @@
 	
 
 
-	$selectColumns = 'hu.id, g.name, ho.name  oname, ho.orank ,username, gavatar,organization,rank,
+	$selectColumns = 'hu.id, g.name, ho.name  oname, ho.orank ,username, gavatar,organization,`rank`,
 	                  zrank, zone,blogs,hu.points, hu.level,rep, uc.banned, uc.youtube';
 	         
 	
