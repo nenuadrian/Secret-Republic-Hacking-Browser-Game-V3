@@ -34,7 +34,7 @@ class LoginSystem extends Alpha
 
       $userData =
         $this->db->where('id', $this->user['id'])
-                 ->getOne('users', 'id, username, gavatar, money, organization, rank,
+                 ->getOne('users', 'id, username, gavatar, money, organization, `rank`,
                                     zone, main_node,
                                     zrank, points,
                                     energy, maxEnergy, exp, expNext, level, org_group, tasks,
