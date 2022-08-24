@@ -116,7 +116,7 @@ $db->delete('rankings_stats');
   // users points update
   $users = $db->orderBy('total_points', 'desc')->get('rankings_stats', null, 'user_id, total_points, zone');
   $col1 = 'points = case id ';
-  $col2 = 'rank = case id ';
+  $col2 = '`rank` = case id ';
   $col3 = 'zrank = case id ';
   $perZoneRank = array();
   foreach($users as $rank => $u)
