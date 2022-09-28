@@ -153,7 +153,7 @@ class Server extends Alpha {
     }
   }
 
-  function recomputeServerResources($server_id) {
+  function recomputeServerResources($server_id = null) {
     if (!$server_id)
       $server_id = $this->server_id;
     if (!$server_id)
