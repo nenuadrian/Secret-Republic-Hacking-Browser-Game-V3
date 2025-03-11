@@ -10,18 +10,11 @@ if (!file_exists($dbFile)) {
     die('DB.sql is missing - expected in: ' . $dbFile);
 }
 
-require("../includes/class/registrationSystem.php");
+require "../includes/class/registrationSystem.php";
 
 if ($_POST['DB_HOST']) {
-    if ($_POST['data'] == 'yes') {
-        try {
-            file_get_contents('http://api.nenuadrian.com/?sr3install=true');
-        } catch (Exception $ex) {
-
-        }
-    }
     try {
-        $dbTest = new Mysqlidb($_POST['DB_HOST'], $_POST['DB_USER'], $_POST['DB_PASS'], $_POST['DB_NAME'], $_POST['DB_PORT'], true);
+        $dbTest = new Mysqlidb($_POST['DB_HOST'], $_POST['DB_USER'], $_POST['DB_PASS'], $_POST['DB_NAME'], $_POST['DB_PORT']);
         $dbTest->rawQuery('SHOW TABLES');
     } catch (Exception $ex) {
         echo $ex->getMessage();
@@ -30,7 +23,7 @@ if ($_POST['DB_HOST']) {
     // create database_info.php
     $configs = file_get_contents(ABSPATH . '/includes/database_info.php.template');
     echo $configs;
-    foreach($_POST as $k => $v) {
+    foreach ($_POST as $k => $v) {
         $configs = str_replace($k, $v, $configs);
     }
     file_put_contents(ABSPATH . '/includes/database_info.php', $configs);
@@ -40,10 +33,10 @@ if ($_POST['DB_HOST']) {
 
     // import database
     $db = require(ABSPATH . '/includes/database_info.php');
-    $db = new Mysqlidb($db['server_name'], $db['username'], $db['password'], $db['name'], $db['port'], true);
+    $db = new Mysqlidb($db['server_name'], $db['username'], $db['password'], $db['name'], $db['port']);
 
     try {
-        foreach($sqls as $sql) {
+        foreach ($sqls as $sql) {
             if ($sql) {
                 $db->rawQuery($sql);
             }
@@ -53,7 +46,7 @@ if ($_POST['DB_HOST']) {
         echo $ex->getMessage();
         die();
     }
-        
+
     // create admin account
     $cardinal = new Cardinal();
     $registrationSystem = new RegistrationSystem;
@@ -61,7 +54,7 @@ if ($_POST['DB_HOST']) {
     $db->where('uid', $uid)->update('user_credentials', array(
         'group_id' => 1,
         'email_confirmed' => 1
-      ));
+    ));
     $cardinal->redirect(URL);
 }
 

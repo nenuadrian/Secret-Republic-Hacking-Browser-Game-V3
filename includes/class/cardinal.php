@@ -28,7 +28,7 @@ class Cardinal extends Alpha {
     $sek     = md5(time() . time() . time());
 
     $db = require(ABSPATH . 'includes/database_info.php');
-    $this->db = new Mysqlidb($db['server_name'], $db['username'], $db['password'], $db['name'], $db['port'], true);
+    $this->db = new Mysqlidb($db['server_name'], $db['username'], $db['password'], $db['name'], $db['port']);
     $this->db->setTrace (true);
 
     // get current page | not very secure method

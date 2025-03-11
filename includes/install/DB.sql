@@ -371,7 +371,7 @@ CREATE TABLE `friend_requests` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
-CREATE TABLE `groups` (
+CREATE TABLE `user_groups` (
   `group_id` smallint(6) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
   `view_debug` tinyint(1) DEFAULT NULL,
@@ -394,7 +394,7 @@ CREATE TABLE `groups` (
   `noRank` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-INSERT INTO `groups` (`group_id`, `name`, `view_debug`, `wikiManager`, `questManager`, `userList`, `cardinal`, `instant_tasks`, `manageUsers`, `manageDuality`, `adminNav`, `manageAchievements`, `dailyRep`, `maxBlogs`, `levelManager`, `dataManager`, `forumManager`, `globalQuestManager`, `emailTemplatesManager`, `noRank`) VALUES
+INSERT INTO `user_groups` (`group_id`, `name`, `view_debug`, `wikiManager`, `questManager`, `userList`, `cardinal`, `instant_tasks`, `manageUsers`, `manageDuality`, `adminNav`, `manageAchievements`, `dailyRep`, `maxBlogs`, `levelManager`, `dataManager`, `forumManager`, `globalQuestManager`, `emailTemplatesManager`, `noRank`) VALUES
 (1, 'Alpha CEO (Admin)', 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 4, 127, 1, 1, 1, 1, 1, 1),
 (2, 'Hacker', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 0, NULL, 0, 0, 0, 0),
 (10, '(MM) Mission Manager', 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 4, 2, 0, 0, 0, 0, 0, 0),
@@ -3010,7 +3010,7 @@ ALTER TABLE `friendships`
 ALTER TABLE `friend_requests`
   ADD PRIMARY KEY (`request_id`);
 
-ALTER TABLE `groups`
+ALTER TABLE `user_groups`
   ADD PRIMARY KEY (`group_id`);
 
 ALTER TABLE `hackdown_arena`
@@ -3303,7 +3303,7 @@ ALTER TABLE `friendships`
 ALTER TABLE `friend_requests`
   MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
-ALTER TABLE `groups`
+ALTER TABLE `user_groups`
   MODIFY `group_id` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 ALTER TABLE `hackdown_arena`

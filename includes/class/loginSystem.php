@@ -154,7 +154,7 @@ class LoginSystem extends Alpha
 
   function getGroupPermissions($groupId)
   {
-    $user_permissions = $this->db->where('group_id', $groupId)->getOne('groups');
+    $user_permissions = $this->db->where('group_id', $groupId)->getOne('user_groups');
 
     return $user_permissions;
   } // getGroupPermissions

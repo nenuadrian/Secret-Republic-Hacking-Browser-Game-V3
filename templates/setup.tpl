@@ -12,14 +12,6 @@
 			<input  type="text" placeholder="ADMIN PASS" value="" name="ADMIN_PASS" required/>
 			<input  type="email" placeholder="ADMIN EMAIL" value="" name="ADMIN_EMAIL" required/>
 			<br/><br/>
-			<p>Send anonymous minimal data to Adrian Nenu usage statistics server?</p>
-			<p><small>This will send a ping to notify me of you installing the game without any IP information being recorded.</small></p>
-			<br/>
-			<select name="data" required>
-				<option value="yes">YES</option>
-				<option value="no">NO</option>
-			</select>
-			<br/><br/>
 			<button type="submit" style="border-top:0;">SETUP</button>
 		</div>
 	</div>

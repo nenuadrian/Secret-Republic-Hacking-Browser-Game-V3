@@ -20,7 +20,7 @@ if ($hacker['id']) {
         $cardinal->redirect(URL_C);
 
       } //$_POST
-      $groups = $db->get('groups', null, 'group_id, name');
+      $groups = $db->get('user_groups', null, 'group_id, name');
       $tVars['groups'] = $groups;
       $tVars['load'] = 'credentials';
 

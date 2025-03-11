@@ -3,7 +3,7 @@ require_once('../includes/vendor/autoload.php');
 
 if(!ob_start("ob_gzhandler")) ob_start();
 error_reporting(E_ALL ^E_NOTICE);
-ini_set( 'display_errors','1');
+ini_set( 'display_errors','0');
 ini_set("pcre.jit", "0");
 
 date_default_timezone_set("Europe/London");

@@ -143,7 +143,7 @@ $db->rawQuery('update zones set zones.points = (select sum(users.points) from us
 /******
   HANDLE NO RANK GROUPS
 *******/
-$noRankGroups = $db->where('noRank', 1)->get('groups', null, 'group_id');
+$noRankGroups = $db->where('noRank', 1)->get('user_groups', null, 'group_id');
 $noRankGroupsIds = array();
 foreach ($noRankGroups as $g) $noRankGroupsIds[] = $g['group_id'];
 

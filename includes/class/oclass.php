@@ -469,7 +469,7 @@ class Organization extends Alpha
     } //$_POST
   }
 
-  function sendMessageToRanks($ranks = array(), $message, $title, $org_id = false)
+  function sendMessageToRanks($ranks = [], $message = '', $title = '', $org_id = false)
   {
     if (count($ranks)) {
 	  if (!$org_id) $org_id = $this->organization['id'];
