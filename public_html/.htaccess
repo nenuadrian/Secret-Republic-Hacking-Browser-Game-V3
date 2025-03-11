@@ -1,14 +1,8 @@
-# Multiple Environment config, set this to development, staging or production
-# SetEnv FUEL_ENV production
-
 <IfModule mod_rewrite.c>
 
 	RewriteEngine on
 
-	# NOTICE: If you get a 404 play with combinations of the following commented out lines
 	#AllowOverride All
-	#RewriteBase /wherever/fuel/is
-
     # Make sure directory listing is disabled
 	Options +FollowSymLinks -Indexes
 
