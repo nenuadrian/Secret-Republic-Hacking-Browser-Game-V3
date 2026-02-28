@@ -28,7 +28,21 @@ class Cardinal extends Alpha {
     $sek     = md5(time() . time() . time());
 
     $db = require(ABSPATH . 'includes/database_info.php');
-    $this->db = new Mysqlidb($db['server_name'], $db['username'], $db['password'], $db['name'], $db['port']);
+    $driver = isset($db['driver']) ? strtolower($db['driver']) : 'mysql';
+
+    if ($driver === 'sqlite') {
+      require_once(ABSPATH . 'includes/class/SqliteDb.php');
+      $sqlitePath = isset($db['sqlite_path']) && $db['sqlite_path'] ? $db['sqlite_path'] : 'includes/local.sqlite';
+      $this->db = new SqliteDb($sqlitePath);
+    } else {
+      $this->db = new Mysqlidb(
+        $db['server_name'],
+        $db['username'],
+        $db['password'],
+        $db['name'],
+        isset($db['port']) ? $db['port'] : 3306
+      );
+    }
     $this->db->setTrace (true);
 
     // get current page | not very secure method

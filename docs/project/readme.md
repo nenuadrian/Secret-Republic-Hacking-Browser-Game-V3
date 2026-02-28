@@ -84,22 +84,30 @@ https://github.com/nenuadrian/Secret-Republic-Hacker-Game-ORPBG-Alpha
 
 ## Require steps
 
-You need a webserver (e.g. MAMP/WAMP/XAMPP) able to run PHP (tested with 7.3) and an MySQL database (LAMP stack).
+You need a webserver (e.g. MAMP/WAMP/XAMPP) able to run PHP (tested with 7.3) and a database.
+Both MySQL and local SQLite are supported.
 
 1. Install `composer` (the PHP dependency management system - `brew install composer` for MacOS if you have brew) and run `composer install`
 
-2. Create an empty Database in MySQL. For MAMP, you would go to `http://localhost:8888/phpMyAdmin5`
+2. Pick one database mode:
+
+   - MySQL: create an empty database (for MAMP you can use `http://localhost:8888/phpMyAdmin5`)
+   - SQLite (local): no external DB server needed; setup creates a local `.sqlite` file
 
 ## Semi-manual setup
 
 
-Visit `http://localhost/public_html/setup` - this may be different if you are using another port or directory structure, e.g. `http://localhost:8888/sr/public_html/setup` and follow the setup process
+Visit `http://localhost/public_html/setup` - this may be different if you are using another port or directory structure, e.g. `http://localhost:8888/sr/public_html/setup` and follow the setup process.
+You can choose `MYSQL` or `SQLITE (LOCAL FILE)` on the setup screen.
 
 ## Manual setup
 
-1. Import `includes/install/DB.sql` to the database you have created.
+1. If you are using MySQL, import `includes/install/DB.sql` to the database you have created.
 
-2. Rename `includes/database_info.php.template` to `includes/database_info.php` and update the details within accordingly.
+2. Rename `includes/database_info.php.template` to `includes/database_info.php` and update the details within accordingly:
+
+   - MySQL mode: set `$db['driver'] = 'mysql'` and fill host/user/password/name/port
+   - SQLite mode: set `$db['driver'] = 'sqlite'` and set `$db['sqlite_path']` (for example `includes/local.sqlite`)
 
 3. The game should be up and running. Go and create and account manually.
 

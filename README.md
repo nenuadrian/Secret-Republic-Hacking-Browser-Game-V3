@@ -11,8 +11,6 @@
 
 </p>
 
-Live Demo: https://secretrepublic-v3.nenuadrian.com
-
 Hosted on recommended provider [DreamHost](https://mbsy.co/dreamhost/92571715).
 
 Audio Trailer: https://www.youtube.com/watch?v=6thfiGb-b7c
@@ -30,6 +28,7 @@ Audio Trailer: https://www.youtube.com/watch?v=6thfiGb-b7c
     - [Require steps](#require-steps)
     - [Semi-manual setup](#semi-manual-setup)
     - [Manual setup](#manual-setup)
+    - [SQLite details](#sqlite-details)
     - [Useful tips](#useful-tips)
   - [Cron jobs](#cron-jobs)
   - [Screenshots](#screenshots)
@@ -106,7 +105,7 @@ https://github.com/nenuadrian/Secret-Republic-Hacker-Game-ORPBG-Alpha
 ### Require steps
 
 You need a webserver (e.g. MAMP/WAMP/XAMPP) able to run PHP (tested with 7.3) and a database.
-Both MySQL and local SQLite are supported.
+Both MySQL and local SQLite are supported. SQLite requires the `pdo_sqlite` PHP extension (enabled by default in most installations).
 
 1. Install `composer` (the PHP dependency management system - `brew install composer` for MacOS if you have brew) and run `composer install`
 
@@ -124,20 +123,57 @@ You can choose `MYSQL` or `SQLITE (LOCAL FILE)` on the setup screen.
 
 ### Manual setup
 
-1. If you are using MySQL, import `includes/install/DB.sql` to the database you have created.
+1. Rename `includes/database_info.php.template` to `includes/database_info.php` and configure it:
 
-2. Rename `includes/database_info.php.template` to `includes/database_info.php` and update the details within accordingly:
+   **MySQL mode:**
+   ```php
+   $db['driver'] = 'mysql';
+   $db['server_name'] = 'localhost';
+   $db['username'] = 'root';
+   $db['password'] = '';
+   $db['name'] = 'your_database';
+   $db['port'] = 3306;
+   ```
+   Then import the schema: `mysql -u root your_database < includes/install/DB.sql`
 
-   - MySQL mode: set `$db['driver'] = 'mysql'` and fill host/user/password/name/port
-   - SQLite mode: set `$db['driver'] = 'sqlite'` and set `$db['sqlite_path']` (for example `includes/local.sqlite`)
+   **SQLite mode:**
+   ```php
+   $db['driver'] = 'sqlite';
+   $db['sqlite_path'] = 'includes/local.sqlite';
+   ```
+   The SQLite schema is imported automatically on first run via the setup page. For manual import, use the PHP helper:
+   ```php
+   require_once 'includes/class/SqliteDb.php';
+   require_once 'includes/class/SqliteSchemaConverter.php';
+   $db = new SqliteDb('includes/local.sqlite');
+   $stmts = SqliteSchemaConverter::convertMySqlDump(file_get_contents('includes/install/DB.sql'));
+   foreach ($stmts as $sql) { $db->rawQuery($sql); }
+   ```
 
-3. The game should be up and running. Go and create and account manually.
+2. The game should be up and running. Go and create an account manually.
 
-4. Go to the `user_credentials` table and update the entry for your user, setting the column `group_id` to be `1`. This will make your account a full administrator. Log out and log back in.
+3. Go to the `user_credentials` table and update the entry for your user, setting the column `group_id` to be `1`. This will make your account a full administrator. Log out and log back in.
+
+### SQLite details
+
+SQLite support requires no external database server. The database is stored as a single file (default: `includes/local.sqlite`). The path can be relative to the project root or absolute.
+
+**How it works:**
+- `SqliteSchemaConverter` automatically converts the MySQL schema (`DB.sql`) to SQLite-compatible SQL at setup time, handling type mappings, escape sequences, primary keys and auto-increment columns.
+- `SqliteDb` is a lightweight PDO-based adapter that mirrors the `Mysqlidb` API (query builder, `where()`, `join()`, `get()`, `insert()`, `update()`, `delete()`, `rawQuery()`, etc.) so the game code works with either driver.
+- MySQL-specific SQL like `RAND()` is translated to `RANDOM()` at runtime, and `UPDATE/DELETE ... LIMIT` is rewritten using subqueries.
+
+**Requirements:**
+- PHP `pdo_sqlite` extension (included by default in most PHP installations)
+- Write permission on the directory where the `.sqlite` file will be created
+
+**Limitations:**
+- SQLite is best for development and small deployments. For production with many concurrent users, MySQL is recommended.
+- Foreign key constraints from the MySQL schema are partially supported (inline constraints work; ALTER TABLE constraints are skipped as SQLite has limited ALTER TABLE support).
 
 ### Useful tips
 
-You may need to manually execute the following SQL if you see a GROUP BY related error on the missions page:
+You may need to manually execute the following SQL if you see a GROUP BY related error on the missions page (MySQL only):
 
 ```
 SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));

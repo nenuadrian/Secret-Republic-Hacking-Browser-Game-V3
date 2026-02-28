@@ -1,6 +1,6 @@
 # Secret Republic V3 Documentation
 
-This documentation is generated from project sources, with material extracted from `README.md`, `includes/`, and `tests/`.
+This documentation is generated from project sources, with material extracted from , , and .
 
 ## Repository Snapshot
 
@@ -12,10 +12,12 @@ This documentation is generated from project sources, with material extracted fr
 ## What Is Included
 
 - README-based project documentation and setup notes
-- Routing and request lifecycle notes from `public_html/index.php`
+- Routing and request lifecycle notes from 
 - Auto-generated module/class/constants/test inventories
 
 ## Next Steps
 
 - Use the navigation sidebar to explore generated references.
+- Update code and rerun .
+lore generated references.
 - Update code and rerun `./scripts/generate-mkdocs-material.sh`.

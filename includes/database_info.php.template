@@ -1,10 +1,12 @@
 <?php
 
+$db['driver'] = 'mysql';
 $db['server_name'] = 'DB_HOST';
 $db['username'] = 'DB_USER';
 $db['password'] = 'DB_PASS';
 $db['name'] = 'DB_NAME';
-$db['port'] = DB_PORT;
+$db['port'] = 3306;
+$db['sqlite_path'] = 'includes/local.sqlite';
 
 return $db;
 
