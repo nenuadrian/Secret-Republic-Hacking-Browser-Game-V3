@@ -1,0 +1,36 @@
+site_name: Secret Republic V3
+site_description: Documentation generated from README and PHP source code.
+site_url: https://nenuadrian.github.io/Secret-Republic-Hacking-Browser-Game-V3/
+repo_url: https://github.com/nenuadrian/Secret-Republic-Hacking-Browser-Game-V3
+repo_name: nenuadrian/Secret-Republic-Hacking-Browser-Game-V3
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences
+
+nav:
+  - Home: index.md
+  - Project:
+      - README Snapshot: project/readme.md
+      - Setup: project/setup.md
+      - Testing And CI: project/testing-ci.md
+  - Architecture:
+      - Request Routing: architecture/routing.md
+  - Reference:
+      - Modules: reference/modules.md
+      - Classes: reference/classes.md
+      - Constants: reference/constants.md
+      - Tests: reference/tests.md

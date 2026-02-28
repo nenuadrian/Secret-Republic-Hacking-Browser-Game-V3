@@ -1,3 +1,5 @@
-composert install
+#!/usr/bin/env bash
+set -euo pipefail
 
-./includes/vendor/phpunit/phpunit/phpunit tests
+composer install --prefer-dist --no-interaction --no-progress
+composer test

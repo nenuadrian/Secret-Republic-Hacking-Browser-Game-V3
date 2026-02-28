@@ -24,5 +24,8 @@
     "require-dev": {
         "overtrue/phplint": "^5.3",
         "phpunit/phpunit": "^9.5"
+    },
+    "scripts": {
+        "test": "phpunit tests"
     }
 }

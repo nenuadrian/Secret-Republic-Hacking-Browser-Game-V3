@@ -6,3 +6,4 @@ composer.lock
 
 .DS_Store
 **/.DS_Store
+site/
