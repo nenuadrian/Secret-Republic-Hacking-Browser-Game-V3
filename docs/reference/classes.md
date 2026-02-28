@@ -15,8 +15,8 @@ Generated from includes/class/**/*.php.
 | `Forum` | 14 | `includes/class/class.forum.php` |
 | `Server` | 17 | `includes/class/class.server.php` |
 | `Game` | 4 | `includes/class/gclass.php` |
-| `LoginSystem,LoginSystem` | 20 | `includes/class/loginSystem.php` |
-| `OrganizationEntity,Organization` | 39 | `includes/class/oclass.php` |
+| `LoginSystem` | 20 | `includes/class/loginSystem.php` |
+| `Organization, OrganizationEntity` | 39 | `includes/class/oclass.php` |
 | `organizationWars` | 3 | `includes/class/organizationWars.php` |
 | `Paginator` | 3 | `includes/class/paginator.class.php` |
 | `QClass` | 29 | `includes/class/qclass.php` |

@@ -21,33 +21,16 @@ Audio Trailer: https://www.youtube.com/watch?v=6thfiGb-b7c
 
 # Table of contents
 
-1. [Overview](#Overview)
-
-2. [Main features](#Main-Features)
-
-3. [SecretAlpha v4](#SecretAlpha-V4)
-
-4. [Simple Setup](#Simple-Setup)
-   * Semi-manual setup
-   * Manual setup
-   * Useful tips
-
-5. [Screenshots](#Screenshots)
-
-6. Learning the platform
-
-7. Framework details
-   * ~MVC Architecture
-   * Routing
-   * Creating new missions
-   * Adding skills, ablitites or tutorial steps
-   * New pages with minimal functionality
-
-8. [Tests](#Tests)
-
-9. Sponsors and contributors
-
-10. [License](#License)
+1. [Overview](#overview)
+2. [Main Features](#main-features)
+3. [SecretAlpha-V4](#secretalpha-v4)
+4. [Simple Setup](#simple-setup)
+5. [Cron jobs](#cron-jobs)
+6. [Screenshots](#screenshots)
+7. [Framework details](#framework-details)
+8. [Tests](#tests)
+9. [Contributors](#contributors)
+10. [License](#license)
 
 # Overview
 
@@ -240,18 +223,12 @@ As soon as it is created, the page will be available at `/pages/NAME` e.g. `http
 ./includes/vendor/phpunit/phpunit/phpunit tests
 ```
 
-# Sponsors and contributors
-
-## Contributors
+# Contributors
 
 If your pull request is merged, I will add your name here. Thank you for your contribution!
 
    * [nenuadrian](https://github.com/nenuadrian) - main developer
    * [SKSaki](https://github.com/SKSaki) - initial user and bug-finder
-
-## Sponsors
-
-Thank you all who bought credits when the game was active. Your name will appear here if you financially contribute to the open-source project. Get in touch to do so.
 
 # License
 

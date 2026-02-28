@@ -152,7 +152,13 @@ EOF_ROUTING
   echo "| --- | ---: | --- |"
 
   find includes/class -type f -name '*.php' | sort | while read -r file; do
-    class_names="$(grep -Eho 'class[[:space:]]+[A-Za-z_][A-Za-z0-9_]*' "$file" | awk '{print $2}' | paste -sd ', ' - || true)"
+    class_names="$({
+      grep -Eho 'class[[:space:]]+[A-Za-z_][A-Za-z0-9_]*' "$file" \
+        | awk '{print $2}' \
+        | sort -u \
+        | awk 'NF {if (seen++) printf(", "); printf("%s", $0)} END {print ""}'
+    } || true)"
+
     method_lines="$(grep -Ehc 'function[[:space:]]+[A-Za-z_][A-Za-z0-9_]*[[:space:]]*\(' "$file" || true)"
 
     if [[ -z "$class_names" ]]; then
@@ -173,8 +179,20 @@ EOF_ROUTING
   echo
 
   find includes/constants -type f -name '*.php' | sort | while read -r file; do
-    vars="$(grep -Eho '^\$[A-Za-z_][A-Za-z0-9_]*[[:space:]]*=' "$file" | sed -E 's/[[:space:]]*=//' | paste -sd ', ' - || true)"
-    funcs="$(grep -Eho 'function[[:space:]]+[A-Za-z_][A-Za-z0-9_]*[[:space:]]*\(' "$file" | sed -E 's/function[[:space:]]+([^\(]+).*/\1/' | paste -sd ', ' - || true)"
+    vars="$({
+      grep -Eho '^[[:space:]]*\$[A-Za-z_][A-Za-z0-9_]*[[:space:]]*=' "$file" \
+        | sed -E 's/^[[:space:]]*//' \
+        | sed -E 's/[[:space:]]*=//' \
+        | sort -u \
+        | awk 'NF {if (seen++) printf(", "); printf("%s", $0)} END {print ""}'
+    } || true)"
+
+    funcs="$({
+      grep -Eho 'function[[:space:]]+[A-Za-z_][A-Za-z0-9_]*[[:space:]]*\(' "$file" \
+        | sed -E 's/function[[:space:]]+([^\(]+).*/\1/' \
+        | sort -u \
+        | awk 'NF {if (seen++) printf(", "); printf("%s", $0)} END {print ""}'
+    } || true)"
 
     if [[ -z "$vars" ]]; then
       vars="none"
