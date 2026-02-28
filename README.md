@@ -19,20 +19,40 @@ Audio Trailer: https://www.youtube.com/watch?v=6thfiGb-b7c
 
 [Read about the journey of this project in this Medium article.](https://medium.com/@adrian.n/secret-republic-open-sourced-hacker-simulation-futuristic-rpg-browser-based-game-php-843d393cb9d7)
 
-# Table of contents
+## Table of Contents
 
-1. [Overview](#overview)
-2. [Main Features](#main-features)
-3. [SecretAlpha-V4](#secretalpha-v4)
-4. [Simple Setup](#simple-setup)
-5. [Cron jobs](#cron-jobs)
-6. [Screenshots](#screenshots)
-7. [Framework details](#framework-details)
-8. [Tests](#tests)
-9. [Contributors](#contributors)
-10. [License](#license)
+- [Secret Republic - Browser Based futuristic PHP hacker game - V3](#secret-republic---browser-based-futuristic-php-hacker-game---v3)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Main-Features](#main-features)
+  - [SecretAlpha-V4](#secretalpha-v4)
+  - [Simple-Setup](#simple-setup)
+    - [Require steps](#require-steps)
+    - [Semi-manual setup](#semi-manual-setup)
+    - [Manual setup](#manual-setup)
+    - [Useful tips](#useful-tips)
+  - [Cron jobs](#cron-jobs)
+  - [Screenshots](#screenshots)
+    - [main page](#main-page)
+    - [player dashboard](#player-dashboard)
+    - [mission](#mission)
+    - [organization](#organization)
+    - [skills](#skills)
+    - [the grid](#the-grid)
+    - [mission designer](#mission-designer)
+    - [forum](#forum)
+  - [Framework details](#framework-details)
+    - [~MVC Architecture](#mvc-architecture)
+    - [Routing](#routing)
+    - [Creating new missions](#creating-new-missions)
+    - [Adding skills, ablitites or tutorial steps](#adding-skills-ablitites-or-tutorial-steps)
+      - [Tutorial steps](#tutorial-steps)
+    - [New pages with minimal functionality](#new-pages-with-minimal-functionality)
+  - [Tests](#tests)
+  - [Contributors](#contributors)
+  - [License](#license)
 
-# Overview
+## Overview
 
 Built from the ground up by a fairely inexperienced software developer at the time.
 
@@ -46,7 +66,7 @@ Documentation is minimal and is being built as we go.
 
 I am trying to actively contribute and solve raised issues, so please feel free to raise one, and more so please contribute with whatever you can!
 
-# Main-Features
+## Main-Features
 
 | Feature       | Description           |
 | ------------- | --------------------- |
@@ -75,39 +95,47 @@ I am trying to actively contribute and solve raised issues, so please feel free 
 | Zones | Splits the world, 6 zones, each with many clusters, each with a couple of nodes. Players can take over nodes, and they start with a random node. | 
 | Train | Captcha and some other mini-games designed for players to complete daily for rewards. | 
 
-# SecretAlpha-V4
+## SecretAlpha-V4
 
 V4 is newer, more responsive made with mobile-first in mind, but with way less features.
 
 https://github.com/nenuadrian/Secret-Republic-Hacker-Game-ORPBG-Alpha
 
-# Simple-Setup
+## Simple-Setup
 
-## Require steps
+### Require steps
 
-You need a webserver (e.g. MAMP/WAMP/XAMPP) able to run PHP (tested with 7.3) and an MySQL database (LAMP stack).
+You need a webserver (e.g. MAMP/WAMP/XAMPP) able to run PHP (tested with 7.3) and a database.
+Both MySQL and local SQLite are supported.
 
 1. Install `composer` (the PHP dependency management system - `brew install composer` for MacOS if you have brew) and run `composer install`
 
-2. Create an empty Database in MySQL. For MAMP, you would go to `http://localhost:8888/phpMyAdmin5`
+2. Pick one database mode:
 
-## Semi-manual setup
+   - MySQL: create an empty database (for MAMP you can use `http://localhost:8888/phpMyAdmin5`)
+   - SQLite (local): no external DB server needed; setup creates a local `.sqlite` file
+
+### Semi-manual setup
 
 ![Screenshot](screens/setup.png)
 
-Visit `http://localhost/public_html/setup` - this may be different if you are using another port or directory structure, e.g. `http://localhost:8888/sr/public_html/setup` and follow the setup process
+Visit `http://localhost/public_html/setup` - this may be different if you are using another port or directory structure, e.g. `http://localhost:8888/sr/public_html/setup` and follow the setup process.
+You can choose `MYSQL` or `SQLITE (LOCAL FILE)` on the setup screen.
 
-## Manual setup
+### Manual setup
 
-1. Import `includes/install/DB.sql` to the database you have created.
+1. If you are using MySQL, import `includes/install/DB.sql` to the database you have created.
 
-2. Rename `includes/database_info.php.template` to `includes/database_info.php` and update the details within accordingly.
+2. Rename `includes/database_info.php.template` to `includes/database_info.php` and update the details within accordingly:
+
+   - MySQL mode: set `$db['driver'] = 'mysql'` and fill host/user/password/name/port
+   - SQLite mode: set `$db['driver'] = 'sqlite'` and set `$db['sqlite_path']` (for example `includes/local.sqlite`)
 
 3. The game should be up and running. Go and create and account manually.
 
 4. Go to the `user_credentials` table and update the entry for your user, setting the column `group_id` to be `1`. This will make your account a full administrator. Log out and log back in.
 
-## Useful tips
+### Useful tips
 
 You may need to manually execute the following SQL if you see a GROUP BY related error on the missions page:
 
@@ -115,7 +143,7 @@ You may need to manually execute the following SQL if you see a GROUP BY related
 SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 ```
 
-# Cron jobs
+## Cron jobs
 
 https://en.wikipedia.org/wiki/Cron
 
@@ -139,40 +167,40 @@ Example:
 
 Or use the control panel your host may provide.
 
-# Screenshots
+## Screenshots
 
-## main page
+### main page
 ![Screenshot](screens/1.jpg)
 
-## player dashboard
+### player dashboard
 ![Screenshot](screens/2.jpg)
 
-## mission
+### mission
 ![Screenshot](screens/3.jpg)
 
-## organization
+### organization
 ![Screenshot](screens/4.jpg)
 
-## skills
+### skills
 ![Screenshot](screens/5.jpg)
 
-## the grid
+### the grid
 ![Screenshot](screens/6.jpg)
 
-## mission designer
+### mission designer
 ![Screenshot](screens/7.jpg)
 
 ![Screenshot](screens/8.jpg)
 
 ![Screenshot](screens/9.jpg)
 
-## forum
+### forum
 ![Screenshot](screens/10.jpg)
 
 ![Screenshot](screens/11.jpg)
 
 
-# Framework details
+## Framework details
 
 Sadly it was built from scratch, combining vanilla PHP, the Smarty template engine and a few libraries (composer.json). It makes use of Smarty caching.
 
@@ -181,11 +209,11 @@ Lint:
 ./includes/vendor/bin/phplint --exclude=vendor  --no-cache -v
 ```
 
-## ~MVC Architecture
+### ~MVC Architecture
 
 TBC
 
-## Routing
+### Routing
 
 Is done based on the `includes/modules` folder. Adding a new module file say helloworld.php, will allow `http://localhost/helloworld` to work. 
 
@@ -195,21 +223,21 @@ Any variables `http://localhost/helloworld/hi?attach=2` would be passed in `$GET
 
 This all happens in `public_html/index.php`.
 
-## Creating new missions
+### Creating new missions
 
 Please refer to the the GUIDES folder in this repository. In contains instructions of what can be used within the Mission descriptions to benefit from dynamic IP generation between missions and other useful instructions, tips and tricks.
 
-## Adding skills, ablitites or tutorial steps
+### Adding skills, ablitites or tutorial steps
 
 Check the `includes/constants` folder.
 
-### Tutorial steps
+#### Tutorial steps
 
 Modify `includes/constants/tutorial.php`.
 
 When adding or modifying a step also check if you need to add or modify a `tutorial_step_N_check` function in the same file, where N is the number of the step you have added or modified within `tutorial.php`.
 
-## New pages with minimal functionality
+### New pages with minimal functionality
 
 This is as simple as create a `.tpl` file in `templates/pages`.
 
@@ -217,20 +245,20 @@ The easiest starting point is creating a copy of the `template.tpl` file which i
 
 As soon as it is created, the page will be available at `/pages/NAME` e.g. `http://localhost/pages/template`.
 
-# Tests
+## Tests
 
 ```
 ./includes/vendor/phpunit/phpunit/phpunit tests
 ```
 
-# Contributors
+## Contributors
 
 If your pull request is merged, I will add your name here. Thank you for your contribution!
 
    * [nenuadrian](https://github.com/nenuadrian) - main developer
    * [SKSaki](https://github.com/SKSaki) - initial user and bug-finder
 
-# License
+## License
 
 This initial version was created by [Adrian Nenu] (https://github.com/nenuadrian) 
 
