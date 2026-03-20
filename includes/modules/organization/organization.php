@@ -7,7 +7,7 @@ require_once('../includes/class/oclass.php');
 $page_title = 'Organization';
 
 
-$oclass = new Organization($GET['show'] ? $GET['show'] : $user['organization']);
+$oclass = new Organization($container, $GET['show'] ? $GET['show'] : $user['organization']);
 
 //$organization = new OrganizationEntity($GET['show'] ? $GET['show'] : $user['organization']);
 
@@ -87,7 +87,7 @@ if ($oclass->organization['id']) {
       if ($oclass->organization['wars_inprogress'])
       {
         require('../includes/class/organizationWars.php');
-        $owars = new organizationWars;
+        $owars = new organizationWars($container);
       
         $wars = $owars->fetchOrganizationWars($oclass->organization['id']);
       

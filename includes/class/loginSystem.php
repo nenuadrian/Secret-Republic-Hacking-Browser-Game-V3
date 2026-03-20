@@ -11,9 +11,9 @@ class LoginSystem extends Alpha
   private  $failedLoginAttemptsPer = 900;
 
 
-  function __construct()
+  function __construct(Container $container)
   {
-    parent::__construct();
+    parent::__construct($container);
 
 	  ini_set('session.hash_function', 'sha512');
 	  ini_set('session.hash_bits_per_character', 5);
@@ -21,25 +21,27 @@ class LoginSystem extends Alpha
 	  session_name('_sr1');
     session_start();
 
-
-
     $this->checkIfUserLoggedIn();
 
-    if ($this->user['id']) {
+    $user = $this->container->has('user') ? $this->container->get('user') : [];
 
-      $this->logged = true;
+    if (isset($user['id']) && $user['id']) {
+
+      $this->container->logged = true;
 
       if (session('duality'))
-        $this->user['id'] = session('duality');
+        $user['id'] = session('duality');
+
+      $db = $this->container->db();
 
       $userData =
-        $this->db->where('id', $this->user['id'])
+        $db->where('id', $user['id'])
                  ->getOne('users', 'id, username, gavatar, money, organization, `rank`,
                                     zone, main_node,
                                     zrank, points,
                                     energy, maxEnergy, exp, expNext, level, org_group, tasks,
                                     blogs, rewardsToReceive, skillPoints, alphaCoins, in_party, aiVoice,
-									                  server, dataPoints, lastActive, dataPointsPerHour, tutorial,
+								                  server, dataPoints, lastActive, dataPointsPerHour, tutorial,
                                      (select count(*) from attacks_inprogress
                                       where (sender = main_node or receiver = main_node)
                                              and (type = 2 or type = 4 or ( (type = 3 or type = 1) and sender = main_node))
@@ -52,9 +54,9 @@ class LoginSystem extends Alpha
       if (session('lastMsgCheck') < (time() - 20))
       {
         $_SESSION['user']['newMsg']
-                = $this->db->rawQuery('select count(m.message_id) newMsg from conversations m where
+                = $db->rawQuery('select count(m.message_id) newMsg from conversations m where
                                        m.parent_message_id is null and (m.sender_user_id = ? or m.receiver_user_id = ?) and m.last_reply_by_user_id != ? and m.last_reply_seen = 0',
-                                       array($this->user['id'], $this->user['id'],$this->user['id']))[0]['newMsg'];
+                                       array($user['id'], $user['id'],$user['id']))[0]['newMsg'];
 
         $_SESSION['lastMsgCheck'] = time();
       }
@@ -63,7 +65,7 @@ class LoginSystem extends Alpha
       if (session('lastFriendCheck') < time() - 30)
       {
         $_SESSION['user']['friend_requests'] =
-          $this->db->rawQuery('select count(request_id) friend_requests from friend_requests where receiverid = ?', array($this->user['id']))[0]['friend_requests'];
+          $db->rawQuery('select count(request_id) friend_requests from friend_requests where receiverid = ?', array($user['id']))[0]['friend_requests'];
         $_SESSION['lastFriendCheck'] = time();
       }
 
@@ -71,10 +73,10 @@ class LoginSystem extends Alpha
       if ( $userData['organization'] && session('lastOrgWarsCheck') < time() - 300)
       {
         $_SESSION['user']['org_wars'] =
-          $this->db->where('id', $userData['organization'])->getOne('organizations', 'wars_inprogress')['wars_inprogress'];
+          $db->where('id', $userData['organization'])->getOne('organizations', 'wars_inprogress')['wars_inprogress'];
 
         if (session('user')['org_wars'])
-          $_SESSION['user']['org_wars_now'] = $this->db->rawQuery('select war_id from org_wars where (org1_id = ? or org2_id = ?) and ? > start limit 1', array($userData['organization'], $userData['organization'], time()))[0]['war_id'];
+          $_SESSION['user']['org_wars_now'] = $db->rawQuery('select war_id from org_wars where (org1_id = ? or org2_id = ?) and ? > start limit 1', array($userData['organization'], $userData['organization'], time()))[0]['war_id'];
 
         $_SESSION['lastOrgWarsCheck'] = time();
       }
@@ -83,20 +85,21 @@ class LoginSystem extends Alpha
       if (session('lastPartyCheck') < (time() - 20))
       {
         $_SESSION['user']['partyInvites']
-                = $this->db->rawQuery('select count(invitation_id) partyInvites from party_invitations pi
+                = $db->rawQuery('select count(invitation_id) partyInvites from party_invitations pi
                                        where user_id = ?',
-                                       array($this->user['id']))[0]['partyInvites'];
+                                       array($user['id']))[0]['partyInvites'];
 
         $_SESSION['lastPartyCheck'] = time();
       }
 
 
-      $this->user = array_merge($this->user, session('group'), $userData, session('user'));
+      $user = array_merge($user, session('group') ?: [], $userData ?: [], session('user') ?: []);
+      $this->container->set('user', $user);
 
-      if ($this->user['in_party'] || session('party'))
+      if ($user['in_party'] || session('party'))
         if (!session('party'))
-          $_SESSION['party'] = $this->user['in_party'];
-        elseif (!$this->user['in_party'])
+          $_SESSION['party'] = $user['in_party'];
+        elseif (!$user['in_party'])
            unset($_SESSION['party']);
 
 
@@ -104,19 +107,24 @@ class LoginSystem extends Alpha
 
 
     if (!session('detectDevice'))
-  	{
-        	$this->detectDevice = new Mobile_Detect;
-  		    $_SESSION['detectDevice']['mobile'] = $this->detectDevice->isMobile();
-          $_SESSION['detectDevice']['table'] = $this->detectDevice->isTable();
-  	}
-    $this->templateVariables['detectDevice'] = session('detectDevice');
+	{
+        	$this->_dynamicProps['detectDevice'] = new Mobile_Detect;
+		    $_SESSION['detectDevice']['mobile'] = $this->_dynamicProps['detectDevice']->isMobile();
+          $_SESSION['detectDevice']['table'] = $this->_dynamicProps['detectDevice']->isTable();
+	}
+    $this->container->tVars['detectDevice'] = session('detectDevice');
 
   } // constructor
+
+  function isLogged()
+  {
+    return $this->container->logged;
+  }
 
   function updateUserPremiumInfoSessionCache()
   {
      $_SESSION['lastPremiumCheck'] = time();
-     $_SESSION['premium'] = $this->uclass->getPremiumData();
+     $_SESSION['premium'] = $this->container->uclass()->getPremiumData();
 
      unset($_SESSION['premium']['id'], $_SESSION['premium']['user_id']);
 		$s=session('premium');
@@ -135,15 +143,17 @@ class LoginSystem extends Alpha
   }
   function isUsernameUsed($username)
   {
-    $checkIfUsed = $this->db->where('username', $username)->getOne('users', 'id');
+    $checkIfUsed = $this->container->db()->where('username', $username)->getOne('users', 'id');
     return $checkIfUsed['id'];
   } // isUsernameUsed
   function getUserPermissions($groupID)
   {
     $groupPermissions = $this->getGroupPermissions($groupID);
+    $config = $this->container->config();
     if (!is_array($groupPermissions)) {
-      $this->db->where('uid', $this->user['id'])->update('user_credentials', array(
-        'group_id' => $this->config['defaultGroup']
+      $user = $this->container->get('user');
+      $this->container->db()->where('uid', $user['id'])->update('user_credentials', array(
+        'group_id' => $config['defaultGroup']
       ));
 
       $groupPermissions = $this->getGroupPermissions($groupID);
@@ -154,7 +164,7 @@ class LoginSystem extends Alpha
 
   function getGroupPermissions($groupId)
   {
-    $user_permissions = $this->db->where('group_id', $groupId)->getOne('user_groups');
+    $user_permissions = $this->container->db()->where('group_id', $groupId)->getOne('user_groups');
 
     return $user_permissions;
   } // getGroupPermissions
@@ -200,35 +210,38 @@ class LoginSystem extends Alpha
   {
 	if (!$uid) return;
 
+    $db = $this->container->db();
     if (!$pin)
-      $pin = $this->db->where('uid', $uid)->getOne('user_credentials', 'pin')['pin'];
+      $pin = $db->where('uid', $uid)->getOne('user_credentials', 'pin')['pin'];
 
     $hash = $this->generatePasswordHash($newPass, $pin);
 
-    $this->db->where('uid', $uid)->update('user_credentials', array('password' => $hash), 1);
+    $db->where('uid', $uid)->update('user_credentials', array('password' => $hash), 1);
 
   }
 
   function loginUser($socialLogin = false, $username = null, $password = null)
   {
     $ip = $this->getRealIP();
+    $db = $this->container->db();
+    $config = $this->container->config();
 
       $username = !isset($username) ? $_POST['username'] : $username;
       $password = !isset($password) ? $_POST['password'] : $password;
       $error    = null;
-      $userData = $this->validateUsername($username) ? $this->db->where('username', $username)->getOne('users', 'id, tutorial') : null;
+      $userData = $this->validateUsername($username) ? $db->where('username', $username)->getOne('users', 'id, tutorial') : null;
 
       if ($userData['id']) {
 
         // get user credentials
-        $userCredentials = $this->db->where('uid', $userData['id'])->getOne('user_credentials', 'group_id, banned, password, pin, email_confirmed, login_count, login_days_in_row');
+        $userCredentials = $db->where('uid', $userData['id'])->getOne('user_credentials', 'group_id, banned, password, pin, email_confirmed, login_count, login_days_in_row');
 
         if ($userCredentials['banned']) {
           $this->processBan($userCredentials['banned'], $userData['id']);
         } //$userCredentials['banned']
 
 
-        if (!$this->errors)
+        if (!$this->container->errors)
           if ($userCredentials['group_id']) {
             if ($socialLogin || password_verify($password , $userCredentials['password'])) {
               $this->startUserSession($userData['id'], $username, $userCredentials, $ip);
@@ -236,9 +249,9 @@ class LoginSystem extends Alpha
               $_SESSION['voice'] = 'accessgranted';
               if (!$userCredentials['email_confirmed']) $_SESSION['unconfirmed_email'] = true;
 
-      			  if (floor($userData['tutorial'] / 10 ) <= $this->config['tutorialSteps']) {
-      					$_SESSION['showTutorial'] = true;
-      				}
+    			  if (floor($userData['tutorial'] / 10 ) <= $config['tutorialSteps']) {
+    					$_SESSION['showTutorial'] = true;
+    				}
 
 
               return true;
@@ -248,17 +261,18 @@ class LoginSystem extends Alpha
 
         $message = 'Someone has tried and failed to login into your account. Log from '. date('d/F/Y H:i:s', $dataInsert['created']);
         require_once(ABSPATH . 'includes/class/userclass.php');
-        $this->uclass->send_msg(-1, $userData['id'], $message, 'Failed login attempt!');
+        $this->container->uclass()->send_msg(-1, $userData['id'], $message, 'Failed login attempt!');
 
       } //$userData['id']
 
-    $this->errors[] = sprintf('Access denied. <a href="%sregister/forgot/password">Forgot password?</a>', URL);
+    $this->container->errors[] = sprintf('Access denied. <a href="%sregister/forgot/password">Forgot password?</a>', URL);
 
     return false;
   } // loginUser
 
   function startUserSession($user_id, $username, $userCredentials, $ip = "")
   {
+    $db = $this->container->db();
     $sessionTime        = time();
     $session1    = $this->generateSessionUniqueId($password, $userCredentials['pin']);
     $session2    = $this->generateSessionUniqueValue($password, $userCredentials['pin'], $session1, $sessionTime);
@@ -272,9 +286,9 @@ class LoginSystem extends Alpha
           'tablet' => $_SESSION['detectDevice']['tablet'],
     );
 
-    if (!$this->db->insert('user_session', $insertData))
+    if (!$db->insert('user_session', $insertData))
 	{
-		$this->errors[] = 'Could not create your session';
+		$this->container->errors[] = 'Could not create your session';
 		return;
 	}
 
@@ -300,25 +314,26 @@ class LoginSystem extends Alpha
 
     $_SESSION['group'] = $this->getUserPermissions($userCredentials['group_id']);
 
-    $this->logged = true;
+    $this->container->logged = true;
 
 	$_SESSION['lastSessionCheck'] = time();
-    $this->db->where('id', $user_id)->update('users', array('lastActive' => time()));
+    $db->where('id', $user_id)->update('users', array('lastActive' => time()));
 
   }
 
   function processBan($ban, $uid)
   {
-      $banned = $this->db->where('ban_id', $ban)->getOne('user_bans');
+      $db = $this->container->db();
+      $banned = $db->where('ban_id', $ban)->getOne('user_bans');
       if ($banned['expires'] <= time()) {
-        $this->db->where('uid', $uid)->update('user_credentials', array(
+        $db->where('uid', $uid)->update('user_credentials', array(
           'banned' => NULL
         ));
       } //$banned['expires'] <= time()
       else {
-        $this->errors[] = 'Account blocked';
-        $this->errors[] = 'Reason: ' . $banned['reason'];
-        $this->errors[] = 'Expires: ' . date('d/F/Y H:i:s', $banned['expires']);
+        $this->container->errors[] = 'Account blocked';
+        $this->container->errors[] = 'Reason: ' . $banned['reason'];
+        $this->container->errors[] = 'Expires: ' . date('d/F/Y H:i:s', $banned['expires']);
       }
   }
   function checkIfSessionIsValid()
@@ -328,16 +343,16 @@ class LoginSystem extends Alpha
 
     if ($session1 != session('session1')) return false;
 
-
-    $userSession = $this->db->where('session', $session2)->getOne('user_session', 'id, user_id');
+    $db = $this->container->db();
+    $userSession = $db->where('session', $session2)->getOne('user_session', 'id, user_id');
     if (!$userSession['id']) return false;
 
     if (session('userId') != $userSession['user_id']) return false;
 
     $_SESSION['lastSessionCheck'] = time();
-    $this->db->where('id', $userSession['id'])->update('user_session', array('time' => time()), 1);
+    $db->where('id', $userSession['id'])->update('user_session', array('time' => time()), 1);
 
-    $this->db->where('id', $userSession['user_id'])->update('users', array('lastActive' => time()));
+    $db->where('id', $userSession['user_id'])->update('users', array('lastActive' => time()));
 
     return $userSession['id'];
 
@@ -353,11 +368,13 @@ class LoginSystem extends Alpha
 		  &&
 		  (session('lastSessionCheck') > (time() - $this->lastSessionCheckDelay) || $this->checkIfSessionIsValid()))
       {
-        $this->user['id'] = session('userId');
+        $user = $this->container->has('user') ? $this->container->get('user') : [];
+        $user['id'] = session('userId');
+        $this->container->set('user', $user);
       }
       else
       {
-     	$this->errors[] = 'Your session has expired. Authentication required.';
+     	$this->container->errors[] = 'Your session has expired. Authentication required.';
         $this->logout();
       }
 	  }
@@ -368,8 +385,8 @@ class LoginSystem extends Alpha
 
   function logout()
   {
-
-    $this->db->where('session', session('session2'))->delete('user_session', 1);
+    $db = $this->container->db();
+    $db->where('session', session('session2'))->delete('user_session', 1);
     $inAppIFrame= session('inAppIFrame');
     $_SESSION = array();
 

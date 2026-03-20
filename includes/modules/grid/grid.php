@@ -16,7 +16,10 @@ function verifySelectedServers($selectedServers, $validServers)
 
 function initiateAttack($type, $sender, $receiver, $sender_user_id, $receiver_user_id, $attack, $servers = "")
 {
-  global $db, $uclass, $cardinal;
+  global $container;
+  $db = $container->db();
+  $uclass = $container->uclass();
+  $cardinal = $container->get('cardinal');
 
   $insertData = array(
   'sender_user_id' => $sender_user_id,
@@ -66,7 +69,7 @@ if($GET['show'] == 'clusters')
 elseif ($GET['layers'])
 {
 	require ("../includes/class/class.battleSystem.php");
-	$battleSystem = new BattleSystem();
+	$battleSystem = new BattleSystem($container);
 	$player = $battleSystem->computePlayerStats($user['id'], true, true);
 
 	$tVars['theskills']  = $theskills;

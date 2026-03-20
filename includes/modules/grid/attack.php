@@ -22,7 +22,7 @@
 
       $servers = verifySelectedServers($selectedServers, $servers);
       require("../includes/class/class.battleSystem.php");
-      $battleSystem = new BattleSystem();
+      $battleSystem = new BattleSystem($container);
 		  $stats =  $battleSystem->computePlayerStats($user['id'], true, false, false, false, $servers)['layers'];
 
       $tVars['stats'] = $stats;

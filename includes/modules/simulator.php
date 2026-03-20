@@ -73,7 +73,7 @@ elseif ($GET['simulate'])
 
 
 		require("../includes/class/class.battleSystem.php");
-		$battleSystem = new BattleSystem();
+		$battleSystem = new BattleSystem($container);
 
 
 

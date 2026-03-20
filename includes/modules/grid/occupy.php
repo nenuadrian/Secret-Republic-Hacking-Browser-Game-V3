@@ -25,7 +25,7 @@
       $commandsInfluence = array();
       foreach ($servers as $srv)
       {
-        $srv = new Server($srv);
+        $srv = new Server($container, $srv);
         $srvCommandsInfluence = $srv->computeSkillsCommandsInfluence();
         foreach ($srvCommandsInfluence as $c => $v)
           $commandsInfluence[$c] += $v;

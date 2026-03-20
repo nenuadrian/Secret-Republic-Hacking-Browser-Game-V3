@@ -6,9 +6,9 @@ class OrganizationEntity extends Alpha
   var $perms;
   var $permissions = array('viewMembers', 'manageMembers', 'manageRanks', 'manageOrganization', 'messageAll', 'manageApplications', 'manageWars', 'forumManager', 'manageHackingPoints');
 
-  function __construct($organizationID)
+  function __construct(Container $container, $organizationID)
   {
-     parent::__construct();
+     parent::__construct($container);
      $this->data = $this->db->join('users hu', 'hu.id = ho.owner', 'LEFT OUTER')
                             ->where('ho.id', $organizationID)
                             ->getOne('organizations ho', 'ho.* ,hu.username ownern,hu.zone ownerz');
@@ -61,15 +61,15 @@ class Organization extends Alpha
   var $nameChangeHpCost = 2;
   var $organizationCost = 100;
 
-  function Organization($organizationID = null)
+  function __construct(Container $container, $organizationID = null)
   {
 
-    parent::__construct();
+    parent::__construct($container);
 
     if (isset($organizationID)) {
       // get organization data from database
 
-      $org = new OrganizationEntity($organizationID);
+      $org = new OrganizationEntity($this->container, $organizationID);
       $this->perms = $org->perms;
       $this->organization = $org->data;
     } //isset($organizationID)
@@ -153,7 +153,6 @@ class Organization extends Alpha
 
   function post_intros()
   {
-    global $success, $error;
 
     $checkPost = array(
       'intro',
@@ -174,10 +173,10 @@ class Organization extends Alpha
           $this->organization[$check] = $updateOrg[$check] = $parser->getAsHtml();
           $updateOrg[$check . '_unparsed'] = $_POST[$check];
 
-          $success = $lang['modifications_saved'];
+          $this->success = $lang['modifications_saved'];
         } //($length = strlen($_POST[$check])) <= 1000
         else
-          $error = 'Content must have less than 1000 characters. You have used ' . $length . ' chars';
+          $this->errors[] = 'Content must have less than 1000 characters. You have used ' . $length . ' chars';
       } //$_POST[$check]
 
     if (count($updateOrg))
@@ -447,7 +446,6 @@ class Organization extends Alpha
   //MESALL
   function mes_all()
   {
-    global $success, $errors;
 
     if ($_POST) {
       $content = $_POST['content'];
@@ -458,13 +456,13 @@ class Organization extends Alpha
           $ranks[] = intval($rank);
 
         if ($count = $this->sendMessageToRanks($ranks, $content, 'Organization Message from ' . $this->user['username'])) {
-          $success = 'Messages sent to ' . $count . ' members from selected groups.';
+          $this->success = 'Messages sent to ' . $count . ' members from selected groups.';
         } //$count = $this->sendMessageToRanks($ranks, $content, 'Organization Message from ' . $this->user['username'])
         else
-          $errors[] = 'No hackers found using selected filters';
+          $this->errors[] = 'No hackers found using selected filters';
       } //$content && strlen($content) <= 1000 && strlen($content) >= 10
       else
-        $errors[] = 'Content must be between 10 and 1000 chars.';
+        $this->errors[] = 'Content must be between 10 and 1000 chars.';
 
     } //$_POST
   }
@@ -538,10 +536,9 @@ class Organization extends Alpha
 
   function addNewRank($rankName)
   {
-    global $errors;
 
     //	if(count($this->organization['perm']) < 10){
-    if (!($errors = $this->isRankNameInvalid($rankName))) {
+    if (!($this->errors = $this->isRankNameInvalid($rankName))) {
       $rank = array(
         'name' => $rankName,
         'created' => time(),
@@ -588,7 +585,6 @@ class Organization extends Alpha
    **********************/
   function manageForums($fclass)
   {
-    global $error;
 
     if ($_POST)
       if ($id = $_POST['del_section']) {
@@ -600,9 +596,9 @@ class Organization extends Alpha
           $description = $_POST['description'];
           if ($description)
             if (isset($description[300]))
-              $errors[] = 'Description can have maximum 300 characters';
+              $this->errors[] = 'Description can have maximum 300 characters';
 
-          if (!$errors) {
+          if (!$this->errors) {
             $data = array(
               'name' => htmlentities($title),
               'ord' => intval($_POST['order']),
@@ -622,10 +618,10 @@ class Organization extends Alpha
               $data['parent'] = $sid;
               $this->db->insert($fclass->sections, $data);
             } //$_POST['new_forum'] && ($sid = $_POST['section'])
-          } //!$errors
+          } //!$this->errors
         } //($title = $_POST['name']) && !isset($title[70])
         else
-          $error = 'Title must use under 100 characters';
+          $this->errors[] = 'Title must use under 100 characters';
       } //$_POST
   }
 
@@ -633,7 +629,7 @@ class Organization extends Alpha
   {
     require_once('../includes/class/class.forum.php');
 
-    $fclass = new Forum($this->organization['id'], $this->access);
+    $fclass = new Forum($this->container, $this->organization['id'], $this->access);
 
     if (ctype_digit($fid = $this->GET['fid'])) {
       $forum = $fclass->get_forum_data($fid);
@@ -690,7 +686,7 @@ class Organization extends Alpha
 
   function validateAndSendWarRequest()
   {
-    global $error;
+    $error = null;
     if ($_POST['type'] == 2 && $this->organization['hacking_points'] < $this->forced_request_hp_cost)
       $error = 'Not enough hacking points. Nice try tho!';
     elseif (!($error = $this->validataOrgName($name = $_POST['organization'], false))) {
@@ -753,6 +749,7 @@ class Organization extends Alpha
       } //!$error
 
     } //!($error = $this->validataOrgName($name = $_POST['organization'], false))
+    if ($error) $this->errors[] = $error;
   }
 
   function sendWarRequestTo($org)
@@ -889,7 +886,7 @@ class Organization extends Alpha
       $this->templateVariables['loadd'] = 'manage_forum';
 
       require_once('../includes/class/class.forum.php');
-      $fclass = new Forum($this->organization['id']);
+      $fclass = new Forum($this->container, $this->organization['id']);
 
       $this->manageForums($fclass);
 

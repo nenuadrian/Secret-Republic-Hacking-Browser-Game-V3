@@ -9,7 +9,7 @@ require_once('../includes/class/tclass.php');
 
 	$trainTask = $taskclass->check_fetch_task($user, 9);
 
-	$tclass = new TrainClass($trainTask);
+	$tclass = new TrainClass($container, $trainTask);
 	
 
 	if($tclass->trainTask)

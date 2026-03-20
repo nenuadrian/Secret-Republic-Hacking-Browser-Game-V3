@@ -566,7 +566,7 @@ trait ConsoleManagement
 		  array($this->user['server']));
 	  	  $damage = ceil($damage/count($apps));
 		  require_once ('includes/class/class.server.php');
-		  $server= new Server();
+		  $server= new Server($this->container);
 		  foreach($apps as $app)
 			  $server->dealAppDamage($app, $damage);
 		  

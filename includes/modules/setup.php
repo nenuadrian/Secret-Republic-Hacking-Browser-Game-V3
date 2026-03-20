@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // create admin account
     $cardinal = new Cardinal();
-    $registrationSystem = new RegistrationSystem;
+    $registrationSystem = new RegistrationSystem($container);
     try {
         $uid = $registrationSystem->addUser($_POST['ADMIN_USER'], $_POST['ADMIN_PASS'], $_POST['ADMIN_EMAIL'], 1, 1, false);
     } catch (Exception $e) {

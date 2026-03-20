@@ -22,7 +22,7 @@ $cardinal->mustLogin();
 					if ($server['server_id'])
 					{
 						require("../includes/class/class.server.php");
-						$server = new Server($server['server_id'], $server);
+						$server = new Server($container, $server['server_id'], $server);
 
 						if ($server->server['total_hdd'] - $server->server['hdd_usage'] < $item['hdd'])
 							add_alert("Not enough HDD to store the new item available on server");

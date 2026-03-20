@@ -6,43 +6,145 @@ use PHPMailer\PHPMailer\Exception;
 #[AllowDynamicProperties]
 class Alpha {
 
-  function __construct() {
-    global $db, $tVars, $info, $pages, $voice, $config, $user, $GET, $logged, $taskclass, $url, $success, $messenger, $errors, $warnings, $uclass;
-    $this->db =& $db;
-    $this->templateVariables =& $tVars;
-    $this->config =& $config;
-    $this->user =& $user;
-    $this->GET =& $GET;
-    $this->info =& $info;
-    $this->taskclass =& $taskclass;
-    $this->url =& $url;
-    $this->voice =& $voice;
-    $this->uclass =& $uclass;
-    $this->success =& $success;
-    $this->errors =& $errors;
-    $this->warnings =& $warnings;
-    $this->messenger =& $messenger;
-    $this->logged =& $logged;
-    $this->pages =& $pages;
+  /** @var Container */
+  protected $container;
 
+  function __construct(Container $container) {
+    $this->container = $container;
   }
 
+  // ---------------------------------------------------------------
+  // Property-style accessors that read/write through the container
+  // so existing call-sites like $this->db, $this->user, etc. keep
+  // working without any changes in subclasses or modules.
+  // ---------------------------------------------------------------
+
+  public function &__get($name) {
+    switch ($name) {
+      case 'db':
+        $val = $this->container->db();
+        return $val;
+      case 'config':
+        $val = &$this->container->get('config');
+        return $val;
+      case 'user':
+        $val = &$this->container->get('user');
+        return $val;
+      case 'templateVariables':
+      case 'tVars':
+        return $this->container->tVars;
+      case 'GET':
+        return $this->container->GET;
+      case 'url':
+        return $this->container->url;
+      case 'voice':
+        return $this->container->voice;
+      case 'info':
+        return $this->container->info;
+      case 'success':
+        return $this->container->success;
+      case 'errors':
+        return $this->container->errors;
+      case 'warnings':
+        return $this->container->warnings;
+      case 'messenger':
+        return $this->container->messenger;
+      case 'logged':
+        return $this->container->logged;
+      case 'pages':
+        return $this->container->pages;
+      case 'uclass':
+        return $this->container->uclass();
+      case 'taskclass':
+        return $this->container->taskclass();
+      default:
+        // Allow dynamic properties for subclass-specific data
+        $null = null;
+        return $null;
+    }
+  }
+
+  public function __set($name, $value) {
+    switch ($name) {
+      case 'db':
+        $this->container->set('db', $value);
+        break;
+      case 'config':
+        $this->container->set('config', $value);
+        break;
+      case 'user':
+        $this->container->set('user', $value);
+        break;
+      case 'templateVariables':
+      case 'tVars':
+        $this->container->tVars = $value;
+        break;
+      case 'GET':
+        $this->container->GET = $value;
+        break;
+      case 'url':
+        $this->container->url = $value;
+        break;
+      case 'voice':
+        $this->container->voice = $value;
+        break;
+      case 'info':
+        $this->container->info = $value;
+        break;
+      case 'success':
+        $this->container->success = $value;
+        break;
+      case 'errors':
+        $this->container->errors = $value;
+        break;
+      case 'warnings':
+        $this->container->warnings = $value;
+        break;
+      case 'messenger':
+        $this->container->messenger = $value;
+        break;
+      case 'logged':
+        $this->container->logged = $value;
+        break;
+      case 'pages':
+        $this->container->pages = $value;
+        break;
+      default:
+        // Store subclass-specific dynamic properties in a local array
+        $this->_dynamicProps[$name] = $value;
+        break;
+    }
+  }
+
+  public function __isset($name) {
+    $mapped = ['db','config','user','templateVariables','tVars','GET','url',
+               'voice','info','success','errors','warnings','messenger',
+               'logged','pages','uclass','taskclass'];
+    if (in_array($name, $mapped)) return true;
+    return isset($this->_dynamicProps[$name]);
+  }
+
+  /** @var array Stores subclass-specific dynamic properties */
+  protected $_dynamicProps = [];
+
   function generate_captcha_box() {
-    if (!$this->config['recaptcha_site_key'] || !$this->config['recaptcha_secret_key']) {
+    $config = $this->container->config();
+    if (!$config['recaptcha_site_key'] || !$config['recaptcha_secret_key']) {
       return '<p>Cannot load captcha! Undefined Public or Private key in constants.php!!</p>';
     } else {
       return '
       <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-                <div class="g-recaptcha text-center" data-sitekey="' . $this->config['recaptcha_site_key'] . '"></div>
+                <div class="g-recaptcha text-center" data-sitekey="' . $config['recaptcha_site_key'] . '"></div>
          ';
     }
   }
-  
+
   function verify_captcha_response() {
     if (isset($_POST['g-recaptcha-response'])) {
-      $secret  = $this->config['recaptcha_secret_key'];
+      $config = $this->container->config();
+      $secret  = $config['recaptcha_secret_key'];
       $recaptcha = new \ReCaptcha\ReCaptcha($secret);
-      
+
       $resp = $recaptcha->verify($_POST['g-recaptcha-response']);
         if ($resp->isSuccess()) {
           return true;
@@ -55,18 +157,19 @@ class Alpha {
 
   function sendEmail($data = array()) {
     $message = $this->buildEmail($data['message']);
-    
-    if ($this->config['smtp_host']) {
-      $mail = new PHPMailer(true); 
-      $mail->isSMTP(); // Set mailer to use SMTP
-      $mail->Host       = $this->config['smtp_host']; // Specify main and backup SMTP servers
-      $mail->SMTPAuth   = true; // Enable SMTP authentication
-      $mail->Username   = $this->config['smtp_username']; // SMTP username
-      $mail->Password   = $this->config['smtp_password']; // SMTP password
-      $mail->SMTPSecure = $this->config['smtp_secure']; // Enable TLS encryption, `ssl` also accepted
-      $mail->Port       = $this->config['smtp_port']; // TCP port to connect to
+    $config = $this->container->config();
 
-      $mail->setFrom($this->config['smtp_from'], $this->config['smtp_name']);
+    if ($config['smtp_host']) {
+      $mail = new PHPMailer(true);
+      $mail->isSMTP(); // Set mailer to use SMTP
+      $mail->Host       = $config['smtp_host']; // Specify main and backup SMTP servers
+      $mail->SMTPAuth   = true; // Enable SMTP authentication
+      $mail->Username   = $config['smtp_username']; // SMTP username
+      $mail->Password   = $config['smtp_password']; // SMTP password
+      $mail->SMTPSecure = $config['smtp_secure']; // Enable TLS encryption, `ssl` also accepted
+      $mail->Port       = $config['smtp_port']; // TCP port to connect to
+
+      $mail->setFrom($config['smtp_from'], $config['smtp_name']);
       foreach ($data['recipients'] as $rec)
         $mail->addAddress($rec); // Add a recipient
 
@@ -105,7 +208,7 @@ class Alpha {
   }
 
   function getEmailTemplate($template_shortcut, $whatToReplace = array(), $withWhatToReplace = array()) {
-    $template            = $this->db->where('shortcut', $template_shortcut)->getOne('email_templates');
+    $template            = $this->container->db()->where('shortcut', $template_shortcut)->getOne('email_templates');
     $template['subject'] = str_replace($whatToReplace, $withWhatToReplace, $template['subject']);
     $template['message'] = str_replace($whatToReplace, $withWhatToReplace, $template['message']);
     return $template;
@@ -113,20 +216,20 @@ class Alpha {
 
   function addMessenger($message, $type = null) {
     if (isset($type))
-      $this->messenger[] = array(
+      $this->container->messenger[] = array(
         'message' => $message,
         'type' => $type
       );
     else
-      $this->messenger[] = array(
+      $this->container->messenger[] = array(
         'message' => $message
       );
   }
   function show_404() {
 
-    $this->voice = '404';
+    $this->container->voice = '404';
 
-    $this->templateVariables['show_404'] = true;
+    $this->container->tVars['show_404'] = true;
 
   }
 
@@ -182,41 +285,30 @@ class Alpha {
 
   function redirect($url, $keepPostData = false) {
 
-    global $myModals;
-    /*echo <<<META
-    <html><head><meta http-equiv='Refresh' content='0;URL={$url}' /></head><body></body></html>
-    META;*/
+    if (count($this->container->errors))
+      $_SESSION['error'] .= ($_SESSION['error'] != '' ? '<br/>' : '') . (is_array($this->container->errors) ? implode('<br/>', $this->container->errors) : $this->container->errors);
 
-    if (count($this->errors))
-      $_SESSION['error'] .= ($_SESSION['error'] != '' ? '<br/>' : '') . (is_array($this->errors) ? implode('<br/>', $this->errors) : $this->errors);
+    if ($this->container->success)
+      $_SESSION['success'] .= ($_SESSION['success'] != '' ? '<br/>' : '') . (is_array($this->container->success) ? implode('<br/>', $this->container->success) : $this->container->success);
 
-    if ($this->success)
-      $_SESSION['success'] .= ($_SESSION['success'] != '' ? '<br/>' : '') . (is_array($this->success) ? implode('<br/>', $this->success) : $this->success);
+    if ($this->container->info)
+      $_SESSION['info'] .= ($_SESSION['info'] != '' ? '<br/>' : '') . (is_array($this->container->info) ? implode('<br/>', $this->container->info) : $this->container->info);
 
-    if ($this->info)
-      $_SESSION['info'] .= ($_SESSION['info'] != '' ? '<br/>' : '') . (is_array($this->info) ? implode('<br/>', $this->info) : $this->info);
+    if ($this->container->warnings)
+      $_SESSION['warnings'] .= ($_SESSION['warnings'] != '' ? '<br/>' : '') . (is_array($this->container->warnings) ? implode('<br/>', $this->container->warnings) : $this->container->warnings);
 
-    if ($this->warnings)
-      $_SESSION['warnings'] .= ($_SESSION['warnings'] != '' ? '<br/>' : '') . (is_array($this->warnings) ? implode('<br/>', $this->warnings) : $this->warnings);
+    if ($this->container->voice)
+      $_SESSION['voice'] = $this->container->voice;
 
-    if ($this->voice)
-      $_SESSION['voice'] = $this->voice;
-
-    if ($myModals[0])
-      $_SESSION['myModal'] = $myModals[0];
+    if ($this->container->myModals[0])
+      $_SESSION['myModal'] = $this->container->myModals[0];
 
     if ($keepPostData && count($_POST)) {
       $_SESSION['post_data'] = $_POST;
     }
 
-    // echo $this-
-    //header_remove();
-
     header('Location: ' . $url);
     exit;
-    /*            echo <<<SCRIPT
-    <html><body><script>location='{$url}';</script></body></html>
-    SCRIPT;*/
   }
   public function __clone() {
     exit;

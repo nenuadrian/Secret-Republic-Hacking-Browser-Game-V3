@@ -72,7 +72,7 @@ require('../includes/class/oclass.php');
 
 foreach($usersToKick as $kick)
 {
-$oclass = new Organization($kick['organization']);
+$oclass = new Organization($container, $kick['organization']);
 	
 $oclass->kickMember($kick, false, "Your allocated time in a beginner organization has passed. You must now live on your own. Create or join another organization as soon as possible!", false);
 	

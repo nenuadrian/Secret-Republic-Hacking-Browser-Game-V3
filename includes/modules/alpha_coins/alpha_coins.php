@@ -43,7 +43,9 @@ else
     }
     function addTimeToPremiumService($user_id, $item_id, $time = 2592000)
     {
-        global $db, $uclass;
+        global $container;
+        $db = $container->db();
+        $uclass = $container->uclass();
 
         $item = $db->where('available', 1)
             ->where('item_id', $item_id)->getOne("alpha_coins_shop");

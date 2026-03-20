@@ -3,7 +3,7 @@
  */
 
 require("../includes/class/registrationSystem.php");
-$registrationSystem = new RegistrationSystem;
+$registrationSystem = new RegistrationSystem($container);
 
 if(!$logged && $_GET['reset'])
 {

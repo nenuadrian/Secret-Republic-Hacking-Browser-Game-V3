@@ -294,7 +294,8 @@ $tutorialSteps = array(
 
 function tutorial_step_1_check()
 {
-	global $GET;
+	global $container;
+	$GET = &$container->GET;
 
 	if ($GET['currentPage'] == 'pages' && $GET['page'] == "beginner-tutorial")
 		tutorial_step_complete();
@@ -303,7 +304,8 @@ function tutorial_step_1_check()
 function tutorial_step_2_check()
 {
 
-	global $user;
+	global $container;
+	$user = $container->get('user');
 
 	if (!$user['rewardsToReceive'])
 		tutorial_step_complete();
@@ -312,7 +314,8 @@ function tutorial_step_2_check()
 function tutorial_step_3_check()
 {
 
-	global $GET;
+	global $container;
+	$GET = &$container->GET;
 
 	if ($GET['currentPage'] == 'friends')
 		tutorial_step_complete();
@@ -321,7 +324,8 @@ function tutorial_step_3_check()
 function tutorial_step_4_check()
 {
 
-	global $user;
+	global $container;
+	$user = $container->get('user');
 
 	if ($user['server'])
 		tutorial_step_complete();
@@ -330,7 +334,9 @@ function tutorial_step_4_check()
 function tutorial_step_5_check()
 {
 
-	global $db, $user;
+	global $container;
+	$db = $container->db();
+	$user = $container->get('user');
 	$check = $db->where('user_id', $user['id'])->where('quest', 70)->getOne('quests_user', 'id');
 	if ($check['id'])
 		tutorial_step_complete();
@@ -340,7 +346,8 @@ function tutorial_step_5_check()
 function tutorial_step_6_check()
 {
 
-	global $user;
+	global $container;
+	$user = $container->get('user');
 	if ($user['in_party'])
 		tutorial_step_complete();
 }
@@ -348,7 +355,8 @@ function tutorial_step_6_check()
 function tutorial_step_7_check()
 {
 
-	global $GET;
+	global $container;
+	$GET = &$container->GET;
 
 	if ($GET['currentPage'] == 'profile')
 		tutorial_step_complete();
@@ -357,7 +365,8 @@ function tutorial_step_7_check()
 function tutorial_step_8_check()
 {
 
-	global $GET;
+	global $container;
+	$GET = &$container->GET;
 
 	if ($GET['currentPage'] == 'grid/grid' && $GET['layers'])
 		tutorial_step_complete();
@@ -366,7 +375,9 @@ function tutorial_step_8_check()
 function tutorial_step_9_check()
 {
 
-	global $GET, $user;
+	global $container;
+	$GET = &$container->GET;
+	$user = $container->get('user');
 
 	if ($GET['currentPage'] == 'skills' && !$user['skillPoints'])
 		tutorial_step_complete();
@@ -376,7 +387,9 @@ function tutorial_step_9_check()
 function tutorial_step_10_check()
 {
 
-	global $user, $db;
+	global $container;
+	$db = $container->db();
+	$user = $container->get('user');
 	$check = $db->where('user_id', $user['id'])->where('level > 0')->getOne('abilities', 'ability_id');
 
 	if ($check['ability_id'])
@@ -386,7 +399,9 @@ function tutorial_step_10_check()
 function tutorial_step_11_check()
 {
 
-	global $user, $db;
+	global $container;
+	$db = $container->db();
+	$user = $container->get('user');
 	$check = $db->where('server_id', $user['server'])->where('running is not null and running != 0')->getOne('server_apps', 'process_id');
 
 	if ($check['process_id'])
@@ -395,7 +410,8 @@ function tutorial_step_11_check()
 
 function tutorial_step_12_check()
 {
-	global $GET;
+	global $container;
+	$GET = &$container->GET;
 
 	if ($GET['currentPage'] == 'data-points')
 		tutorial_step_complete();
@@ -404,7 +420,9 @@ function tutorial_step_12_check()
 function tutorial_step_13_check()
 {
 
-	global $user, $db;
+	global $container;
+	$db = $container->db();
+	$user = $container->get('user');
 	$check = $db->where('user_id', $user['id'])->getOne('user_job_logs', 'log_id');
 
 	if ($check['log_id'])
@@ -414,7 +432,9 @@ function tutorial_step_13_check()
 function tutorial_step_14_check()
 {
 
-	global $user, $db;
+	global $container;
+	$db = $container->db();
+	$user = $container->get('user');
 	$check = $db->where('user_id', $user['id'])->getOne('user_train_logs', 'log_id');
 
 	if ($check['log_id'])
@@ -424,7 +444,9 @@ function tutorial_step_14_check()
 function tutorial_step_15_check()
 {
 
-	global $user, $db;
+	global $container;
+	$db = $container->db();
+	$user = $container->get('user');
 	$check = $db->where('user_id', $user['id'])->where("fid", 7)->getOne('forum_posts', 'id');
 
 	if ($check['id'])
@@ -437,7 +459,8 @@ function tutorial_step_15_check()
 function tutorial_step_16_check()
 {
 
-	global $GET;
+	global $container;
+	$GET = &$container->GET;
 
 	if ( $GET['view'] == "hackingPoints")
 		tutorial_step_complete();
@@ -454,7 +477,9 @@ function tutorial_step_17_check()
 function tutorial_step_18_check()
 {
 
-	global $db, $user;
+	global $container;
+	$db = $container->db();
+	$user = $container->get('user');
 
 	$check = $db->where('quest', 39)->where('user_id', $user['id'])->getOne('quests_user', 'id');
 	if ($check['id'])
@@ -464,9 +489,13 @@ function tutorial_step_18_check()
 
 function tutorial_step_complete()
 {
-
-	global $tutorial, $uclass, $myModal;
+	global $container;
+	$tutorial = $container->get('_tutorial');
+	$myModal = $container->get('_myModal');
+	$uclass = $container->uclass();
 	$tutorial['status'] = 1;
 	$myModal['show'] = true;
 	$uclass->updatePlayer(array('tutorial' => $tutorial['step'] * 10 + $tutorial['status']));
+	$container->set('_tutorial', $tutorial);
+	$container->set('_myModal', $myModal);
 }

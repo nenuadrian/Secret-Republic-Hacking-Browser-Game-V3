@@ -1,0 +1,56 @@
+name: Docker Build
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build Docker image
+      run: docker build -t secretrepublic:test .
+
+    - name: Run PHPUnit tests inside container
+      run: |
+        docker run --rm secretrepublic:test sh -c "
+          composer install --prefer-dist --no-interaction --no-progress &&
+          php includes/vendor/bin/phpunit tests
+        "
+
+    - name: Verify Nginx config is valid
+      run: |
+        docker run --rm secretrepublic:test nginx -t
+
+    - name: Verify PHP-FPM starts cleanly
+      run: |
+        docker run --rm -d --name sr-fpm-check secretrepublic:test php-fpm --nodaemonize
+        sleep 2
+        docker exec sr-fpm-check php-fpm -t
+        docker stop sr-fpm-check
+
+    - name: Verify app serves HTTP 200 (SQLite mode)
+      run: |
+        docker run --rm -d --name sr-smoke secretrepublic:test
+        sleep 3
+        # Setup with SQLite so no external DB is needed
+        docker exec sr-smoke php -r "
+          file_put_contents('/var/www/app/includes/database_info.php',
+            '<?php return [\"driver\" => \"sqlite\", \"sqlite_path\" => \"/tmp/test.sqlite\"];'
+          );
+        "
+        STATUS=\$(docker exec sr-smoke curl -s -o /dev/null -w '%{http_code}' http://localhost/setup)
+        echo "HTTP status: $STATUS"
+        docker stop sr-smoke
+        if [ "$STATUS" -lt 200 ] || [ "$STATUS" -ge 500 ]; then
+          echo "Unexpected HTTP status $STATUS"
+          exit 1
+        fi

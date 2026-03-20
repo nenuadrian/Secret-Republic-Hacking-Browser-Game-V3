@@ -26,7 +26,7 @@ $processed = 0 ;
 while (count($battle = $db->where('hackdown_id', $hackDownId)->where('status', 1)->orderBy('RAND()')->get('hackdown_arena', 2)) == 2)
 {
 	$processed ++;
-		$battleSystem = new BattleSystem();
+		$battleSystem = new BattleSystem($container);
 	
 		if ($battle[0]['servers'])
 	    $servers = explode(",", $battle[0]['servers']);

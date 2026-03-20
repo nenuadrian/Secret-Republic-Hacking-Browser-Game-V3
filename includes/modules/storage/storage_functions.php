@@ -4,7 +4,8 @@ class ServerComponent
 {
   function __construct($storage_id = false, $user_id = false, $relation_id = false)
   {
-    global $db;
+    global $container;
+    $db = $container->db();
     if ($storage_id)
     {
       $db->join("components c", "c.component_id = s.component_id", "left outer");
@@ -31,7 +32,8 @@ function processComponentMount($storage_id)
 
 function fetchComponentFromStorage($user_id, $storage_id)
 {
-  global $db;
+  global $container;
+  $db = $container->db();
   $component = $db->join("components c", "c.component_id = s.component_id", "left outer")
                 ->where('storage_id', $storage_id)
                 ->where('user_id', $user_id)
@@ -40,7 +42,8 @@ function fetchComponentFromStorage($user_id, $storage_id)
 }
 function sellComponentFromStorage($user_id, $storage_id)
 {
-  global $db;
+  global $container;
+  $db = $container->db();
   $component = fetchComponentFromStorage($user_id, $storage_id);
 
   if (!$component['storage_id']) return false;
@@ -55,7 +58,9 @@ function sellComponentFromStorage($user_id, $storage_id)
 
 function handlePickSlotForComponent($server, $component, $pickedSlot = false)
 {
-  global $db, $tVars, $load;
+  global $container;
+  $db = $container->db();
+  $tVars = &$container->tVars;
 
   $slots = $db->rawQuery('select sc.*, c.* from server_components sc
                           left outer join components c on c.component_id = sc.component_id
@@ -103,7 +108,8 @@ function handlePickSlotForComponent($server, $component, $pickedSlot = false)
 }
 function replaceComponentWithComponent($server, &$component, &$componentToReplace, $user_id)
 {
-  global $db;
+  global $container;
+  $db = $container->db();
 
 
   if (!$componentToReplace)

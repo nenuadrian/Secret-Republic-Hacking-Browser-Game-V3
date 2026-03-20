@@ -29,7 +29,9 @@ class Paginator{
 
 	function paginate()
 	{
-		global $config, $pageURL, $GET;
+		global $container;
+		$GET = &$container->GET;
+		$pageURL = $container->has('pageURL') ? $container->get('pageURL') : '';
 		$this->url = isset($this->url) ? $this->url : $pageURL;
 		if($this->url[strlen($this->url)-1] == "/")
 		  $this->url = substr($this->url,0,-1);

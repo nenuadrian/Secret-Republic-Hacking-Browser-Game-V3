@@ -8,7 +8,7 @@
   
   $guestTask = $taskclass->check_fetch_task($user, 101, true);
 			
-  $qclass = new QClass($guestTask);
+  $qclass = new QClass($container, $guestTask);
 
    if($guestTask["id"]){
    

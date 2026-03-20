@@ -1,12 +1,11 @@
 <?php
 class Blog extends Alpha {
 
-  function __construct() {
-    parent::__construct();
+  function __construct(Container $container) {
+    parent::__construct($container);
   }
 
   function validateBlogTitle($title) {
-    global $errors;
 
 
     if (strlen($title) <= 50 && strlen($title) >= 5) {
@@ -14,7 +13,7 @@ class Blog extends Alpha {
       return true;
 
     } else
-      $errors[] = "Title must be between 5 and " . $this->config["blog_title_size"] . " characters";
+      $this->errors[] = "Title must be between 5 and " . $this->config["blog_title_size"] . " characters";
 
 
     return false;
@@ -50,7 +49,6 @@ class Blog extends Alpha {
   }
 
   function verify_create_blog() {
-    global $uclass, $errors;
 
     if ($_POST) {
       $title = $_POST["title"];
@@ -65,23 +63,22 @@ class Blog extends Alpha {
 
         if ($blog_id) {
 
-          $uclass->update_user("blogs=blogs+1", $this->user["id"], false);
+          $this->uclass->update_user("blogs=blogs+1", $this->user["id"], false);
 
           $this->redirect($this->config["url"] . 'blogs/blog/' . $blog_id);
         } else
-          $errors[] = "Something went wrong";
+          $this->errors[] = "Something went wrong";
       }
     }
   }
 
   function verify_create_article($article = null) {
-    global $user, $errors;
 
     if ($_POST) {
       // check last time an article has been posted by user
       $lastArticle = $this->db->where('blog_id', $this->blog['blog_id'])->where('created >= ' .  (time() - 60))->getOne('blog_articles', 'article_id');
       if ($latestArticle['article_id'])
-        $errors[] = 'You can only publish one article every 60 seconds.';
+        $this->errors[] = 'You can only publish one article every 60 seconds.';
       else if ($this->validateBlogTitle($title = $_POST["title"]) && $this->validateArticleContent($content = $_POST["content"])) {
         $parser = new \JBBCode\Parser();
         $parser->addCodeDefinitionSet(new \JBBCode\DefaultCodeDefinitionSet());
@@ -134,7 +131,7 @@ class Blog extends Alpha {
   }
 
   function send_notice_subscribers($url, $aname, $blog) {
-    global $user;
+    $user = $this->user;
 
     $content = "I have published a new article in my blog (" . $blog["name"] . ") to which you have subscribed!
             Article title: " . $aname . "
@@ -149,18 +146,16 @@ class Blog extends Alpha {
   }
 
   function validateArticleContent($content) {
-    global $errors;
 
     if (strlen($content) >= 10 && strlen($content) <= $this->config["blog_article_size"]) {
 
       return true;
 
     } else
-      $errors[] = "Content must have between 100 and " . $this->config["blog_article_size"] . " chars";
+      $this->errors[] = "Content must have between 100 and " . $this->config["blog_article_size"] . " chars";
   }
 
   function check_add_comment(&$article) {
-    global $url;
 
     if ($_POST["comment"]) {
       $content = $_POST["comment"];
@@ -187,7 +182,7 @@ class Blog extends Alpha {
         $this->redirect(URL_C);
 
       } else
-        $errors[] = "Content must have between 3 and 500 characters";
+        $this->errors[] = "Content must have between 3 and 500 characters";
     }
   }
 
@@ -244,7 +239,6 @@ class Blog extends Alpha {
 
 
   function fetch_subscribers($blog) {
-    global $subscribers;
 
     $this->pages                 = new Paginator;
     $this->pages->items_total    = $blog["nrs"];
@@ -253,7 +247,7 @@ class Blog extends Alpha {
     $this->pages->paginate();
     $subscribers = $this->db->where("bs.blog_id", $blog["blog_id"])->join("users u", "u.id = bs.user_id", "LEFT OUTER")->orderBy("created", "desc")->get("blog_subscriptions bs", $this->limit, "created,u.username  user");
 
-    $tVars["subscribers"] = $subscribers;
+    $this->templateVariables["subscribers"] = $subscribers;
   }
 
   function verify_change_name() {
@@ -272,4 +266,4 @@ class Blog extends Alpha {
 
   }
 }
-$bclass = new Blog;
+$bclass = new Blog($container);

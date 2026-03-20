@@ -6,18 +6,35 @@ require_once('class/Item.class.php');
 require("constants/skills.php");
 
 
-require('class/userclass.php');
-
-if ($cardinal) {
+if ($container->has('cardinal')) {
+  $cardinal = $container->get('cardinal');
   $cardinal->loginSystem();
 }
 
-$growl = $myModals = array();
-$success = $warnings = $errors = $info = array();
+$container->myModals = array();
+$container->success = $container->warnings = $container->errors = $container->info = array();
 
 require("../includes/class/paginator.class.php");
 
-require_once('class/taskclass.php');
+// Expose container-held references as local variables for module compatibility.
+// Modules can use $container->get('xxx') or these convenience locals.
+$db        = $container->has('db') ? $container->db() : null;
+$config    = $container->has('config') ? $container->config() : [];
+$user      = &$container->get('user');
+$logged    = &$container->logged;
+$uclass    = $container->uclass();
+$taskclass = $container->taskclass();
+$tVars     = &$container->tVars;
+$errors    = &$container->errors;
+$success   = &$container->success;
+$info      = &$container->info;
+$warnings  = &$container->warnings;
+$messenger = &$container->messenger;
+$myModals  = &$container->myModals;
+$voice     = &$container->voice;
+$pages     = &$container->pages;
+$GET       = &$container->GET;
+$url       = &$container->url;
 
 if (!$logged) {
 
@@ -57,7 +74,12 @@ else {
           echo "Undefined required function in tutorial.php: " . $functionName;
           die();
         }
+        // Stash tutorial state on container so tutorial functions can access it
+        $container->set('_tutorial', $tutorial);
+        $container->set('_myModal', $myModal);
         call_user_func($functionName);
+        $tutorial = $container->get('_tutorial');
+        $myModal = $container->get('_myModal');
       } elseif ($_POST['nextTutorialStep'] || $_POST['skipStep']) {
         $tutorial['step']++;
         $uclass->updatePlayer(array(
@@ -152,7 +174,7 @@ else {
 }
 
 
-if ($cardinal && $_SESSION["last_quote"] <= time() - 10 * 60) {
+if ($container->has('cardinal') && $_SESSION["last_quote"] <= time() - 10 * 60) {
   $_SESSION["last_quote"] = time();
   $quote                  = $db->orderBy("RAND()")->getOne("hacker_quotes");
   $message                = strip_tags('\"' . htmlspecialchars_decode($quote["quote"] . '\"'));

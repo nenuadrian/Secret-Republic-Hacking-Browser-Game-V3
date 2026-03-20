@@ -4,9 +4,9 @@ class RegistrationSystem extends Alpha
 {
 
 
-  function __construct()
+  function __construct(Container $container)
   {
-    parent::__construct();
+    parent::__construct($container);
   }
 
   function isEmailUsed($email)
@@ -18,7 +18,7 @@ class RegistrationSystem extends Alpha
 
   function validateRegisterDataForAllRegisterForms(&$username, &$zone, &$email)
   {
-    global $cardinal;
+    $cardinal = $this->container->get('cardinal');
     $username    = $_POST['username'];
     $zone        = intval($_POST['zone']);
     $email       = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) ? $_POST['email'] : false;
@@ -44,7 +44,7 @@ class RegistrationSystem extends Alpha
   }
   function registerUser()
   {
-    global $cardinal;
+    $cardinal = $this->container->get('cardinal');
 	  $this->validateRegisterDataForAllRegisterForms($username, $zone, $email);
 
     if (!there_are_errors())
@@ -107,7 +107,7 @@ class RegistrationSystem extends Alpha
 
   function sendEmailConfirmation($uid = false, $credentials = false, $username = false)
   {
-  	global $cardinal;
+  	$cardinal = $this->container->get('cardinal');
 
   	if (!$uid) $uid = $this->user['id'];
   	if (!$uid) return false;
@@ -163,7 +163,7 @@ class RegistrationSystem extends Alpha
 
   function addUser($username, $password, $email, $pin, $zone, $sendEmail = true)
   {
-    global $cardinal;
+    $cardinal = $this->container->get('cardinal');
     $pin = md5($pin);
 
     $gridNode = $this->findAvailableGridNode($zone);
@@ -217,7 +217,7 @@ class RegistrationSystem extends Alpha
 
   function logUserRegistration($uid, $provider = false)
   {
-	  global $cardinal;
+	  $cardinal = $this->container->get('cardinal');
 
 	  if ($_SESSION['referrer'])
 	  {
@@ -285,7 +285,7 @@ class RegistrationSystem extends Alpha
     if ($org && $org['org_id'])
     {
       require('oclass.php');
-      $oclass = new Organization($org['org_id']);
+      $oclass = new Organization($this->container, $org['org_id']);
 
       $content = 'Beginner Hacker in Alpha Competition';
 

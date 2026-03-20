@@ -17,12 +17,18 @@ $path = explode('/', $path);
 
 unset( $path[count($path) - 1]);
 
+// ---------------------------------------------------------------
+// COMPOSITION ROOT — all services are wired here via the Container
+// ---------------------------------------------------------------
+
+$container = new Container();
 
 $smarty = new Smarty;
 $smarty->setTemplateDir(implode('/', $path) . '/' . 'templates');
 $smarty->setCompileDir(implode('/', $path) . '/' . 'includes/templates_c');
 $smarty->setCacheDir(implode('/', $path) . '/' . 'includes/cache');
 $smarty->setConfigDir(implode('/', $path) . '/' . 'includes/vendor/smarty/smarty/configs');
+$container->set('smarty', $smarty);
 
 $pageURL = array_filter(explode('/', stripslashes($_SERVER['REQUEST_URI'])));
 $containsPage = array_search('page', $pageURL);
@@ -32,6 +38,7 @@ if ($containsPage) {
 define("URL_C", stripslashes($_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']) . '/');
 
 $pageURL =  stripslashes($_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST']) . '/' . implode ("/", $pageURL);
+$container->set('pageURL', $pageURL);
 
 if (isset($_SERVER['PATH_INFO'])) {
   $GETQuery = urldecode($_SERVER['PATH_INFO']);
@@ -44,18 +51,17 @@ if (isset($_SERVER['PATH_INFO'])) {
 $GETQuery = array_values(array_filter(explode("/", $GETQuery)));
 $include = 'main';
 if ($GETQuery) {
-	//$include =  str_replace(array('-','_'), '', $GETQuery[0]);
 	$include =  $GETQuery[0];
 	unset($GETQuery[0]);
 	$GETQuery = array_values($GETQuery);
 
 	for ($i = 0; $i < count($GETQuery); $i += 2)
-		$GET[$GETQuery[$i]] = isset( $GETQuery[$i + 1]) ? $GETQuery[$i + 1] : "" ;
+		$container->GET[$GETQuery[$i]] = isset( $GETQuery[$i + 1]) ? $GETQuery[$i + 1] : "" ;
 }
 
 if (!file_exists('../includes/database_info.php')) {
 	$include = 'setup';
-	$tVars['setupDefaults'] = array(
+	$container->tVars['setupDefaults'] = array(
 		'host' => getenv('DB_HOST') ?: 'localhost',
 		'port' => getenv('DB_PORT') ?: '3306',
 		'user' => getenv('DB_USER') ?: 'root',
@@ -64,18 +70,30 @@ if (!file_exists('../includes/database_info.php')) {
 		'driver' => getenv('DB_DRIVER') ?: 'mysql',
 	);
 } else {
-	$cardinal = new Cardinal();
-	$url = $cardinal->config['url'];
+	$cardinal = new Cardinal($container);
+	$container->set('cardinal', $cardinal);
+	$container->url = $cardinal->config['url'];
 }
 
 if ($include != "404" && !file_exists("../includes/modules/" . $include . ".php"))
   $include .= is_dir("../includes/modules/" . $include) ? "/" . $include : $include = "main/main";
 
-$GET["currentPage"] = $include;
+$container->GET["currentPage"] = $include;
 
+$_GET = array_merge(array("GET" => $_GET), $container->GET);
 
-$_GET = array_merge(array("GET" => $_GET), $GET);
+// Register UserClass and Tasks as lazy singletons in the container
+$container->factory('uclass', function(Container $c) {
+	require_once(ABSPATH . 'includes/class/userclass.php');
+	return new UserClass($c);
+});
+$container->factory('taskclass', function(Container $c) {
+	require_once(ABSPATH . 'includes/class/taskclass.php');
+	return new Tasks($c);
+});
 
+// Initialise user as empty array (LoginSystem will populate it)
+$container->set('user', []);
 
 require_once('../includes/header.php');
 
@@ -85,49 +103,49 @@ if ($include == "404")
 else require( $include );
 
 
-$tVars["GET"] = $GET;
+$container->tVars["GET"] = $container->GET;
 
-if (!$tVars["json"])
+if (!$container->tVars["json"])
 {
 
-  if ($tVars["show_404"])
+  if ($container->tVars["show_404"])
   {
-    $tVars["audio"] = "eve/404.mp3";
+    $container->tVars["audio"] = "eve/404.mp3";
 
-    $tVars["display"] = 'pages/404.tpl';
+    $container->tVars["display"] = 'pages/404.tpl';
   }
 
-  if (isset($tVars["display"]))
+  if (isset($container->tVars["display"]))
   {
 	/** HANDLE NOTICES DISPLAYED AFTER REDIRECTS **/
 	if ($_SESSION["success"])
-		$success[]  = $_SESSION["success"];
+		$container->success[]  = $_SESSION["success"];
 
 	if ($_SESSION["info"])
-		$info[]  = $_SESSION["info"];
+		$container->info[]  = $_SESSION["info"];
 
 	if ($_SESSION["error"])
-		$errors[]  = $_SESSION["error"];
+		$container->errors[]  = $_SESSION["error"];
 
 	if ($_SESSION["warning"])
-		$warnings[]  = $_SESSION["warning"];
+		$container->warnings[]  = $_SESSION["warning"];
 
 	if ($_SESSION["voice"])
-		$voice = $_SESSION["voice"];
+		$container->voice = $_SESSION["voice"];
 
 	if ($_SESSION["messenger"])
-	  $messenger[] = $_SESSION["messenger"];
+	  $container->messenger[] = $_SESSION["messenger"];
 
 	if ($_SESSION["myModal"])
-	  array_unshift($myModals, $_SESSION["myModal"]);
+	  array_unshift($container->myModals, $_SESSION["myModal"]);
 
 	unset($_SESSION['myModal'], $_SESSION["success"], $_SESSION["error"], $_SESSION["warning"], $_SESSION["voice"], $_SESSION['info'], $_SESSION["messenger"]);
     /** //HANDLE NOTICES DISPLAYED AFTER REDIRECTS **/
 
-	$tVars['queries'] = $db->trace;
-	errors_success();
-    $smarty->assign($tVars);
-    $smarty->display($tVars["display"]);
+	$container->tVars['queries'] = $container->db()->trace;
+	errors_success($container);
+    $smarty->assign($container->tVars);
+    $smarty->display($container->tVars["display"]);
     $smarty->display("footer_home.tpl");
   }
 }

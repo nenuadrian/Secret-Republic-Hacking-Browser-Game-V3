@@ -6,7 +6,7 @@ require_once('../includes/class/abclass.php');
 
 require("../includes/constants/abilities.php");
 $abilities = abilities(null, null);
-$abclass= new Abilities($abilities);
+$abclass= new Abilities($container);
 
 $GET["toLevel"] = $GET["toLevel"]  >= 1 && $GET["toLevel"]  <= 200 ? intval($GET["toLevel"]) : 10;
 $userLevel =  $GET["userLevel"]  >= 1 && $GET["userLevel"]  <= 400 ? intval($GET["userLevel"]) : 100;

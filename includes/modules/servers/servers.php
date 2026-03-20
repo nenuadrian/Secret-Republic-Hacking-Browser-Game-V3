@@ -44,7 +44,7 @@ if (isset($GET['build']))
 				if (!count($errors))
 				{
 					require("../includes/class/class.server.php");
-					$server = new Server();
+					$server = new Server($container);
 
 					$dataInsert = array(
 						"user_id" => $user['id'],
@@ -67,7 +67,7 @@ if (isset($GET['build']))
 						if (!$user['server'])
 							$uclass->updatePlayer(array('server' => $server_id));
 
-						$server = new Server($server_id);
+						$server = new Server($container, $server_id);
 						$server->recomputeServerResources();
 						$uclass->recomputeDataPointsStats($user['id']);
 
@@ -104,7 +104,7 @@ elseif (isset($GET['server']))
 
 	if (!$server['server_id']) $cardinal->redirect(URL."servers");
 
-	$server = new Server($server['server_id'], $server);
+	$server = new Server($container, $server['server_id'], $server);
 
 	//$server->recomputeServerResources();
 	if ($GET['change'] == "hostname")
@@ -140,7 +140,7 @@ elseif (isset($GET['server']))
 			$toServer = $db->where("server_id", $_POST["server"])->where("user_id", $user['id'])->getOne("servers");
 			if ($toServer['server_id'])
 			{
-				$toServer = new Server($toServer['server_id'], $toServer);
+				$toServer = new Server($container, $toServer['server_id'], $toServer);
 
 				$toServer->fetchComponents();
 

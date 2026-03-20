@@ -39,7 +39,7 @@ $cardinal->mustLogin();
 
               require_once('../includes/class/oclass.php');
 
-              $oclass = new Organization();
+              $oclass = new Organization($container);
               if (!($nameError = $oclass->validataOrgName($search, false)))
               {
                 $results = $db->where("name", array("like" => sprintf("%%%s%%",$search)))->getOne("organizations", "count(id) nrOrgs");

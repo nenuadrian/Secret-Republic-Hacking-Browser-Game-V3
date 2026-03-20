@@ -54,7 +54,7 @@ else {
 
   } //$qtask["id"]
 
-  $qclass = new QClass($qtask);
+  $qclass = new QClass($container, $qtask);
 
   if ($qtask) {
     //QUEST IN PROGRESS

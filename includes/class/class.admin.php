@@ -8,8 +8,8 @@ class Admin extends Alpha {
 
   private $serviceTypes = array('ssh', 'sql', 'smtp', 'http', 'unknown');
 
-  function __construct() {
-    parent::__construct();
+  function __construct(Container $container) {
+    parent::__construct($container);
     $this->templateVariables['objectiveTypes'] = $this->objectiveTypes;
     $this->templateVariables['serviceTypes']   = $this->serviceTypes;
   }
@@ -257,4 +257,4 @@ class Admin extends Alpha {
 
 }
 
-$aclass = new Admin();
+$aclass = new Admin($container);

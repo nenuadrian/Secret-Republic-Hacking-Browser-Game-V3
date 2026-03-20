@@ -9,16 +9,16 @@ function page_url($page) {
   return URL . $page;
 }
 function redirect_to_page($page) {
-  global $cardinal;
-  $cardinal->redirect(page_url($page));
+  global $container;
+  $container->get('cardinal')->redirect(page_url($page));
 }
 function logged_in() {
-  global $logged;
-  return $logged ? true : false;
+  global $container;
+  return $container->logged ? true : false;
 }
 function GET($field) {
-  global $GET;
-  return isset($GET[$field]) ? $GET[$field] : false;
+  global $container;
+  return isset($container->GET[$field]) ? $container->GET[$field] : false;
 }
 function ordinal($number) {
   $ends = array(
@@ -40,15 +40,15 @@ function ordinal($number) {
 }
 
 function there_are_errors() {
-  global $errors;
-  return count($errors) > 0 ? true : false;
+  global $container;
+  return count($container->errors) > 0 ? true : false;
 }
 function add_alert($message, $type = "error") {
-  global $errors, $success;
+  global $container;
   if ($type == "error")
-    $errors[] = $message;
+    $container->errors[] = $message;
   elseif ($type == "success")
-    $success[] = $message;
+    $container->success[] = $message;
 }
 
 function submitted_form($identifier) {
@@ -59,7 +59,8 @@ function submitted_form($identifier) {
   return false;
 }
 function configs($field) {
-  global $config;
+  global $container;
+  $config = $container->config();
   if (isset($config[$field]))
     return $config[$field];
   return false;
@@ -96,7 +97,7 @@ function ordinalSuffix($number) {
 }
 
 function myErrorHandler($errno, $errstr, $errfile, $errline) {
-  global $cardinal;
+  global $container;
   $report = array(
     E_USER_ERROR,
     E_ERROR,
@@ -107,7 +108,11 @@ function myErrorHandler($errno, $errstr, $errfile, $errline) {
   ;
 
   if (in_array($errno, $report) && isset($errstr)) {
-    global $smarty, $tVars, $GET, $config;
+    $smarty = $container->has('smarty') ? $container->smarty() : null;
+    $tVars = &$container->tVars;
+    $GET = &$container->GET;
+    $config = $container->has('config') ? $container->config() : [];
+    $user = $container->has('user') ? $container->get('user') : [];
     $backtrace  = debug_backtrace();
     $backtrace  = 0;
     $insertData = array(
@@ -117,15 +122,14 @@ function myErrorHandler($errno, $errstr, $errfile, $errline) {
       'url' => URL_C,
       'errno' => $errno,
       'errstr' => htmlentities($errstr, ENT_QUOTES),
-      'user_id' => isset($cardinal->user['id']) ? $cardinal->user['id'] : 0,
+      'user_id' => isset($user['id']) ? $user['id'] : 0,
       'backtrace' => var_export($backtrace, true)
     );
 
     if ($smarty) {
-      //if ($cardinal->user['view_debug'])
       $tVars['insertData'] = var_export($insertData, true);
 
-      errors_success();
+      errors_success($container);
 
       $smarty->assign($tVars);
       $smarty->display('pages/error.tpl');
@@ -134,7 +138,7 @@ function myErrorHandler($errno, $errstr, $errfile, $errline) {
 
     } else {
       echo '<h3>Cardinal notice: An unexpected error took place. Error recorded. Crazy people are going to look into it soon!</h3>';
-      if (isset($cardinal->user['view_debug']))
+      if (isset($user['view_debug']))
         print_R($insertData);
     }
 
@@ -162,40 +166,54 @@ function is_ip($ip) {
 
 
 
-function errors_success() {
-  global $errors, $error, $GET, $info, $myModals, $messenger, $tVars, $no_warning_voice, $voice, $success, $page_start, $pages, $page_title, $page, $user, $logged, $config, $alert, $warnings, $cardinal;
+function errors_success(Container $container) {
 
+  $errors    = &$container->errors;
+  $success   = &$container->success;
+  $info      = &$container->info;
+  $warnings  = &$container->warnings;
+  $messenger = &$container->messenger;
+  $myModals  = &$container->myModals;
+  $tVars     = &$container->tVars;
+  $voice     = &$container->voice;
+  $pages     = &$container->pages;
+  $logged    = $container->logged;
+  $user      = $container->get('user');
+  $config    = $container->has('config') ? $container->config() : [];
+  $cardinal  = $container->has('cardinal') ? $container->get('cardinal') : null;
 
+  $no_warning_voice = false;
 
-  if ($user['aiVoice'] && ($_SESSION['premium']['ai'])) {
+  if (isset($user['aiVoice']) && $user['aiVoice'] && ($_SESSION['premium']['ai'])) {
     if (!$voice)
-      if ($errors || $error)
+      if ($errors)
         $voice = 'error';
       elseif ($success)
         $voice = 'notice';
       elseif ($warnings && !$no_warning_voice)
         $voice = 'warning';
   } else
-    unset($voice);
+    $voice = '';
 
-  if ($cardinal->loginSystem->logged) {
+  if ($cardinal && $cardinal->_dynamicProps['loginSystem']->isLogged()) {
 
     if ($user['friend_requests'] + $user['rewardsToReceive'])
       $user['profileNotification'] = true;
     $tVars['logged'] = true;
     $tVars['user']   = $user;
 
-  } //$cardinal->loginSystem->logged
+  }
 
 
 
 
-  if ($pages->num_pages) {
+  if ($pages && $pages->num_pages) {
 
     $tVars['pages'] = $pages->display_pages();
 
-  } //$pages->num_pages
+  }
 
+  $error = null;
   if ($error)
     $errors[] = $error;
   if (isset($success) && !is_array($success))
@@ -217,6 +235,9 @@ function errors_success() {
         'message' => $s
       );
 
+  $page = null;
+  $page_title = null;
+  $alert = null;
   $moreTemplateVariables = array(
     'errors' => $errors,
     'success' => $success,
@@ -304,11 +325,9 @@ function double_rand($x, $y) {
 }
 
 function profile_link($username, $color = '') {
-  global $config, $mobile;
+  global $container;
+  $config = $container->config();
   $color = $color ? sprintf('style="color:%s"', $color) : '';
-
-
-
 
   return '<a class="tiptip" href="' . $config['url'] . 'profile/hacker/' . $username . '" title="' . $username . '\'s profile" ' . $color . ' >' . $username . '</a>';
 

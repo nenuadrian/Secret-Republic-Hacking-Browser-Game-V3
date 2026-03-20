@@ -29,7 +29,7 @@ require_once('../includes/class/abclass.php');
 
 		$taskclass->process_task_general($abtask);
 		if($abtask["remainingSeconds"]<=0 || ($GET["alpha"] && $user["cardinal"])){
-		  $abclass = new Abilities();
+		  $abclass = new Abilities($container);
 			$abclass->upgrade_ability($abtask["dataid"]);
 			$taskclass->delete_task_session($user["id"],1);
 			unset($abtask);
@@ -66,7 +66,7 @@ require_once('../includes/class/abclass.php');
 
 
 
-    $abclass=new Abilities();
+    $abclass=new Abilities($container);
 
     if(ctype_digit($_POST["a"]) && !$abtask["id"] && !$a['cant'])
 		if ($uclass->canDoTask())

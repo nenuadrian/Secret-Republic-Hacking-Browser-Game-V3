@@ -23,7 +23,7 @@
       
 
       require("../includes/class/class.battleSystem.php");
-      $battleSystem = new BattleSystem();
+      $battleSystem = new BattleSystem($container);
       $stats = array();
       $stats['spyAttack'] =  
       	$battleSystem->computePlayerStats($user['id'], false, true, false, false, $servers)['spyAttack'];

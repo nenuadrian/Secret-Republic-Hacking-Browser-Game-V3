@@ -51,7 +51,7 @@ else
     elseif ($_POST['email'] && strtolower($_POST['email']) != $credentials['email'])
 	{
 		require("../includes/class/registrationSystem.php");
-		$registrationSystem = new RegistrationSystem();
+		$registrationSystem = new RegistrationSystem($container);
 
 		if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
 			$errors[] = "Invalid email";

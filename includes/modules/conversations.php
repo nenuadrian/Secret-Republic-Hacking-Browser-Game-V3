@@ -8,7 +8,8 @@ $systemUsername = array(-1 => '<strong>Cardinal System</strong>', -2 => '<strong
 
 function validateMessage($content)
 {
-  global $errors;
+  global $container;
+  $errors = &$container->errors;
 
   if  (isset($content[9]) && !isset($content[4000]))
     return true;
@@ -17,7 +18,8 @@ function validateMessage($content)
 }
 function validateTitle($title)
 {
-  global $errors;
+  global $container;
+  $errors = &$container->errors;
 
   if  (isset($title[4]) && !isset($title[50]))
     return true;

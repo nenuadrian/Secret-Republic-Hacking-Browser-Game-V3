@@ -1,10 +1,10 @@
 <?php
 class Abilities extends Alpha {
 
-  function __construct() {
+  function __construct(Container $container) {
 
-    parent::__construct();
-    global $userData;
+    parent::__construct($container);
+    $userData = [];
 
 
     $userData["level"]     = $this->user["level"];
@@ -53,7 +53,9 @@ class Abilities extends Alpha {
   }
 
   function processAbilitiesData($decideIfCanLearn = true) {
-    global $user, $tasks, $error, $lerrors, $config, $abtask;
+    global $tasks, $abtask;
+    $user = $this->user;
+    $config = $this->config;
 
     // calculate abilities properties
     foreach ($this->abilities as $abilityKey => &$ability) {

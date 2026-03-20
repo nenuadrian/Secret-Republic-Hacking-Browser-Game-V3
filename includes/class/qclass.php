@@ -17,9 +17,9 @@ class QClass extends Alpha
   private static $userGameEmail = '@secretrepublic.net';
   private static $cardinalOS = 'Cardinal OS V2.2';
 
-  function __construct(&$questTask = null)
+  function __construct(Container $container, &$questTask = null)
   {
-    parent::__construct();
+    parent::__construct($container);
 
 
     $this->questTask =& $questTask;

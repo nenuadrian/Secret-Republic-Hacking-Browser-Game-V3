@@ -2,9 +2,9 @@
 class UserClass extends Alpha
 {
 
-    function __construct()
+    function __construct(Container $container)
     {
-        parent::__construct();
+        parent::__construct($container);
     }
     function canDoTask()
     {
@@ -675,7 +675,7 @@ class UserClass extends Alpha
                 $neededHDD += $app['hdd'];
             }
             require ("../includes/class/class.server.php");
-            $server = new Server($this->user['server']);
+            $server = new Server($this->container, $this->user['server']);
 
             if ($server->server['total_hdd'] - $server->server['hdd_usage'] < $neededHDD) add_alert("Not enough HDD on main server to store the apps");
         }
@@ -784,12 +784,12 @@ class UserClass extends Alpha
 
             foreach ($servers as & $srv)
             {
-                $srv = new Server($srv['server_id'], $srv);
+                $srv = new Server($this->container, $srv['server_id'], $srv);
                 $srv->fetchSkills();
             }
             if (!$allServers)
             {
-                $server = new Server($main);
+                $server = new Server($this->container, $main);
                 $server->fetchSkills();
                 $servers[] = $server;
             }
@@ -930,7 +930,4 @@ class UserClass extends Alpha
         return $servers;
     }
 }
-
-$uclass = new UserClass();
-
 ?>

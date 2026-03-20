@@ -2,9 +2,9 @@
 
 class organizationWars extends Alpha
 {
-  function __construct()
+  function __construct(Container $container)
   {
-    parent::__construct();
+    parent::__construct($container);
   }
 
   function fetchOrganizationWars($org_id)

@@ -1,8 +1,8 @@
 <?php
 
 class BattleSystem extends Alpha {
-  function __construct() {
-    parent::__construct();
+  function __construct(Container $container) {
+    parent::__construct($container);
   }
   function computePlayerStats($user_id, $computeLayers = true, $computeSpy = false, $skills = false, $servers = false, $serversUsed = array(), $dontTakeUsedServersInAccount = false) {
     global $theskills;
@@ -38,7 +38,7 @@ class BattleSystem extends Alpha {
       require_once("../includes/class/class.server.php");
 
       foreach ($player['servers'] as &$server) {
-        $server['server'] = new Server($server['server_id'], $server);
+        $server['server'] = new Server($this->container, $server['server_id'], $server);
         //$server['server']->fetchComponents();
         $server['server']->fetchSkills();
       }
@@ -313,7 +313,7 @@ class BattleSystem extends Alpha {
     ));
 
     require_once("../includes/class/class.server.php");
-    $serverClass = new Server();
+    $serverClass = new Server($this->container);
     $damage      = ceil($damage / count($comps));
     foreach ($comps as $component) {
       $serverClass->dealComponentDamage($component, $damage);

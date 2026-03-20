@@ -9,7 +9,7 @@
 
   $jobTask = $taskclass->check_fetch_task($user, 12);
 			
-  $qclass = new QClass($jobTask);
+  $qclass = new QClass($container, $jobTask);
 			
    if($jobTask["id"]){
    

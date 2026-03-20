@@ -23,7 +23,7 @@ if ($hackTask["id"]) {
   
  
       
-    $qclass = new QClass($hackTask);
+    $qclass = new QClass($container, $hackTask);
     
     $tVars["qtask"] = $hackTask;
        
@@ -68,7 +68,7 @@ else
 
 
 
-             $qclass = new QClass();
+             $qclass = new QClass($container);
 
             $qclass->forceStartQuest($quest["id"], 5, null, false, false, array());
 

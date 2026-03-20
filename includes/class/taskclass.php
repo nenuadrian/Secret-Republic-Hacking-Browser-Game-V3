@@ -2,8 +2,8 @@
 
 class Tasks extends Alpha{
 
-		function __construct(){
-		  parent::__construct();
+		function __construct(Container $container){
+		  parent::__construct($container);
 		}
 		function add_task_session($uid,$tasktype,$takes,$data = array(),$dataid = NULL,$name='', $session = false, $party_id = false, $instance_id = false){
 
@@ -125,6 +125,4 @@ class Tasks extends Alpha{
       $this->db->where('id', $task_id)->update('tasks', $updateData);
 	  }
 	}
-
-	$taskclass=new Tasks;
 ?>

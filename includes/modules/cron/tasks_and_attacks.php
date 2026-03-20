@@ -23,7 +23,7 @@ foreach($tasks as $task)
 			if (!$abclass)
 			{
 
-				$abclass = new Abilities();
+				$abclass = new Abilities($container);
 			}
 
     		$abclass->upgrade_ability($task["dataid"]);
@@ -82,7 +82,7 @@ foreach ($attacks as $attack) {
   $sender['servers'] = explode(",", $attack['servers']);
   if ($attack['type'] == 1)
   {
-		$battleSystem = new BattleSystem();
+		$battleSystem = new BattleSystem($container);
 
 
 
@@ -137,7 +137,7 @@ foreach ($attacks as $attack) {
   elseif ($attack['type'] == 2)
   {
 
-		$battleSystem = new BattleSystem();
+		$battleSystem = new BattleSystem($container);
 		$data   = $battleSystem->computePlayerStats($sender['user_id'], true, false, false, false, $sender['servers']);
 		$sender = array_merge($data, $sender);
 		$data = $battleSystem->computePlayerStats($receiver['user_id']);
@@ -185,7 +185,7 @@ foreach ($attacks as $attack) {
 
       foreach ($servers as $srv)
       {
-        $srv = new Server($srv);
+        $srv = new Server($container, $srv);
         $srv->fetchSkills();
         $srvCommandsInfluence = $srv->computeSkillsCommandsInfluence();
         foreach ($srvCommandsInfluence as $c => $v)

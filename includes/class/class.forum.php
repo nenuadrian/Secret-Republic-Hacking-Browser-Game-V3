@@ -1,8 +1,8 @@
 <?php
 class Forum extends Alpha{
 
-		function __construct($org=false, $org_access = array()){
-		  parent::__construct();
+		function __construct(Container $container, $org=false, $org_access = array()){
+		  parent::__construct($container);
 
 			$this->posts_per_page = 10;
 
@@ -135,7 +135,6 @@ class Forum extends Alpha{
       }else $this->redirect($this->furl);//cardinal->show_404();
 		}
 		function edit_post($post){
-			global $errors;
 
 			if($_POST)
 			{
@@ -166,7 +165,7 @@ class Forum extends Alpha{
 						$this->templateVariables["preview"] =  $parser->getAsHtml();
 					  } // PREVIEW
 
-			  } else $errors[] = $error;
+			  } else $this->errors[] = $error;
 
 		 }
 
@@ -190,7 +189,6 @@ class Forum extends Alpha{
 			return $this->db->rawQUery('select * from '.$this->sections.' where id = ? '.$this->extra_check.' limit 1', array($fid))[0];
 		}
 		function thread_process(&$thread){
-			global $posts;
 
 			$forum = $this->get_forum_data($thread['fid']);
 
@@ -254,20 +252,19 @@ class Forum extends Alpha{
 		}
 
 		function get_posts($thread){
-			global  $pages;
 
 
 
-				$pages = new Paginator;
-				$pages->items_total = $thread["replies"] + 1;
-				$pages->items_per_page = $this->posts_per_page;
-				$pages->paginate();
+				$this->pages = new Paginator;
+				$this->pages->items_total = $thread["replies"] + 1;
+				$this->pages->items_per_page = $this->posts_per_page;
+				$this->pages->paginate();
 
 				$posts=$this->db->rawQuery('select fp.*,fp.id as id,u.username as user,u.gavatar as gavatar,u.level'.(!$this->org ? ', o.name, u.organization': '').'
 				                          from '.$this->posts.' as fp
 				                          left outer join users u on u.id=fp.user_id
 										  '.(!$this->org ? 'left outer join organizations o on o.id = u.organization': '').'
-				                          where parent=? or fp.id = ? order by created asc '.$pages->limit, array($thread["id"], $thread["id"]));
+				                          where parent=? or fp.id = ? order by created asc '.$this->pages->limit, array($thread["id"], $thread["id"]));
 
 
 

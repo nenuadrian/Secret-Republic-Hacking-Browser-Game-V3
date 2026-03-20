@@ -18,7 +18,7 @@ if (!$war['war_id']) $cardinal->redirect($config['url'].'organization/view/wars'
 $page_title = $war['org1_name'] . ' vs ' . $war['org2_name'];
 
 require('../includes/class/organizationWars.php');
-$owars = new organizationWars;
+$owars = new organizationWars($container);
 
 $owars->processWar($war);
 if (!$war) $cardinal->redirect($config['url'].'organization/view/wars');
@@ -51,7 +51,7 @@ if ($war['status'] == 2 && $user['organization'])
     }
     
     
-    $qclass = new QClass($fightTask);
+    $qclass = new QClass($container, $fightTask);
     
      // has user just finished working? Give him a juicy reward
     if ($qclass->finished)
@@ -87,7 +87,7 @@ if ($war['status'] == 2 && $user['organization'])
 					  ->where("? >= q.level", array($user["level"]))
 					  ->orderBy("RAND()")
 					  ->getOne("quests q", "id");
-		$qclass = new QClass();
+		$qclass = new QClass($container);
 		  $qclass->forceStartQuest($quest['id'], 30);
 
 		} 

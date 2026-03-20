@@ -6,7 +6,7 @@ require_once('../includes/class/class.forum.php');
 
 	$page_title="Hacker Forums";
 	
-	$fclass=new Forum();
+	$fclass=new Forum($container);
 	
 	if(ctype_digit($GET["fid"])){
 		$forum=$fclass->get_forum_data($GET["fid"]);

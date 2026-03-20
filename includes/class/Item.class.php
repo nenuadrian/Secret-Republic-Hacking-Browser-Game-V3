@@ -17,21 +17,24 @@ class Item
   }
   function loadApp($app_id, $damage = 0)
   {
-    global $db;
+    global $container;
+    $db = $container->db();
     $db->where('app_id', $app_id);
     $this->data = $db->getOne('applications a', 'a.*');
     $this->data['damage'] = $damage;
   }
   function loadComponent($component_id, $damage = 0)
   {
-    global $db;
+    global $container;
+    $db = $container->db();
     $db->where('component_id', $component_id);
     $this->data = $db->getOne('components c', 'c.*');
     $this->data['damage'] = $damage;
   }
   function loadFromStorage($storage_id, $user_id = false)
   {
-    global $db;
+    global $container;
+    $db = $container->db();
     $db->where('storage_id', $storage_id);
     if ($user_id) $db->where('user_id', $user_id);
     $db->join('components c', 'c.component_id = s.component_id', 'left outer');
@@ -39,7 +42,8 @@ class Item
   }
   function loadFromServerApps($process_id, $user_id = false, $server_id = false)
   {
-    global $db;
+    global $container;
+    $db = $container->db();
     $db->where('process_id', $process_id);
     if ($user_id) $db->where('s.user_id', $user_id);
     if ($server_id) $db->where('sa.server_id', $server_id);
@@ -54,7 +58,8 @@ class Item
   
   function fetchItemSpecificData()
   {
-    global $db;
+    global $container;
+    $db = $container->db();
     if ($this->isApp())
     {
        $db->where('app_id', $this->data['app_id']);
@@ -70,7 +75,8 @@ class Item
 
   function removeFromStorage()
   {
-    global $db;
+    global $container;
+    $db = $container->db();
     if (!$this->data['storage_id']) return false;
     $db->where("storage_id", $this->data['storage_id'])->delete("storage");
     return true;
@@ -78,11 +84,12 @@ class Item
 
   function removeFromServer()
   {
-    global $db;
+    global $container;
+    $db = $container->db();
     require_once ("class/class.server.php");
     if (!$this->data['process_id'] || !$this->data['server_id']) return false;
     $db->where('process_id', $this->data['process_id'])->delete('server_apps');
-    $server = new Server();
+    $server = new Server($container);
     $server->recomputeServerResources($this->data['server_id']);
     return true;
   }

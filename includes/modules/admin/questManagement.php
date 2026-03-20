@@ -12,7 +12,9 @@ if ($GET["qid"])
 
 function validateGroupPost($creator_user_id = false)
 {
-	global $errors, $user;
+	global $container;
+	$errors = &$container->errors;
+	$user = $container->get('user');
 	if (strlen($_POST['name']) < 3 || strlen($_POST['name']) > 50)
 		$errors[] = "Name must have between 3 and 50 characters";
 
@@ -143,7 +145,8 @@ elseif ($GET['tree'])
 	}
 	function createTree(&$tree)
 	{
-		global $db;
+		global $container;
+		$db = $container->db();
 
 		foreach ($tree as &$node)
 		{

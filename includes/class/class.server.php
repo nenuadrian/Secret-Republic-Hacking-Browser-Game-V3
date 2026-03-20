@@ -2,8 +2,8 @@
 
 class Server extends Alpha {
   var $componentNonStackable = array(1 => 'cpu', 2 => 'motherboard', 3 => 'case', 4 => 'power_source');
-  function __construct($server_id = false, $server = false) {
-    parent::__construct();
+  function __construct(Container $container, $server_id = false, $server = false) {
+    parent::__construct($container);
 
     if ($server)
       $this->server = $server;

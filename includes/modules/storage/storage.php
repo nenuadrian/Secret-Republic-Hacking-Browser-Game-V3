@@ -27,7 +27,7 @@ elseif (isset($_POST['mount']))
 
 		if ($server['server_id'])
 		{
-			$server = new Server($server['server_id'], $server);
+			$server = new Server($container, $server['server_id'], $server);
 			$server->fetchComponents();
 
 			// CPU
