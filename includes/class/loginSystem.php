@@ -185,20 +185,13 @@ class LoginSystem extends Alpha
 
   function generateSessionUniqueId($password, $secretCode)
   {
-    $hash[] = md5(uniqid(rand(), true));
-    $hash[] = sha1(uniqid(rand(), true)) . $hash[0] . md5($secretCode);
-    $hash[] = sha1($password . $hash[0] . $hash[1] . md5(sha1($secretCode) . sha1($secretCode))) . sha1($password);
-    $hash[] = md5($hash[0] . $hash[1] . $hash[2]) . sha1($hash[0] . $hash[1] . $hash[0]);
-    return sha1($hash[0] . $hash[1] . $hash[2] . $hash[3] . md5($secretCode . $password));
+    return bin2hex(random_bytes(32));
   }
 
 
   function generateSessionUniqueValue($password, $secretCode, $unique_id, $time)
   {
-    $hash[] = sha1($unique_id . $password . $secretCode) . sha1(time() * 2 + $time);
-    $hash[] = md5($password . $secretCode . $hash[0] . time() . $time);
-    $hash[] = sha1($hash[0] . $hash[1] . $secretCode . sha1($password));
-    return sha1($hash[0] . $hash[1] . $hash[2] . sha1($password . $secretCode . $time . $hash[1]));
+    return bin2hex(random_bytes(32));
   }
 
 
@@ -287,8 +280,15 @@ class LoginSystem extends Alpha
 
     unset($_SESSION['tasks']);
 
-	setCookie('sessionhashone', $session1, time() + 60*60*24*30, '/');
-	setCookie('sessionhashtwo', $session2, time() + 60*60*24*30, '/');
+	$cookieOptions = array(
+		'expires' => time() + 60*60*24*30,
+		'path' => '/',
+		'httponly' => true,
+		'samesite' => 'Lax',
+		'secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+	);
+	setcookie('sessionhashone', $session1, $cookieOptions);
+	setcookie('sessionhashtwo', $session2, $cookieOptions);
 
     $_SESSION['userId']        = $user_id;
     $_SESSION['session1']     = $session1;

@@ -57,7 +57,7 @@ else {
           echo "Undefined required function in tutorial.php: " . $functionName;
           die();
         }
-        eval($functionName . "();");
+        call_user_func($functionName);
       } elseif ($_POST['nextTutorialStep'] || $_POST['skipStep']) {
         $tutorial['step']++;
         $uclass->updatePlayer(array(
