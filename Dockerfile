@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libfreetype6-dev \
     default-mysql-client \
+    libsqlite3-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd mysqli pdo pdo_mysql pdo_sqlite \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -26,14 +27,12 @@ COPY . .
 # Install PHP dependencies
 RUN composer install --prefer-dist --no-interaction --no-progress --no-dev
 
-# Create required directories for Smarty
+# Create required directories for Smarty and ensure www-data can write
 RUN mkdir -p includes/templates_c includes/cache \
-    && chown -R www-data:www-data includes/templates_c includes/cache
+    && chown -R www-data:www-data includes/templates_c includes/cache includes/
 
-# Use the env-aware config template as the active config
-RUN cp includes/database_info.php.template includes/database_info.php
-
-# Configure Nginx
+# Configure Nginx — rewrite mirrors what .htaccess does for Apache FPM:
+#   RewriteRule ^(.*)$ index.php?/$1 [QSA,L]
 RUN rm /etc/nginx/sites-enabled/default
 COPY <<'NGINX_CONF' /etc/nginx/sites-enabled/default
 server {
@@ -44,8 +43,22 @@ server {
 
     autoindex off;
 
+    # Block access to hidden files and includes directory
+    location ~ /\.(ht|git) {
+        deny all;
+    }
+
+    location ^~ /includes/ {
+        deny all;
+    }
+
+    # Serve static files directly, otherwise rewrite to index.php
     location / {
-        try_files $uri $uri/ /index.php$is_args$args;
+        try_files $uri $uri/ @rewrite;
+    }
+
+    location @rewrite {
+        rewrite ^/(.*)$ /index.php?/$1 last;
     }
 
     location ~ \.php$ {
@@ -53,10 +66,6 @@ server {
         fastcgi_index index.php;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-    }
-
-    location ~ /\.(ht|git) {
-        deny all;
     }
 }
 NGINX_CONF

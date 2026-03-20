@@ -4,12 +4,10 @@ services:
     ports:
       - "8080:80"
     environment:
-      DB_DRIVER: mysql
       DB_HOST: db
       DB_USER: secretrepublic
       DB_PASS: secretrepublic
       DB_NAME: secretrepublic
-      DB_PORT: 3306
     depends_on:
       db:
         condition: service_healthy
@@ -25,7 +23,6 @@ services:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
-      - ./includes/install/DB.sql:/docker-entrypoint-initdb.d/01-schema.sql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 5s

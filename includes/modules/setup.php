@@ -83,10 +83,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $db = new Mysqlidb($dbConfig['server_name'], $dbConfig['username'], $dbConfig['password'], $dbConfig['name'], $dbConfig['port']);
             $db->rawQuery('SHOW TABLES');
 
-            $sqls = explode(";\n", file_get_contents($dbFile));
-            foreach ($sqls as $sql) {
-                if ($sql) {
-                    $db->rawQuery($sql);
+            $sqlContent = file_get_contents($dbFile);
+            $mysqli = $db->mysqli();
+            if (!$mysqli->multi_query($sqlContent)) {
+                throw new Exception('SQL import failed: ' . $mysqli->error);
+            }
+            // Flush all results from multi_query
+            while ($mysqli->more_results()) {
+                $mysqli->next_result();
+                if ($mysqli->error) {
+                    throw new Exception('SQL import error: ' . $mysqli->error);
                 }
             }
         }
@@ -103,12 +109,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // create admin account
     $cardinal = new Cardinal();
     $registrationSystem = new RegistrationSystem;
-    $uid = $registrationSystem->addUser($_POST['ADMIN_USER'], $_POST['ADMIN_PASS'], $_POST['ADMIN_EMAIL'], 1, 1, false);
-    $db = $cardinal->db;
-    $db->where('uid', $uid)->update('user_credentials', array(
-        'group_id' => 1,
-        'email_confirmed' => 1
-    ));
+    try {
+        $uid = $registrationSystem->addUser($_POST['ADMIN_USER'], $_POST['ADMIN_PASS'], $_POST['ADMIN_EMAIL'], 1, 1, false);
+    } catch (Exception $e) {
+        // Welcome bonuses (org application, friend requests, etc.) may fail on a fresh DB
+        // with no game data — that's OK, the user account is still created
+        $uid = $cardinal->db->where('username', $_POST['ADMIN_USER'])->getValue('users', 'id');
+    }
+
+    if ($uid) {
+        $db = $cardinal->db;
+        $db->where('uid', $uid)->update('user_credentials', array(
+            'group_id' => 1,
+            'email_confirmed' => 1
+        ));
+    }
     $cardinal->redirect(URL);
 }
 

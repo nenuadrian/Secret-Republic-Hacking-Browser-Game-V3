@@ -106,13 +106,22 @@ https://github.com/nenuadrian/Secret-Republic-Hacker-Game-ORPBG-Alpha
 
 The quickest way to get up and running. Requires [Docker](https://www.docker.com/get-started) installed.
 
-**With MySQL (via Docker Compose):**
+**With MySQL (Docker Compose):**
 
 ```bash
 docker compose up --build
 ```
 
-This starts both the app and a MySQL database. The schema is imported automatically. Visit `http://localhost:8080/setup` to finish setup, or go straight to `http://localhost:8080` once ready.
+This starts both the app and a MySQL database. Visit `http://localhost:8080` — the app will show the setup page on first visit where you can configure the database and create your admin account.
+
+Use these values on the setup page:
+| Field | Value |
+|-------|-------|
+| Host | `db` |
+| Port | `3306` |
+| User | `secretrepublic` |
+| Password | `secretrepublic` |
+| Database | `secretrepublic` |
 
 To stop and clean up:
 ```bash
@@ -120,26 +129,14 @@ docker compose down        # stop containers (keeps data)
 docker compose down -v     # stop containers and delete database volume
 ```
 
-**With SQLite (single container, no database server):**
+**Standalone with SQLite (no database server needed):**
 
 ```bash
 docker build -t secret-republic .
-docker run -p 8080:80 -e DB_DRIVER=sqlite secret-republic
+docker run -p 8080:80 secret-republic
 ```
 
-**Environment variables:**
-
-The database config reads from environment variables with sensible defaults, so the same setup works with or without Docker:
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `DB_DRIVER` | `mysql` | `mysql` or `sqlite` |
-| `DB_HOST` | `localhost` | MySQL host |
-| `DB_USER` | `root` | MySQL username |
-| `DB_PASS` | *(empty)* | MySQL password |
-| `DB_NAME` | `secretrepublic` | MySQL database name |
-| `DB_PORT` | `3306` | MySQL port |
-| `DB_SQLITE_PATH` | `includes/local.sqlite` | Path to SQLite file |
+Visit `http://localhost:8080` and choose SQLite on the setup page.
 
 ### Manual setup
 

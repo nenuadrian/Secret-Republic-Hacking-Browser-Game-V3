@@ -3,6 +3,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 
+#[AllowDynamicProperties]
 class Alpha {
 
   function __construct() {

@@ -277,12 +277,12 @@ class RegistrationSystem extends Alpha
 	$this->uclass->addReward($user_id, $reward, $reward['title']);
 
     // beginner organization
-    $org = $this->db->join('organizations o', 'o.id = ozb.org_id', 'left outer')
+    $org = $this->db->join('organizations o', 'o.id = ozb.org_id', 'INNER')
                     ->where('o.nrm < o.max_nrm')
                     ->where('ozb.zone', $zone)->orderBy('rand()')
-                    ->getOne('org_zone_beginners ozb', 'org_id, o.name, nrm');
+                    ->getOne('org_zone_beginners ozb', 'ozb.org_id, o.name, o.nrm');
 
-    if ($org['org_id'])
+    if ($org && $org['org_id'])
     {
       require('oclass.php');
       $oclass = new Organization($org['org_id']);

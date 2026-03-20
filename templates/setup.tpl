@@ -4,14 +4,14 @@
 		<div class="col-md-3"></div>
 			<div class="col-md-6 col-xs-6 nopadding">
 				<select name="DB_DRIVER" id="db-driver">
-					<option value="mysql" selected>MYSQL</option>
-					<option value="sqlite">SQLITE (LOCAL FILE)</option>
+					<option value="mysql" {if !isset($setupDefaults) || $setupDefaults.driver != 'sqlite'}selected{/if}>MYSQL</option>
+					<option value="sqlite" {if isset($setupDefaults) && $setupDefaults.driver == 'sqlite'}selected{/if}>SQLITE (LOCAL FILE)</option>
 				</select>
-				<input  type="text" placeholder="DB HOST" value="localhost" name="DB_HOST" id="db-host" required/>
-				<input  type="text" placeholder="DB PORT" value="3306" name="DB_PORT" id="db-port" required/>
-				<input  type="text" placeholder="DB USER" value="root" name="DB_USER" id="db-user" required/>
-				<input  type="text" placeholder="DB PASS" value="" name="DB_PASS" id="db-pass"/>
-				<input  type="text" placeholder="DB NAME" value="" name="DB_NAME" id="db-name" required/>
+				<input  type="text" placeholder="DB HOST" value="{$setupDefaults.host|default:'localhost'}" name="DB_HOST" id="db-host" required/>
+				<input  type="text" placeholder="DB PORT" value="{$setupDefaults.port|default:'3306'}" name="DB_PORT" id="db-port" required/>
+				<input  type="text" placeholder="DB USER" value="{$setupDefaults.user|default:'root'}" name="DB_USER" id="db-user" required/>
+				<input  type="text" placeholder="DB PASS" value="{$setupDefaults.pass|default:''}" name="DB_PASS" id="db-pass"/>
+				<input  type="text" placeholder="DB NAME" value="{$setupDefaults.name|default:''}" name="DB_NAME" id="db-name" required/>
 				<input  type="text" placeholder="SQLITE PATH (RELATIVE OR ABSOLUTE)" value="includes/local.sqlite" name="SQLITE_PATH" id="sqlite-path"/>
 				<input  type="text" placeholder="ADMIN USER" value="" name="ADMIN_USER" required/>
 				<input  type="text" placeholder="ADMIN PASS" value="" name="ADMIN_PASS" required/>

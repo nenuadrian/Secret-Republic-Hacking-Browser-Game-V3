@@ -2,7 +2,7 @@
 require_once('../includes/vendor/autoload.php');
 
 if(!ob_start("ob_gzhandler")) ob_start();
-error_reporting(E_ALL ^E_NOTICE);
+error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 ini_set( 'display_errors','0');
 ini_set("pcre.jit", "0");
 
@@ -55,6 +55,14 @@ if ($GETQuery) {
 
 if (!file_exists('../includes/database_info.php')) {
 	$include = 'setup';
+	$tVars['setupDefaults'] = array(
+		'host' => getenv('DB_HOST') ?: 'localhost',
+		'port' => getenv('DB_PORT') ?: '3306',
+		'user' => getenv('DB_USER') ?: 'root',
+		'pass' => getenv('DB_PASS') ?: '',
+		'name' => getenv('DB_NAME') ?: '',
+		'driver' => getenv('DB_DRIVER') ?: 'mysql',
+	);
 } else {
 	$cardinal = new Cardinal();
 	$url = $cardinal->config['url'];
