@@ -1,12 +1,12 @@
 <?php
 
-$db['driver'] = 'mysql';
-$db['server_name'] = 'DB_HOST';
-$db['username'] = 'DB_USER';
-$db['password'] = 'DB_PASS';
-$db['name'] = 'DB_NAME';
-$db['port'] = 3306;
-$db['sqlite_path'] = 'includes/local.sqlite';
+$db['driver'] = getenv('DB_DRIVER') ?: 'mysql';
+$db['server_name'] = getenv('DB_HOST') ?: 'localhost';
+$db['username'] = getenv('DB_USER') ?: 'root';
+$db['password'] = getenv('DB_PASS') ?: '';
+$db['name'] = getenv('DB_NAME') ?: 'secretrepublic';
+$db['port'] = (int)(getenv('DB_PORT') ?: 3306);
+$db['sqlite_path'] = getenv('DB_SQLITE_PATH') ?: 'includes/local.sqlite';
 
 return $db;
 

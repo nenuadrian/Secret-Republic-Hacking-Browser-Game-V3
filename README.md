@@ -25,9 +25,9 @@ Audio Trailer: https://www.youtube.com/watch?v=6thfiGb-b7c
   - [Main-Features](#main-features)
   - [SecretAlpha-V4](#secretalpha-v4)
   - [Simple-Setup](#simple-setup)
-    - [Require steps](#require-steps)
-    - [Semi-manual setup](#semi-manual-setup)
+    - [Docker setup (recommended)](#docker-setup-recommended)
     - [Manual setup](#manual-setup)
+    - [Semi-manual setup](#semi-manual-setup)
     - [SQLite details](#sqlite-details)
     - [Useful tips](#useful-tips)
   - [Cron jobs](#cron-jobs)
@@ -102,9 +102,50 @@ https://github.com/nenuadrian/Secret-Republic-Hacker-Game-ORPBG-Alpha
 
 ## Simple-Setup
 
-### Require steps
+### Docker setup (recommended)
 
-You need a webserver (e.g. MAMP/WAMP/XAMPP) able to run PHP (tested with 7.3) and a database.
+The quickest way to get up and running. Requires [Docker](https://www.docker.com/get-started) installed.
+
+**With MySQL (via Docker Compose):**
+
+```bash
+docker compose up --build
+```
+
+This starts both the app and a MySQL database. The schema is imported automatically. Visit `http://localhost:8080/setup` to finish setup, or go straight to `http://localhost:8080` once ready.
+
+To stop and clean up:
+```bash
+docker compose down        # stop containers (keeps data)
+docker compose down -v     # stop containers and delete database volume
+```
+
+**With SQLite (single container, no database server):**
+
+```bash
+docker build -t secret-republic .
+docker run -p 8080:80 -e DB_DRIVER=sqlite secret-republic
+```
+
+**Environment variables:**
+
+The database config reads from environment variables with sensible defaults, so the same setup works with or without Docker:
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `DB_DRIVER` | `mysql` | `mysql` or `sqlite` |
+| `DB_HOST` | `localhost` | MySQL host |
+| `DB_USER` | `root` | MySQL username |
+| `DB_PASS` | *(empty)* | MySQL password |
+| `DB_NAME` | `secretrepublic` | MySQL database name |
+| `DB_PORT` | `3306` | MySQL port |
+| `DB_SQLITE_PATH` | `includes/local.sqlite` | Path to SQLite file |
+
+### Manual setup
+
+#### Requirements
+
+You need a webserver (e.g. MAMP/WAMP/XAMPP) able to run PHP (tested with 7.3+/8.3) and a database.
 Both MySQL and local SQLite are supported. SQLite requires the `pdo_sqlite` PHP extension (enabled by default in most installations).
 
 1. Install `composer` (the PHP dependency management system - `brew install composer` for MacOS if you have brew) and run `composer install`
@@ -121,9 +162,9 @@ Both MySQL and local SQLite are supported. SQLite requires the `pdo_sqlite` PHP 
 Visit `http://localhost/public_html/setup` - this may be different if you are using another port or directory structure, e.g. `http://localhost:8888/sr/public_html/setup` and follow the setup process.
 You can choose `MYSQL` or `SQLITE (LOCAL FILE)` on the setup screen.
 
-### Manual setup
+### Manual setup (without Docker)
 
-1. Rename `includes/database_info.php.template` to `includes/database_info.php` and configure it:
+1. Rename `includes/database_info.php.template` to `includes/database_info.php` and configure it (or set the environment variables listed above):
 
    **MySQL mode:**
    ```php

@@ -1,0 +1,12 @@
+.git
+.github
+docs
+screens
+MISSION-GUIDES
+*.md
+!README.md
+includes/vendor
+includes/templates_c
+includes/cache
+includes/local.sqlite
+includes/database_info.php
