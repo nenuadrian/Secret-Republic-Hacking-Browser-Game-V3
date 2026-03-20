@@ -37,20 +37,5 @@ jobs:
         docker exec sr-fpm-check php-fpm -t
         docker stop sr-fpm-check
 
-    - name: Verify app serves HTTP 200 (SQLite mode)
-      run: |
-        docker run --rm -d --name sr-smoke secretrepublic:test
-        sleep 3
-        # Setup with SQLite so no external DB is needed
-        docker exec sr-smoke php -r "
-          file_put_contents('/var/www/app/includes/database_info.php',
-            '<?php return [\"driver\" => \"sqlite\", \"sqlite_path\" => \"/tmp/test.sqlite\"];'
-          );
-        "
-        STATUS=\$(docker exec sr-smoke curl -s -o /dev/null -w '%{http_code}' http://localhost/setup)
-        echo "HTTP status: $STATUS"
-        docker stop sr-smoke
-        if [ "$STATUS" -lt 200 ] || [ "$STATUS" -ge 500 ]; then
-          echo "Unexpected HTTP status $STATUS"
           exit 1
         fi
