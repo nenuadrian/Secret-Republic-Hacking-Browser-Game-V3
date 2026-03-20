@@ -19,7 +19,7 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.3'
+        php-version: '8.4'
         extensions: pdo_sqlite
         tools: composer:v2
         coverage: none
@@ -32,9 +32,9 @@ jobs:
       uses: actions/cache@v4
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-php83-composer-${{ hashFiles('composer.json', 'composer.lock') }}
+        key: ${{ runner.os }}-php84-composer-${{ hashFiles('composer.json', 'composer.lock') }}
         restore-keys: |
-          ${{ runner.os }}-php83-composer-
+          ${{ runner.os }}-php84-composer-
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-interaction --no-progress

@@ -38,7 +38,7 @@ class Paginator{
     
 		$this->num_pages = ceil($this->items_total/$this->items_per_page);
 		
-		$this->current_page = isset($GET["page"]) ? (int) $GET["page"] : 1; 
+		$this->current_page = isset($GET["page"]) ? max(1, (int) $GET["page"]) : 1;
 
 		$prev_page = $this->current_page - 1;
 		$next_page = $this->current_page + 1;

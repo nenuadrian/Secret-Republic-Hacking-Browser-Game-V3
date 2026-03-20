@@ -40,7 +40,7 @@ else {
     if (!$blog["blog_id"])
       $cardinal->show_404();
     else {
-      $bclass->blog =& $blog;
+      $bclass->blog = $blog;
 
 
 

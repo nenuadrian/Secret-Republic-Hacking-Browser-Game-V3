@@ -168,7 +168,11 @@ class Server extends Alpha {
       $server_id
     ));
 
-    $this->total_ram = $this->total_hdd = $this->power_usage = 0;
+    $this->total_ram = $this->total_hdd = $this->total_cpu = $this->power_usage = 0;
+    $this->ram_slots = $this->hdd_slots = 0;
+    $this->used_ram_slots = $this->used_hdd_slots = 0;
+    $this->active_ram_slots = $this->active_hdd_slots = 0;
+    $this->disabled = 0;
 
     $this->components = array(
       'rams' => array(),
@@ -330,7 +334,7 @@ class Server extends Alpha {
       "active_ram_slots" => $this->active_ram_slots,
       "used_hdd_slots" => $this->used_hdd_slots,
       "active_hdd_slots" => $this->active_hdd_slots,
-      "disabled" => $this->disabled ? 1 : null
+      "disabled" => $this->disabled ? 1 : 0
 
 
     );

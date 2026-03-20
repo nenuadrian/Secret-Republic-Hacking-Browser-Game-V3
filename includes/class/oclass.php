@@ -633,7 +633,7 @@ class Organization extends Alpha
 
     if (ctype_digit($fid = $this->GET['fid'])) {
       $forum = $fclass->get_forum_data($fid);
-      $this->templateVariables['forum'] =& $forum;
+      $this->templateVariables['forum'] = $forum;
       if (!$forum['id'])
       {
         $this->show_404();return;

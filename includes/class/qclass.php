@@ -22,7 +22,7 @@ class QClass extends Alpha
     parent::__construct($container);
 
 
-    $this->questTask =& $questTask;
+    $this->_dynamicProps['questTask'] =& $questTask;
 
     if ($this->questTask) {
 
@@ -146,11 +146,11 @@ class QClass extends Alpha
 
     unset($this->questTask['data'], $this->questTask['questData']);
 
-    $this->connected =& $this->questData['connected'];
-    $this->connected['ip']   = $this->connected['ip'] ? $this->connected['ip'] : $this->questData['main'];
-    $this->connected['port'] = $this->connected['port'] ? $this->connected['port'] : 22;
-    $this->host =& $this->questData['hosts'][$this->connected['ip']];
-    $this->service =& $this->host['services'][$this->connected['port']];
+    $this->_dynamicProps['connected'] =& $this->questData['connected'];
+    $this->_dynamicProps['connected']['ip']   = $this->_dynamicProps['connected']['ip'] ? $this->_dynamicProps['connected']['ip'] : $this->questData['main'];
+    $this->_dynamicProps['connected']['port'] = $this->_dynamicProps['connected']['port'] ? $this->_dynamicProps['connected']['port'] : 22;
+    $this->_dynamicProps['host'] =& $this->questData['hosts'][$this->_dynamicProps['connected']['ip']];
+    $this->_dynamicProps['service'] =& $this->_dynamicProps['host']['services'][$this->_dynamicProps['connected']['port']];
   }
 
   function finalProcessing()

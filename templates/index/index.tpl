@@ -48,7 +48,7 @@
 
                 <p title="{($user.expNext-$user.exp)|number_format} to level up" ><span class="glyphicon glyphicon-fire"></span>  <small>{$user.exp|number_format} / {$user.expNext|number_format} exp</small></p>
                 <div class="progress progress-small">
-                  <div class="progress-bar" role="progressbar" style="width: {($user.exp/($user.expNext/100))|intval}%;">
+                  <div class="progress-bar" role="progressbar" style="width: {if $user.expNext > 0}{($user.exp * 100 / $user.expNext)|intval}{else}0{/if}%;">
                   </div>
                 </div>
 

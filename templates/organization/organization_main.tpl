@@ -12,7 +12,7 @@
 						
 					</div>
 					<div class="col-md-8">
-						<button  disabled class=" nopadding" style="width:{$org.exp/($org.expNext/100)}%;"> </button>
+						<button  disabled class=" nopadding" style="width:{if $org.expNext > 0}{$org.exp * 100 / $org.expNext}{else}0{/if}%;"> </button>
 					</div>
 				</div>
 			</div>

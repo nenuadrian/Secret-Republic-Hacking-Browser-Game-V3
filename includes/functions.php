@@ -151,8 +151,11 @@ function myErrorHandler($errno, $errstr, $errfile, $errline) {
 }
 function fatalErrorShutdownHandler() {
   $last_error = error_get_last();
-  if (isset($last_error['message']))
-    myErrorHandler(E_ERROR, $last_error['message'], $last_error['file'], $last_error['line']);
+  // Only handle genuine fatal errors — not deprecations/notices/warnings
+  // that PHP records as "last error" but are not actually fatal.
+  $fatal_types = [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR];
+  if ($last_error && in_array($last_error['type'], $fatal_types, true))
+    myErrorHandler($last_error['type'], $last_error['message'], $last_error['file'], $last_error['line']);
 }
 
 set_error_handler('myErrorHandler');
@@ -195,7 +198,7 @@ function errors_success(Container $container) {
   } else
     $voice = '';
 
-  if ($cardinal && $cardinal->_dynamicProps['loginSystem']->isLogged()) {
+  if ($cardinal && isset($cardinal->loginSystem) && $cardinal->loginSystem->isLogged()) {
 
     if ($user['friend_requests'] + $user['rewardsToReceive'])
       $user['profileNotification'] = true;

@@ -103,7 +103,7 @@ background:rgba(0, 87, 132, 0.35); height:48px;
 						<div class="col-md-7 col-xs-6 skill-col">
 						{/if}
 							<div class="skill-progress-container">
-								<div  class="skill-bar" style="width:{$userSkills[$skill_ID].exp/($userSkills[$skill_ID].expNext/100)}%;">
+								<div  class="skill-bar" style="width:{if $userSkills[$skill_ID].expNext > 0}{$userSkills[$skill_ID].exp * 100 / $userSkills[$skill_ID].expNext}{else}0{/if}%;">
 								</div>
 
 								<div class="skill-label">

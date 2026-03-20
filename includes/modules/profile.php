@@ -29,7 +29,7 @@
 	{
     $db->join("organizations ho", "ho.id = hu.organization", "LEFT OUTER")
 	   ->join("user_credentials uc", "uc.uid = hu.id", "LEFT OUTER")
-	   ->join("groups g", "g.group_id = uc.group_id", "LEFT OUTER");
+	   ->join("user_groups g", "g.group_id = uc.group_id", "LEFT OUTER");
     $quser = $db->where("hu.id", $user_id)->getOne("users hu", $selectColumns);
 	}
   // succesfully fetched a profile?

@@ -50,7 +50,21 @@ if (isset($GET['build']))
 						"user_id" => $user['id'],
 						"created" => time(),
 						"ip" => $server->generateUniqueIP(),
-						"hostname" => "New server "
+						"hostname" => "New server ",
+						"total_ram" => 0,
+						"total_cpu" => 0,
+						"total_hdd" => 0,
+						"ram_usage" => 0,
+						"cpu_usage" => 0,
+						"hdd_usage" => 0,
+						"ram_slots" => 0,
+						"hdd_slots" => 0,
+						"disabled" => 0,
+						"used_ram_slots" => 0,
+						"used_hdd_slots" => 0,
+						"power_usage" => 0,
+						"active_ram_slots" => 0,
+						"active_hdd_slots" => 0,
 					);
 
 					if ($server_id = $db->insert("servers", $dataInsert))

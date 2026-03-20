@@ -142,7 +142,7 @@ if (!$container->tVars["json"])
 	unset($_SESSION['myModal'], $_SESSION["success"], $_SESSION["error"], $_SESSION["warning"], $_SESSION["voice"], $_SESSION['info'], $_SESSION["messenger"]);
     /** //HANDLE NOTICES DISPLAYED AFTER REDIRECTS **/
 
-	$container->tVars['queries'] = $container->db()->trace;
+	$container->tVars['queries'] = $container->has('db') ? $container->db()->trace : [];
 	errors_success($container);
     $smarty->assign($container->tVars);
     $smarty->display($container->tVars["display"]);

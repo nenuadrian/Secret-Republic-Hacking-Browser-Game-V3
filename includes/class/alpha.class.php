@@ -58,7 +58,11 @@ class Alpha {
       case 'taskclass':
         return $this->container->taskclass();
       default:
-        // Allow dynamic properties for subclass-specific data
+        // Fall through to _dynamicProps for subclass-specific data
+        // (e.g. loginSystem, beg_used_memory, page_start, detectDevice)
+        if (array_key_exists($name, $this->_dynamicProps)) {
+            return $this->_dynamicProps[$name];
+        }
         $null = null;
         return $null;
     }

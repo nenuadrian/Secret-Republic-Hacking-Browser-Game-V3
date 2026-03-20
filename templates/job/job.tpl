@@ -13,7 +13,7 @@
               </div>
               <div class="col-xs-8 ">
                   <div class="progress  progress-well" >
-                    <div class="progress-bar" role="progressbar" style="width:{$job.exp/($job.expNext/100)}%" >
+                    <div class="progress-bar" role="progressbar" style="width:{if $job.expNext > 0}{$job.exp * 100 / $job.expNext}{else}0{/if}%" >
                     </div>
                 </div>
               </div>

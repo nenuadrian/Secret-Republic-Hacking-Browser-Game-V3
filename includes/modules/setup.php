@@ -81,10 +81,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $dbConfig['port'] = (int) ($_POST['DB_PORT'] ? $_POST['DB_PORT'] : 3306);
 
             $db = new Mysqlidb($dbConfig['server_name'], $dbConfig['username'], $dbConfig['password'], $dbConfig['name'], $dbConfig['port']);
-            $db->rawQuery('SHOW TABLES');
+            $mysqli = $db->mysqli();
+
+            // Drop all existing tables so setup is idempotent (handles retries
+            // after a partial first attempt that created some tables then failed).
+            $mysqli->query('SET FOREIGN_KEY_CHECKS = 0');
+            $tables = $mysqli->query('SHOW TABLES');
+            if ($tables) {
+                while ($row = $tables->fetch_row()) {
+                    $mysqli->query('DROP TABLE IF EXISTS `' . $mysqli->real_escape_string($row[0]) . '`');
+                }
+            }
+            $mysqli->query('SET FOREIGN_KEY_CHECKS = 1');
 
             $sqlContent = file_get_contents($dbFile);
-            $mysqli = $db->mysqli();
             if (!$mysqli->multi_query($sqlContent)) {
                 throw new Exception('SQL import failed: ' . $mysqli->error);
             }
@@ -106,25 +116,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     file_put_contents(ABSPATH . 'includes/database_info.php', buildDatabaseConfigFile($dbConfig));
 
-    // create admin account
-    $cardinal = new Cardinal();
-    $registrationSystem = new RegistrationSystem($container);
-    try {
-        $uid = $registrationSystem->addUser($_POST['ADMIN_USER'], $_POST['ADMIN_PASS'], $_POST['ADMIN_EMAIL'], 1, 1, false);
-    } catch (Exception $e) {
-        // Welcome bonuses (org application, friend requests, etc.) may fail on a fresh DB
-        // with no game data — that's OK, the user account is still created
-        $uid = $cardinal->db->where('username', $_POST['ADMIN_USER'])->getValue('users', 'id');
-    }
+    // Create admin account directly — the full RegistrationSystem->addUser()
+    // depends on game seed data (grid clusters, orgs, etc.) that doesn't exist
+    // on a fresh install, so we insert the essentials by hand.
+    $cardinal = new Cardinal($container);
+    $db = $cardinal->db;
+
+    $uid = $db->insert('users', array(
+        'username'  => $_POST['ADMIN_USER'],
+        'zone'      => 1,
+        'money'     => 1000,
+        'energy'    => 100,
+        'maxEnergy' => 100,
+        'expNext'   => 62,
+        'level'     => 1,
+        'skillPoints' => 5,
+        'alphaCoins'  => 10000,
+        'gavatar'   => md5(strtolower($_POST['ADMIN_EMAIL'])),
+        'createdAt' => time(),
+    ));
 
     if ($uid) {
-        $db = $cardinal->db;
-        $db->where('uid', $uid)->update('user_credentials', array(
-            'group_id' => 1,
-            'email_confirmed' => 1
+        $db->insert('user_credentials', array(
+            'uid'             => $uid,
+            'password'        => password_hash($_POST['ADMIN_PASS'], PASSWORD_DEFAULT),
+            'group_id'        => 1,
+            'email'           => $_POST['ADMIN_EMAIL'],
+            'email_confirmed' => 1,
+            'pin'             => md5(rand(1000, 9999)),
         ));
     }
+
     $cardinal->redirect(URL);
 }
 
-$tVars['display'] = "setup.tpl";
+$container->tVars['display'] = "setup.tpl";
