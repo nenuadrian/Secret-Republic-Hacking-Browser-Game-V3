@@ -1,0 +1,67 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.4'
+        extensions: pdo_sqlite
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-interaction --no-progress --no-dev --optimize-autoloader
+
+    - name: Run tests
+      run: |
+        composer install --prefer-dist --no-interaction --no-progress
+        composer test
+
+    - name: Reinstall without dev dependencies
+      run: composer install --prefer-dist --no-interaction --no-progress --no-dev --optimize-autoloader
+
+    - name: Create release archive
+      run: |
+        VERSION=${GITHUB_REF#refs/tags/}
+        zip -r "secret-republic-${VERSION}.zip" \
+          includes/ \
+          public_html/ \
+          templates/ \
+          Dockerfile \
+          docker-compose.yml \
+          composer.json \
+          composer.lock \
+          LICENSE.md \
+          README.md \
+          -x "tests/*" "*.git*"
+        tar -czf "secret-republic-${VERSION}.tar.gz" \
+          includes/ \
+          public_html/ \
+          templates/ \
+          Dockerfile \
+          docker-compose.yml \
+          composer.json \
+          composer.lock \
+          LICENSE.md \
+          README.md \
+          --exclude="tests" --exclude=".git"
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        generate_release_notes: true
+        files: |
+          secret-republic-*.zip
+          secret-republic-*.tar.gz
