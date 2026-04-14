@@ -336,8 +336,8 @@ If your pull request is merged, I will add your name here. Thank you for your co
 
 ## License
 
-This initial version was created by [Adrian Nenu] (https://github.com/nenuadrian) 
-
-<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+MIT License. See [LICENSE](LICENSE) for details.
 
 Please link and contribute back to this repository if using the code or assets :)
+
+
