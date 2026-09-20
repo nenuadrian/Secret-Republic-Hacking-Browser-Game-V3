@@ -22,13 +22,13 @@
 		'recaptcha_site_key' => '', // get key if you would like to activate! https://www.google.com/recaptcha/admin/create
 		'recaptcha_secret_key' => '', // get key if you would like to activate! https://www.google.com/recaptcha/admin/create
 		
-		"smtp_host" => "",
+		"smtp_host" => "127.0.0.1",
 		"smtp_username" => "",
 		"smtp_password" => "",
 		"smtp_name" => "Secret Republic",
 		"smtp_from" =>"undefined@undefined.com",
-		"smtp_secure" => "tls",
-		"smtp_port" =>587,
+		"smtp_secure" => "",
+		"smtp_port" =>25,
 
 
 	  	"gridNodeSize" => 10,
