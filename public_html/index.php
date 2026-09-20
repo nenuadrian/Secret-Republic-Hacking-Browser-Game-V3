@@ -6,7 +6,9 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 ini_set( 'display_errors','0');
 ini_set("pcre.jit", "0");
 
-date_default_timezone_set("Europe/London");
+// App timezone. Defaults to the operator's local zone (America/Detroit);
+// clones can override via getenv('APP_TIMEZONE'), e.g. in local_settings.php.
+date_default_timezone_set(getenv("APP_TIMEZONE") ?: "America/Detroit");
 
 define('cardinalSystem', true);
 

@@ -252,6 +252,12 @@ Notes:
 - Leave `SMTP_SECURE` empty for a local MTA. Opportunistic STARTTLS is skipped in that case, since a local MTA's self-signed certificate would otherwise fail verification.
 - `sendEmail()` throws an uncaught PHPMailer exception if the SMTP server is unreachable, breaking pages like registration or support. **Only set `SMTP_HOST` on hosts that actually run an MTA on `SMTP_PORT`.**
 
+**App timezone** — the game defaults to `America/Detroit`. Override per-install without editing tracked files via the same mechanism, e.g. in `includes/local_settings.php`:
+
+```php
+putenv('APP_TIMEZONE=Europe/London');
+```
+
 ## Cron jobs
 
 https://en.wikipedia.org/wiki/Cron
