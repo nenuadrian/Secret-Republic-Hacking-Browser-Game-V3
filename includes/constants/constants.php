@@ -1,5 +1,9 @@
 <?php
 /* Nenu Adrian Mircea 2012+ */
+	// Machine-local overrides (e.g. putenv() SMTP_* settings). Not tracked in git.
+	if (is_file(__DIR__ . '/../local_settings.php')) {
+		require __DIR__ . '/../local_settings.php';
+	}
 	return [
 		'url' => $_SERVER['REQUEST_SCHEME'] .  '://' . $_SERVER['HTTP_HOST'] . str_replace('index.php', '', $_SERVER['SCRIPT_NAME']),
 		'contact_email' => 'undefined@undefined.com',

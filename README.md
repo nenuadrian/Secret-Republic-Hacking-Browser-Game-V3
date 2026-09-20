@@ -238,6 +238,14 @@ env[SMTP_HOST] = 127.0.0.1
 env[SMTP_PORT] = 25
 ```
 
+**Alternative without touching the pool config** — if you can't edit the (root-owned) FPM config, create a gitignored `includes/local_settings.php` that `constants.php` auto-loads (it is already gitignored):
+
+```php
+<?php
+putenv('SMTP_HOST=127.0.0.1');
+putenv('SMTP_PORT=25');
+```
+
 Notes:
 
 - A local MTA (sendmail/postfix) on port 25 normally needs no credentials — SMTP authentication is only attempted when a `smtp_username` is configured.
