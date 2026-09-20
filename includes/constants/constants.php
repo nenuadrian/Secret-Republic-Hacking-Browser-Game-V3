@@ -22,13 +22,15 @@
 		'recaptcha_site_key' => '', // get key if you would like to activate! https://www.google.com/recaptcha/admin/create
 		'recaptcha_secret_key' => '', // get key if you would like to activate! https://www.google.com/recaptcha/admin/create
 		
-		"smtp_host" => "127.0.0.1",
+		// SMTP is disabled by default (empty host). Enable by setting the SMTP_HOST
+		// environment variable, e.g. SMTP_HOST=127.0.0.1 for local sendmail/postfix.
+		"smtp_host" => getenv('SMTP_HOST') ?: '',
 		"smtp_username" => "",
 		"smtp_password" => "",
 		"smtp_name" => "Secret Republic",
 		"smtp_from" =>"undefined@undefined.com",
-		"smtp_secure" => "",
-		"smtp_port" =>25,
+		"smtp_secure" => getenv('SMTP_SECURE') ?: '', // '' plain | 'tls' | 'ssl'
+		"smtp_port" =>(int)(getenv('SMTP_PORT') ?: 25),
 
 
 	  	"gridNodeSize" => 10,

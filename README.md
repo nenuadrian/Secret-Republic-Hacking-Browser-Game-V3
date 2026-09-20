@@ -219,6 +219,31 @@ You may need to manually execute the following SQL if you see a GROUP BY related
 SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 ```
 
+### Email / SMTP configuration
+
+Email (account confirmations, support mail, notifications) is **disabled by default** — `smtp_host` is empty in `includes/constants/constants.php`, so the app never attempts to send mail.
+
+Enable it by setting any of the following environment variables (unset keeps the default):
+
+| Variable | Default | Meaning |
+| -------- | ------- | ------- |
+| `SMTP_HOST` | *(empty — mail disabled)* | SMTP server host/IP, e.g. `127.0.0.1` for a local sendmail or postfix |
+| `SMTP_PORT` | `25` | SMTP port |
+| `SMTP_SECURE` | *(empty)* | `''` plain, `'tls'`, or `'ssl'` |
+
+**Example with PHP-FPM** — add to your pool config (e.g. `/etc/php-fpm.d/www.conf`) and reload php-fpm:
+
+```
+env[SMTP_HOST] = 127.0.0.1
+env[SMTP_PORT] = 25
+```
+
+Notes:
+
+- A local MTA (sendmail/postfix) on port 25 normally needs no credentials — SMTP authentication is only attempted when a `smtp_username` is configured.
+- Leave `SMTP_SECURE` empty for a local MTA. Opportunistic STARTTLS is skipped in that case, since a local MTA's self-signed certificate would otherwise fail verification.
+- `sendEmail()` throws an uncaught PHPMailer exception if the SMTP server is unreachable, breaking pages like registration or support. **Only set `SMTP_HOST` on hosts that actually run an MTA on `SMTP_PORT`.**
+
 ## Cron jobs
 
 https://en.wikipedia.org/wiki/Cron
