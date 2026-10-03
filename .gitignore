@@ -10,3 +10,7 @@ composer.lock
 **/.DS_Store
 site/
 includes/db.env
+
+# Editor backup / undo files (can contain local credentials)
+*~
+*.un~
