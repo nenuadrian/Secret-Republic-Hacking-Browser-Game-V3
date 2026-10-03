@@ -53,7 +53,7 @@ foreach($user_achievements as $ach)
 unset($user_achievements, $achievements);
 
 // SKILLS
-$skills = $db->where('level', array('>=' => 1))
+$skills = $db->where('level', 1, '>=')
              ->orderBy('uid', 'asc')
              ->get('skills', null, 'uid,skill, level');
 

@@ -2,7 +2,7 @@
 
 
 
-if ($GET["key1"] != "MDMwN2Q3OGRiYmM4Y2RkOWZjNTBmMzA4MzViZDZiNjQ=") $cardinal->show_404();
+if ($GET["key1"] != "MDMwN2Q3OGRiYmM4Y2RkOWZjNTBmMzA4MzViZDZiNjQ=") { $cardinal->show_404(); return; }
 
     $runTime = time();
 	  $user = array();

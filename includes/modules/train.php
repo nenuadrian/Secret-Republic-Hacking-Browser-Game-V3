@@ -113,7 +113,7 @@ require_once('../includes/class/tclass.php');
 if(!$tclass->trainTask){
 	
   $trainLog = $db->where("user_id", $user["id"])
-                  ->where("created", array(">" =>  (time() - $config['trainEvery']) ))
+                  ->where("created", time() - $config['trainEvery'], '>')
                   ->orderBy("created", "desc")
                   ->getOne("user_train_logs", "log_id, created");
   

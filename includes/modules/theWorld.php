@@ -43,7 +43,7 @@ if(!$smarty->isCached('theWorld/worldGrid.tpl')) {
   $leftSide [] = array('value' => number_format($stats['nrAchievements']), 'title' => 'Achievements', 'description' => 'have been earned by hackers.');
   $leftSide [] = array('value' => number_format($stats['liveQuests']), 'title' => 'Missions', 'description' => 'are publicly available.');
   $leftSide [] = array('value' => number_format($stats['nrBlogs']), 'title' => 'Blogs', 'description' => 'have been created.');
-  $leftSide [] = array('value' => number_format($stats['nrArticles']. " && " . $stats['nrForumPosts']), 'title' => 'Articles && Forum Posts', 'description' => 'published.');
+  $leftSide [] = array('value' => number_format($stats['nrArticles']) . " && " . number_format($stats['nrForumPosts']), 'title' => 'Articles && Forum Posts', 'description' => 'published.');
   $leftSide [] = array('value' => number_format($stats['levelSum']), 'title' => 'Level Sum', 'description' => 'of all hackers.');
   $leftSide [] = array('value' => number_format($stats['nrAttackLogs']), 'title' => 'Spy/Attack/Scavenge logs', 'description' => 'stored in database.');
   $leftSide [] = array('value' => number_format($stats['skillSum']), 'title' => 'Level Sum', 'description' => 'of everyones skills.');

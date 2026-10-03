@@ -16,7 +16,7 @@ $db->rawQuery("update users set energy = maxEnergy where energy > maxEnergy");
 $report .= ("\nUpdated energy of users");
 
 // update zones
-$db->rawQuery('update zones set nrm = (select count(id) from users where zone = zones.id), avg_level = round((select avg(level) from users where zone = zones.id), 2)');
+$db->rawQuery('update zones set nrm = (select count(id) from users where zone = zones.id), avg_level = coalesce(round((select avg(level) from users where zone = zones.id), 2), 0)');
 
 $report .= ("\nUpdated zones nrm");
 
