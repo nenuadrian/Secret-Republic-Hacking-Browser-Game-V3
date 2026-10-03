@@ -14,3 +14,4 @@ includes/db.env
 # Editor backup / undo files (can contain local credentials)
 *~
 *.un~
+CLAUDE.local.md
