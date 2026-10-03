@@ -167,19 +167,25 @@ class Alpha {
       $mail = new PHPMailer(true);
       $mail->isSMTP(); // Set mailer to use SMTP
       $mail->Host       = $config['smtp_host']; // Specify main and backup SMTP servers
-      $mail->SMTPAuth   = true; // Enable SMTP authentication
+      // Only enable authentication when credentials are configured — a local
+      // MTA (e.g. sendmail) typically advertises no usable AUTH mechanism.
+      $mail->SMTPAuth   = !empty($config['smtp_username']); // Enable SMTP authentication
       $mail->Username   = $config['smtp_username']; // SMTP username
       $mail->Password   = $config['smtp_password']; // SMTP password
       $mail->SMTPSecure = $config['smtp_secure']; // Enable TLS encryption, `ssl` also accepted
+      // When no encryption is configured, don't opportunistically STARTTLS (a local
+      // MTA like sendmail advertises it with a self-signed cert that would fail).
+      $mail->SMTPAutoTLS = (bool) $config['smtp_secure'];
       $mail->Port       = $config['smtp_port']; // TCP port to connect to
 
       $mail->setFrom($config['smtp_from'], $config['smtp_name']);
       foreach ($data['recipients'] as $rec)
         $mail->addAddress($rec); // Add a recipient
 
-      //Attachments
-      $mail->addAttachment('/var/tmp/file.tar.gz'); // Add attachments
-      $mail->addAttachment('/tmp/image.jpg', 'new.jpg'); // Optional name
+      //Attachments (disabled: these example files don't exist on a fresh install
+      //and PHPMailer (constructed with exceptions on) throws "Could not access file")
+      //$mail->addAttachment('/var/tmp/file.tar.gz'); // Add attachments
+      //$mail->addAttachment('/tmp/image.jpg', 'new.jpg'); // Optional name
 
       //Content
       $mail->isHTML(true); // Set email format to HTML

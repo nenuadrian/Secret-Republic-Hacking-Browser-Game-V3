@@ -51,7 +51,7 @@ foreach($tasks as $task)
 
 
 require("../includes/class/class.battleSystem.php");
-require_once ("class/class.server.php");
+require_once ("../includes/class/class.server.php");
 
 $type          = "attacks";
 $insertLogs    = false;

@@ -20,7 +20,7 @@
       else $selectedServers = $_POST['servers'];
 
       $servers = verifySelectedServers($selectedServers, $servers);
-      require_once ("class/class.server.php");
+      require_once ("../includes/class/class.server.php");
 
       $commandsInfluence = array();
       foreach ($servers as $srv)

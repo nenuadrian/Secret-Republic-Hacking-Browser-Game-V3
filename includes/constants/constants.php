@@ -1,5 +1,9 @@
 <?php
 /* Nenu Adrian Mircea 2012+ */
+	// Machine-local overrides (e.g. putenv() SMTP_* settings). Not tracked in git.
+	if (is_file(__DIR__ . '/../local_settings.php')) {
+		require __DIR__ . '/../local_settings.php';
+	}
 	return [
 		'url' => $_SERVER['REQUEST_SCHEME'] .  '://' . $_SERVER['HTTP_HOST'] . str_replace('index.php', '', $_SERVER['SCRIPT_NAME']),
 		'contact_email' => 'undefined@undefined.com',
@@ -22,13 +26,15 @@
 		'recaptcha_site_key' => '', // get key if you would like to activate! https://www.google.com/recaptcha/admin/create
 		'recaptcha_secret_key' => '', // get key if you would like to activate! https://www.google.com/recaptcha/admin/create
 		
-		"smtp_host" => "",
+		// SMTP is disabled by default (empty host). Enable by setting the SMTP_HOST
+		// environment variable, e.g. SMTP_HOST=127.0.0.1 for local sendmail/postfix.
+		"smtp_host" => getenv('SMTP_HOST') ?: '',
 		"smtp_username" => "",
 		"smtp_password" => "",
 		"smtp_name" => "Secret Republic",
 		"smtp_from" =>"undefined@undefined.com",
-		"smtp_secure" => "tls",
-		"smtp_port" =>587,
+		"smtp_secure" => getenv('SMTP_SECURE') ?: '', // '' plain | 'tls' | 'ssl'
+		"smtp_port" =>(int)(getenv('SMTP_PORT') ?: 25),
 
 
 	  	"gridNodeSize" => 10,

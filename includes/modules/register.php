@@ -59,7 +59,7 @@ elseif ( ($hash_code = $_GET['confirm']) && (!$logged || $_SESSION['unconfirmed_
 	if ($confirm['confirm_id'])
 	{
 		$db->where("confirm_id", $confirm['confirm_id'])->update("user_email_confirmation", array("used" => time()), 1);
-		$db->where("uid", $confir['user_id'])->update("user_credentials", array("email_confirmed"=>1), 1);
+		$db->where("uid", $confirm['user_id'])->update("user_credentials", array("email_confirmed"=>1), 1);
 		unset($_SESSION['unconfirmed_email']);
 		$_SESSION['success'] = "Your email has been confirmed";
 	}
@@ -89,6 +89,9 @@ elseif (!$logged && $GET["forgot"])
   			{
 				$hash_code = $checkCredentials["uid"].rand(-1000000,1000000).time().$checkCredentials["username"].md5(rand(-12323,234234).$checkCredentials["pin"]);
 				$hash_code = $cardinal->loginSystem->generatePasswordHash($hash_code, time().rand(-23423,234234));
+				// URL-safe token (see sendEmailConfirmation): bcrypt output can contain
+				// '/' which would break the /register/reset/<hash> router segment.
+				$hash_code = rtrim(strtr(base64_encode($hash_code), '+/', '-_'), '=');
 
 				$dataInsert = array(
 					'created' => time(),

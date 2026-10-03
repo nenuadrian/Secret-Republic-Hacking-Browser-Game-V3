@@ -2,9 +2,15 @@ includes/cache/**
 includes/vendor/**
 includes/templates_c/**
 includes/database_info.php
+includes/local_settings.php
 includes/*.sqlite
 composer.lock
 
 .DS_Store
 **/.DS_Store
 site/
+includes/db.env
+
+# Editor backup / undo files (can contain local credentials)
+*~
+*.un~

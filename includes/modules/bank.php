@@ -13,7 +13,7 @@ if ($_SESSION['premium']['bankLimit2'])
 $account = $db->where('user_id', $user['id'])->getOne('user_bank');
 if (!$account['account_id'])
 {
-	$account = array('user_id' => $user['id']);
+	$account = array('user_id' => $user['id'], 'amount' => 0);
 	$account['account_id'] = $db->insert('user_bank', $account);
 }
 

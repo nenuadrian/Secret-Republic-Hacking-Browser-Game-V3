@@ -55,7 +55,7 @@ if ($oclass->organization['id']) {
         
           $warRequest = $db->where('request_id', $warRequestId)
                            ->where('to_org_id', $oclass->organization['id'])
-                           ->where('created', array('>' => time() - $requestExpireTime))
+                           ->where('created', time() - $requestExpireTime, '>')
                            ->getOne('org_war_requests');
        
           if ($warRequest['request_id'])

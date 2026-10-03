@@ -131,6 +131,10 @@ class RegistrationSystem extends Alpha
        return false;
     }
   	$hash_code = $cardinal->loginSystem->generatePasswordHash($credentials['email'].rand(-1000000,1000000).time(), $username.time().$uid);
+  	// bcrypt output can contain '/' (and '+'), which breaks the path-based
+  	// router segment in /register/confirm/<hash>. Convert to a URL-safe token
+  	// (base64url) before storing/embedding; lookups compare strings verbatim.
+  	$hash_code = rtrim(strtr(base64_encode($hash_code), '+/', '-_'), '=');
 
   	$dataInsert = array(
   		'created' => time(),
