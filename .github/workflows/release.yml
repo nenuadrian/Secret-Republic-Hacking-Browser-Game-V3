@@ -43,10 +43,11 @@ jobs:
           docker-compose.yml \
           composer.json \
           composer.lock \
-          LICENSE.md \
+          LICENSE \
           README.md \
           -x "tests/*" "*.git*"
         tar -czf "secret-republic-${VERSION}.tar.gz" \
+          --exclude="tests" --exclude=".git" \
           includes/ \
           public_html/ \
           templates/ \
@@ -54,9 +55,8 @@ jobs:
           docker-compose.yml \
           composer.json \
           composer.lock \
-          LICENSE.md \
-          README.md \
-          --exclude="tests" --exclude=".git"
+          LICENSE \
+          README.md
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
